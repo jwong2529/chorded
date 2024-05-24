@@ -94,6 +94,9 @@
 		298183E42C001FB300E5E32B /* MusicReviewApp */ = {
 			isa = PBXGroup;
 			children = (
+				29F3ABE92C00262C003846C8 /* controller */,
+				29F3ABE82C00261E003846C8 /* view */,
+				29F3ABE72C002618003846C8 /* model */,
 				298183E52C001FB300E5E32B /* MusicReviewAppApp.swift */,
 				298183E72C001FB300E5E32B /* ContentView.swift */,
 				298183E92C001FB500E5E32B /* Assets.xcassets */,
@@ -125,6 +128,27 @@
 				298184022C001FB500E5E32B /* MusicReviewAppUITestsLaunchTests.swift */,
 			);
 			path = MusicReviewAppUITests;
+			sourceTree = "<group>";
+		};
+		29F3ABE72C002618003846C8 /* model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		29F3ABE82C00261E003846C8 /* view */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		29F3ABE92C00262C003846C8 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
