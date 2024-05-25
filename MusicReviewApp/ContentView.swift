@@ -1,21 +1,42 @@
-//
-//  ContentView.swift
-//  MusicReviewApp
-//
-//  Created by Janice Wong on 5/23/24.
-//
-
 import SwiftUI
 
 struct ContentView: View {
+    @State private var searchText = ""
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            ZStack {
+                LinearGradient(gradient: Gradient(colors: [.blue, .black]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .edgesIgnoringSafeArea(.all)
+                VStack {
+                    
+                    HStack {
+                        Text("Trending")
+                            .font(.system(size: 20, weight: .medium, design: .default))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .foregroundColor(.white)
+                            .padding(.leading, 30)
+                    }
+                
+                    Spacer()
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    VStack {
+                        Spacer().frame(height: 20)
+                        Text("App Name")
+                            .font(.largeTitle.bold())
+                            .accessibilityAddTraits(.isHeader)
+                            .foregroundColor(.white)
+                        Spacer().frame(height: 20)
+                    }
+                }
+            }
+
+            .searchable(text: $searchText)
         }
-        .padding()
     }
 }
 
