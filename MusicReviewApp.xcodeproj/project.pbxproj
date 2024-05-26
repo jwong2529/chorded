@@ -10,8 +10,12 @@
 		2948E92E2C01BCD900EC4726 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E92D2C01BCD900EC4726 /* Album.swift */; };
 		2948E9302C01C03E00EC4726 /* AlbumReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E92F2C01C03E00EC4726 /* AlbumReview.swift */; };
 		2948E9322C01C1DA00EC4726 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E9312C01C1DA00EC4726 /* User.swift */; };
+		2948E9342C02B91000EC4726 /* ViewTrendingAlbums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E9332C02B91000EC4726 /* ViewTrendingAlbums.swift */; };
+		2948E9382C02BB7E00EC4726 /* HighlightButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E9372C02BB7E00EC4726 /* HighlightButtonStyle.swift */; };
+		2948E93A2C02C62B00EC4726 /* AppBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E9392C02C62B00EC4726 /* AppBackground.swift */; };
+		2948E93C2C02D19700EC4726 /* AlbumCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E93B2C02D19700EC4726 /* AlbumCarousel.swift */; };
 		298183E62C001FB300E5E32B /* MusicReviewAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183E52C001FB300E5E32B /* MusicReviewAppApp.swift */; };
-		298183E82C001FB300E5E32B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183E72C001FB300E5E32B /* ContentView.swift */; };
+		298183E82C001FB300E5E32B /* ViewHomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183E72C001FB300E5E32B /* ViewHomePage.swift */; };
 		298183EA2C001FB500E5E32B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 298183E92C001FB500E5E32B /* Assets.xcassets */; };
 		298183ED2C001FB500E5E32B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 298183EC2C001FB500E5E32B /* Preview Assets.xcassets */; };
 		298183F72C001FB500E5E32B /* MusicReviewAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183F62C001FB500E5E32B /* MusicReviewAppTests.swift */; };
@@ -40,9 +44,13 @@
 		2948E92D2C01BCD900EC4726 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		2948E92F2C01C03E00EC4726 /* AlbumReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumReview.swift; sourceTree = "<group>"; };
 		2948E9312C01C1DA00EC4726 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		2948E9332C02B91000EC4726 /* ViewTrendingAlbums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTrendingAlbums.swift; sourceTree = "<group>"; };
+		2948E9372C02BB7E00EC4726 /* HighlightButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightButtonStyle.swift; sourceTree = "<group>"; };
+		2948E9392C02C62B00EC4726 /* AppBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBackground.swift; sourceTree = "<group>"; };
+		2948E93B2C02D19700EC4726 /* AlbumCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCarousel.swift; sourceTree = "<group>"; };
 		298183E22C001FB300E5E32B /* MusicReviewApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicReviewApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		298183E52C001FB300E5E32B /* MusicReviewAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicReviewAppApp.swift; sourceTree = "<group>"; };
-		298183E72C001FB300E5E32B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		298183E72C001FB300E5E32B /* ViewHomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHomePage.swift; sourceTree = "<group>"; };
 		298183E92C001FB500E5E32B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		298183EC2C001FB500E5E32B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		298183F22C001FB500E5E32B /* MusicReviewAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusicReviewAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,6 +85,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2948E9362C02BB6600EC4726 /* reusable */ = {
+			isa = PBXGroup;
+			children = (
+				2948E9372C02BB7E00EC4726 /* HighlightButtonStyle.swift */,
+				2948E9392C02C62B00EC4726 /* AppBackground.swift */,
+				2948E93B2C02D19700EC4726 /* AlbumCarousel.swift */,
+			);
+			path = reusable;
+			sourceTree = "<group>";
+		};
 		298183D92C001FB300E5E32B = {
 			isa = PBXGroup;
 			children = (
@@ -100,11 +118,11 @@
 		298183E42C001FB300E5E32B /* MusicReviewApp */ = {
 			isa = PBXGroup;
 			children = (
+				2948E9362C02BB6600EC4726 /* reusable */,
 				29F3ABE92C00262C003846C8 /* controller */,
 				29F3ABE82C00261E003846C8 /* view */,
 				29F3ABE72C002618003846C8 /* model */,
 				298183E52C001FB300E5E32B /* MusicReviewAppApp.swift */,
-				298183E72C001FB300E5E32B /* ContentView.swift */,
 				298183E92C001FB500E5E32B /* Assets.xcassets */,
 				298183EB2C001FB500E5E32B /* Preview Content */,
 			);
@@ -149,6 +167,8 @@
 		29F3ABE82C00261E003846C8 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				298183E72C001FB300E5E32B /* ViewHomePage.swift */,
+				2948E9332C02B91000EC4726 /* ViewTrendingAlbums.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -290,11 +310,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				298183E82C001FB300E5E32B /* ContentView.swift in Sources */,
+				298183E82C001FB300E5E32B /* ViewHomePage.swift in Sources */,
+				2948E9382C02BB7E00EC4726 /* HighlightButtonStyle.swift in Sources */,
 				298183E62C001FB300E5E32B /* MusicReviewAppApp.swift in Sources */,
 				2948E92E2C01BCD900EC4726 /* Album.swift in Sources */,
+				2948E9342C02B91000EC4726 /* ViewTrendingAlbums.swift in Sources */,
 				2948E9322C01C1DA00EC4726 /* User.swift in Sources */,
 				2948E9302C01C03E00EC4726 /* AlbumReview.swift in Sources */,
+				2948E93A2C02C62B00EC4726 /* AppBackground.swift in Sources */,
+				2948E93C2C02D19700EC4726 /* AlbumCarousel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
