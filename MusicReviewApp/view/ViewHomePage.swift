@@ -14,7 +14,7 @@ struct ViewHomePage: View {
             ZStack {
                 AppBackground()
                 VStack {
-                    NavigationLink(destination: ViewTrendingAlbums()) {
+                    NavigationLink(destination: ViewTrendingAlbumsPage()) {
                         HStack {
                             Text("Trending")
                                 .font(.system(size: 20, weight: .medium, design: .default))
@@ -32,7 +32,7 @@ struct ViewHomePage: View {
                     AlbumCarousel(albumImages: Array(repeating: "sampleAlbumCover", count: 10), count: 10)
 //                        .padding(.bottom)
                     
-                    NavigationLink(destination: ViewRecentFriendsActivity()) {
+                    NavigationLink(destination: ViewRecentFriendsActivityPage()) {
                         HStack {
                             Text("Recent from friends")
                                 .font(.system(size: 20, weight: .medium, design: .default))
@@ -70,3 +70,5 @@ struct ViewHomePage: View {
 #Preview {
     ViewHomePage()
 }
+
+

@@ -1,5 +1,5 @@
 //
-//  ViewTrendingAlbums.swift
+//  ViewRateReviewPage.swift
 //  MusicReviewApp
 //
 //  Created by Janice Wong on 5/25/24.
@@ -8,8 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct ViewTrendingAlbums: View {
-    
+struct ViewRateReviewPage: View {
     init() {
 //        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -20,7 +19,7 @@ struct ViewTrendingAlbums: View {
             ZStack {
                 AppBackground()
             }
-            .navigationTitle("Trending Albums")
+            .navigationTitle("Add a review")
         }
     }
 }

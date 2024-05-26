@@ -1,5 +1,5 @@
 //
-//  ViewRecentFriendsActivity.swift
+//  ViewSearch.swift
 //  MusicReviewApp
 //
 //  Created by Janice Wong on 5/25/24.
@@ -8,8 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct ViewRecentFriendsActivity: View {
-    
+struct ViewSearchPage: View {
     init() {
 //        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -20,7 +19,7 @@ struct ViewRecentFriendsActivity: View {
             ZStack {
                 AppBackground()
             }
-            .navigationTitle("Friend Activity")
+            .navigationTitle("Search for music")
         }
     }
 }

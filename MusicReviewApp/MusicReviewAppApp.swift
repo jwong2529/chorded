@@ -11,7 +11,8 @@ import SwiftUI
 struct MusicReviewAppApp: App {
     var body: some Scene {
         WindowGroup {
-            ViewHomePage()
+//            ViewHomePage()
+            BottomTabView()
         }
     }
 }
