@@ -1,5 +1,5 @@
 //
-//  ViewTrendingAlbums.swift
+//  ViewRecentFriendsActivity.swift
 //  MusicReviewApp
 //
 //  Created by Janice Wong on 5/25/24.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct ViewTrendingAlbums: View {
+struct ViewRecentFriendsActivity: View {
     
     init() {
 //        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
@@ -20,7 +20,7 @@ struct ViewTrendingAlbums: View {
             ZStack {
                 AppBackground()
             }
-            .navigationTitle("Trending Albums")
+            .navigationTitle("Friend Activity")
         }
     }
 }

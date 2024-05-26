@@ -14,7 +14,7 @@ struct ViewHomePage: View {
             ZStack {
                 AppBackground()
                 VStack {
-                    NavigationLink(destination: TrendingAlbumsView()) {
+                    NavigationLink(destination: ViewTrendingAlbums()) {
                         HStack {
                             Text("Trending")
                                 .font(.system(size: 20, weight: .medium, design: .default))
@@ -25,11 +25,29 @@ struct ViewHomePage: View {
                         }
                         .contentShape(Rectangle())
                         .padding()
-                        HStack {
-                            
-                        }
                     }
                     .buttonStyle(HighlightButtonStyle())
+                    
+                    //just sample cover for now, will rewrite logic for this when i set up database
+                    AlbumCarousel(albumImages: Array(repeating: "sampleAlbumCover", count: 10), count: 10)
+//                        .padding(.bottom)
+                    
+                    NavigationLink(destination: ViewRecentFriendsActivity()) {
+                        HStack {
+                            Text("Recent from friends")
+                                .font(.system(size: 20, weight: .medium, design: .default))
+                                .foregroundColor(.white)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.blue)
+                        }
+                        .contentShape(Rectangle())
+                        .padding()
+                    }
+                    .buttonStyle(HighlightButtonStyle())
+                    
+                    AlbumCarousel(albumImages: Array(repeating: "sampleAlbumCover", count: 10), count: 10)
+                    
                     Spacer()
                 }
             }
