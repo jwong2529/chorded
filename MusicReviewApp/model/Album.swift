@@ -8,16 +8,26 @@
 import Foundation
 
 struct Album {
+    let discogsID: Int
     let title: String
-    let artist: String
+    let artists: [Artist]
+    let genres: [String]
+    let styles: [String]
+    let year: Int
+    let albumTracks: [String]
+    let coverImageURL: String
     var albumReviews: [AlbumReview]
-    var coverImageURl: URL?
     
-    init(title: String, artist: String, coverImageURl: URL? = nil) {
+    init(discogsID: Int, title: String, artists: [Artist], genres: [String], styles: [String], year: Int, albumTracks: [String], coverImageURL: String) {
+        self.discogsID = discogsID
         self.title = title
-        self.artist = artist
+        self.artists = artists
+        self.genres = genres
+        self.styles = styles
+        self.year = year
         self.albumReviews = []
-        self.coverImageURl = coverImageURl
+        self.albumTracks = albumTracks
+        self.coverImageURL = coverImageURL
     }
     
     mutating func addAlbumReview(review: AlbumReview) {

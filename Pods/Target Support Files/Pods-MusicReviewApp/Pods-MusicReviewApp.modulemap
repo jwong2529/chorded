@@ -1,0 +1,6 @@
+framework module Pods_MusicReviewApp {
+  umbrella header "Pods-MusicReviewApp-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -12,4 +12,11 @@ struct AlbumReview {
     let albumTitle: String
     let rating: Float
     let review: String?
+    
+    init(userID: String, albumTitle: String, rating: Float, review: String) {
+        self.userId = userID
+        self.albumTitle = albumTitle
+        self.rating = rating
+        self.review = review
+    }
 }

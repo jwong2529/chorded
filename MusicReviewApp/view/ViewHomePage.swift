@@ -3,6 +3,7 @@ import SwiftUI
 struct ViewHomePage: View {
     
     @State private var searchText = ""
+    @StateObject private var trendingAlbumsVM = TrendingAlbumsViewModel()
     
     init() {
 //        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
@@ -33,8 +34,16 @@ struct ViewHomePage: View {
                     .buttonStyle(HighlightButtonStyle())
                     
                     //just sample cover for now, will rewrite logic for this when i set up database
-                    AlbumCarousel(albumImages: Array(repeating: "sampleAlbumCover", count: 10), count: 10)
+                    //need to pass in array of albums now instead of strings
+//                    AlbumCarousel(albumImages: Array(repeating: "sampleAlbumCover", count: 10), count: 10)
 //                        .padding(.bottom)
+//                    if !trendingAlbumsVM.albums.isEmpty {
+//                        AlbumCarousel(albums: trendingAlbumsVM.albums)
+//                            .padding(.bottom)
+//                    } else {
+//                        ProgressView()
+//                            .padding(.bottom)
+//                    }
                     
                     NavigationLink(destination: ViewRecentFriendsActivityPage()) {
                         HStack {
@@ -50,8 +59,8 @@ struct ViewHomePage: View {
                     }
                     .buttonStyle(HighlightButtonStyle())
                     
-                    AlbumCarousel(albumImages: Array(repeating: "sampleAlbumCover", count: 10), count: 10)
-                    
+//                    AlbumCarousel(albumImages: Array(repeating: "sampleAlbumCover", count: 10), count: 10)
+//                    
                     Spacer()
                 }
             }
@@ -69,6 +78,7 @@ struct ViewHomePage: View {
             .searchable(text: $searchText)
         }
     }
+    
 }
 
 #Preview {

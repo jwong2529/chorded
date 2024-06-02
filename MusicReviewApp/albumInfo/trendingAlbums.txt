@@ -1,0 +1,21 @@
+albumTitle	artistName
+The Tortured Poets Department	Taylor Swift
+One Of Wun	Gunna
+One Thing At A Time	Morgan Wallen
+We Don't Trust You	"Future, Metro Boomin"
+Dangerous: The Double Album	Morgan Wallen
+Stick Season	Noah Kahan
+SOS	SZA
+Zach Bryan	Zach Bryan
+Fireworks & Rollerblades	Benson Boone
+Cowboy Carter	Beyonce
+American Heartbreak	Zach Bryan
+The Diamond Collection	Post Malone
+Lover	Taylor Swift
+Eternal Sunshine	Ariana Grande
+DAMN.	Kendrick Lamar
+Guts	Olivia Rodrigo
+I've Tried Everything But Therapy (Part 1)	Teddy Swims
+1989 (Taylor's Version)	Taylor Swift
+"good kid, m.A.A.d city"	Kendrick Lamar
+Utopia	Travis Scott
