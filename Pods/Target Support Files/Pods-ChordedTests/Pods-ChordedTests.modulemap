@@ -1,0 +1,6 @@
+framework module Pods_ChordedTests {
+  umbrella header "Pods-ChordedTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

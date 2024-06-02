@@ -1,18 +1,18 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-target 'MusicReviewApp' do
+target 'Chorded' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  # Pods for MusicReviewApp
+  # Pods for Chorded
 
-  target 'MusicReviewAppTests' do
+  target 'ChordedTests' do
     inherit! :search_paths
     # Pods for testing
   end
 
-  target 'MusicReviewAppUITests' do
+  target 'ChordedUITests' do
     # Pods for testing
   end
 
