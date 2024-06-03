@@ -13,7 +13,7 @@ class TrendingAlbumsViewModel: ObservableObject {
     
     init() {
 //        loadTrendingAlbums()
-        DiscogsAPIManager().testingAPI()
+//        DiscogsAPIManager().testingAPI()
     }
     
     func loadTrendingAlbums() {

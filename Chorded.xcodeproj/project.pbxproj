@@ -99,7 +99,7 @@
 		76DE7D85FF1112E8D1CA4182 /* Pods-ChordedTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChordedTests.debug.xcconfig"; path = "Target Support Files/Pods-ChordedTests/Pods-ChordedTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BC2D434AF2E99935E178D2AA /* Pods-Chorded.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chorded.debug.xcconfig"; path = "Target Support Files/Pods-Chorded/Pods-Chorded.debug.xcconfig"; sourceTree = "<group>"; };
 		E2ED39AA1A463253CF09942A /* Pods-ChordedTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChordedTests.release.xcconfig"; path = "Target Support Files/Pods-ChordedTests/Pods-ChordedTests.release.xcconfig"; sourceTree = "<group>"; };
-		F64E52612C0D7A25007824F8 /* ViewSignUpPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewSignUpPage.swift; path = Chorded/view/ViewSignUpPage.swift; sourceTree = "<group>"; };
+		F64E52612C0D7A25007824F8 /* ViewSignUpPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSignUpPage.swift; sourceTree = "<group>"; };
 		F661FEDF2C0D605800023E5A /* ViewLogInPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewLogInPage.swift; sourceTree = "<group>"; };
 		FE220408E54F16F6CCAC08A3 /* Pods-Chorded-ChordedUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chorded-ChordedUITests.debug.xcconfig"; path = "Target Support Files/Pods-Chorded-ChordedUITests/Pods-Chorded-ChordedUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -144,7 +144,6 @@
 		298183D92C001FB300E5E32B = {
 			isa = PBXGroup;
 			children = (
-				F64E52612C0D7A25007824F8 /* ViewSignUpPage.swift */,
 				298183E42C001FB300E5E32B /* Chorded */,
 				298183F52C001FB500E5E32B /* ChordedTests */,
 				298183FF2C001FB500E5E32B /* ChordedUITests */,
@@ -220,6 +219,7 @@
 		29F3ABE82C00261E003846C8 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				F64E52612C0D7A25007824F8 /* ViewSignUpPage.swift */,
 				298183E72C001FB300E5E32B /* ViewHomePage.swift */,
 				2948E9332C02B91000EC4726 /* ViewTrendingAlbumsPage.swift */,
 				2948E93E2C02F47200EC4726 /* ViewRecentFriendsActivityPage.swift */,
