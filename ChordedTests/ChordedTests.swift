@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import MusicReviewApp
+@testable import Chorded
 
 final class ChordedTests: XCTestCase {
 

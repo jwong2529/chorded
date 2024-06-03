@@ -12,8 +12,8 @@ class TrendingAlbumsViewModel: ObservableObject {
     @Published var albums: [Album] = []
     
     init() {
-        loadTrendingAlbums()
-//        DiscogsAPIManager().testingAPI()
+//        loadTrendingAlbums()
+        DiscogsAPIManager().testingAPI()
     }
     
     func loadTrendingAlbums() {

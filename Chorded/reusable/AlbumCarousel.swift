@@ -14,7 +14,7 @@ struct AlbumCarousel: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 15) {
-                ForEach(albums.prefix(10), id: \.discogsID) { album in
+                ForEach(albums.prefix(10), id: \.firebaseKey) { album in
                     VStack {
 //                        if let url = album.coverImageURL {
 //                            AsyncImage(url: url) { image in

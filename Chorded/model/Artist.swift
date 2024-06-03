@@ -7,21 +7,24 @@
 
 import Foundation
 
-struct Artist {
+struct Artist: Decodable {
     let name: String
-    let id: Int
-    var image: String?
-    var albums: [Album] = []
+    let discogsID: Int
+//    let firebaseKey: String
+    var image: String
+    var albums: [String] //album IDs
     
-    init(name: String, id: Int, image: String? = nil) {
+    init(name: String, discogsID: Int, image: String) {
         self.name = name
-        self.id = id
+//        self.firebaseKey = ""
+        self.discogsID = discogsID
         self.image = image
+        self.albums = []
     }
     
-    mutating func addAlbum(album: Album) {
-        albums.append(album)
-    }
+//    mutating func addAlbum(album: Int) {
+//        albums.append(album)
+//    }
     
 //    struct ArtistImage: Decodable {
 //        let uri: String

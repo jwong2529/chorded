@@ -7,30 +7,35 @@
 
 import Foundation
 
-struct Album {
-    let discogsID: Int
+struct Album: Decodable {
+//    let discogsID: Int
+    var firebaseKey: String
     let title: String
-    let artists: [Artist]
+    let artistID: [Int]  //artist ID Strings
+    let artistNames: [String]
     let genres: [String]
     let styles: [String]
     let year: Int
     let albumTracks: [String]
     let coverImageURL: String
-    var albumReviews: [AlbumReview]
+//    var albumReviews: [String] //album ID
     
-    init(discogsID: Int, title: String, artists: [Artist], genres: [String], styles: [String], year: Int, albumTracks: [String], coverImageURL: String) {
-        self.discogsID = discogsID
+    init(title: String, artistID: [Int], artistNames: [String], genres: [String], styles: [String], year: Int, albumTracks: [String], coverImageURL: String) {
+//        self.discogsID = discogsID
+        self.firebaseKey = ""
         self.title = title
-        self.artists = artists
+        self.artistID = artistID
+        self.artistNames = artistNames
         self.genres = genres
         self.styles = styles
         self.year = year
-        self.albumReviews = []
+//        self.albumReviews = []
         self.albumTracks = albumTracks
         self.coverImageURL = coverImageURL
     }
     
-    mutating func addAlbumReview(review: AlbumReview) {
-        albumReviews.append(review)
-    }
+//    mutating func addAlbumReview(review: String) {
+//        albumReviews.append(review)
+//    }
+    
 }

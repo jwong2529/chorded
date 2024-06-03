@@ -102,11 +102,11 @@ class DiscogsAPIManager {
             }
             do {
                 let albumDetails = try JSONDecoder().decode(DiscogsReleaseDetails.self, from: data)
-                let artistList = albumDetails.artists.map { Artist(name: $0.name, id: $0.id) }
+//                let artistList = albumDetails.artists.map { Artist(name: $0.name, id: $0.id) }
                 let album = Album(
-                    discogsID: albumDetails.id,
                     title: albumDetails.title,
-                    artists: artistList,
+                    artistID: albumDetails.artists.map {$0.id},
+                    artistNames: albumDetails.artists.map {$0.name},
                     genres: albumDetails.genres ?? [],
                     styles: albumDetails.styles ?? [],
                     year: albumDetails.year,
@@ -126,6 +126,14 @@ class DiscogsAPIManager {
     private func storeAlbum(_ album: Album) {
         //Check if album is already in the database
         //Firebase logic
+        let dataManager = FirebaseDataManager()
+        dataManager.addAlbum(album: album) { error in
+            if let error = error{
+                print("Error adding album to Firebase")
+            } else {
+                print("Album added successfully to Firebase")
+            }
+        }
         
         //Store cover image in Backblaze too
 //        if let coverImageURL = album.coverImageURL {
@@ -187,7 +195,7 @@ class DiscogsAPIManager {
     
     func testingAPI() {
 //        let urlString = "https://api.discogs.com/database/search?release_title=fleetwood mac&q=fleetwood mac&per_page=1&page=1&\(apiCredsString)"
-        let urlString = "https://api.discogs.com/releases/30714104?\(apiCredsString)"
+        let urlString = "https://api.discogs.com/masters/2890219?\(apiCredsString)"
         
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
@@ -222,11 +230,24 @@ class DiscogsAPIManager {
             do {
                 let decoder = JSONDecoder()
                 // Define the SearchResult struct as shown earlier
-//                let searchResult = try decoder.decode(DiscogsSearchResponse.self, from: data)
-                let searchResult = try decoder.decode(DiscogsReleaseDetails.self, from: data)
+                let albumDetails = try decoder.decode(DiscogsReleaseDetails.self, from: data)
+                
+                let album = Album(
+                    title: albumDetails.title,
+                    artistID: albumDetails.artists.map {$0.id},
+                    artistNames: albumDetails.artists.map {$0.name},
+                    genres: albumDetails.genres ?? [],
+                    styles: albumDetails.styles ?? [],
+                    year: albumDetails.year,
+                    albumTracks: albumDetails.tracklist.map { $0.title},
+                    coverImageURL: albumDetails.images.first?.uri ?? ""
+                )
+                
+                self.storeAlbum(album)
+//                completion(.success(album))
                 
                 // Print the entire JSON data
-                print(searchResult)
+//                print(albumDetails)
             } catch {
                 print("Error decoding JSON: \(error)")
             }
@@ -254,7 +275,7 @@ struct DiscogsAlbum: Decodable {
 }
 
 struct DiscogsReleaseDetails: Decodable {
-    let id: Int
+//    let id: Int
     let title: String
     let artists: [AlbumArtists]
     let genres: [String]?
