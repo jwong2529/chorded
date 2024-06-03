@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "[removal.ai]_c0d0c1df-1100-4d41-9d01-0a35504f8758-retro-vinyl-record-concept-vector-21165614.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
