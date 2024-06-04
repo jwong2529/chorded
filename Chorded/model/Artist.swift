@@ -11,15 +11,15 @@ struct Artist: Decodable {
     let name: String
     let discogsID: Int
 //    let firebaseKey: String
-    var image: String
+    var imageURL: String
     var albums: [String] //album IDs
     
-    init(name: String, discogsID: Int, image: String) {
+    init(name: String, discogsID: Int, imageURL: String, albums: [String]) {
         self.name = name
 //        self.firebaseKey = ""
         self.discogsID = discogsID
-        self.image = image
-        self.albums = []
+        self.imageURL = imageURL
+        self.albums = albums
     }
     
 //    mutating func addAlbum(album: Int) {

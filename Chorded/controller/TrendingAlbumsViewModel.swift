@@ -12,17 +12,26 @@ class TrendingAlbumsViewModel: ObservableObject {
     @Published var albums: [Album] = []
     
     init() {
-//        loadTrendingAlbums()
 //        DiscogsAPIManager().testingAPI()
+        
+//        FirebaseDataManager().fetchArtist(discogsKey: 3244227) { artist, error in
+//            if let error = error {
+//                print("Failed to fetch artist: \(error.localizedDescription)")
+//            } else if let artist = artist {
+//                print("Fetched artist: \(artist)")
+//            }
+//        }
+        
+//        DiscogsAPIManager().loadTrendingAlbums()
+        
+//        FirebaseDataManager().fetchTrendingList { albumKeys, error in
+//            if let error = error {
+//                print("Failed to fetch trending album keys: \(error.localizedDescription)")
+//            } else if let albumKeys = albumKeys {
+//                print("Fetched trending album keys: \(albumKeys)")
+//                // Do something with the fetched album keys
+//            }
+//        }
     }
     
-    func loadTrendingAlbums() {
-        DiscogsAPIManager.shared.loadTrendingAlbums()
-        DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
-            let fetchedAlbums = DiscogsAPIManager.shared.getTrendingAlbums()
-            DispatchQueue.main.async {
-                self.albums = fetchedAlbums
-            }
-        }
-    }
 }
