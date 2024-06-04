@@ -13,14 +13,14 @@ struct Album: Decodable {
     let title: String
     let artistID: [Int]  //artist ID Strings
     let artistNames: [String]
-    let genres: [String]
-    let styles: [String]
+    let genres: [String]?
+    let styles: [String]?
     let year: Int
     let albumTracks: [String]
     let coverImageURL: String
 //    var albumReviews: [String] //album ID
     
-    init(title: String, artistID: [Int], artistNames: [String], genres: [String], styles: [String], year: Int, albumTracks: [String], coverImageURL: String) {
+    init(title: String, artistID: [Int], artistNames: [String], genres: [String]?, styles: [String]?, year: Int, albumTracks: [String], coverImageURL: String) {
 //        self.discogsID = discogsID
         self.firebaseKey = ""
         self.title = title

@@ -17,7 +17,6 @@
 		2948E9342C02B91000EC4726 /* ViewTrendingAlbumsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E9332C02B91000EC4726 /* ViewTrendingAlbumsPage.swift */; };
 		2948E9382C02BB7E00EC4726 /* HighlightButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E9372C02BB7E00EC4726 /* HighlightButtonStyle.swift */; };
 		2948E93A2C02C62B00EC4726 /* AppBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E9392C02C62B00EC4726 /* AppBackground.swift */; };
-		2948E93C2C02D19700EC4726 /* AlbumCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E93B2C02D19700EC4726 /* AlbumCarousel.swift */; };
 		2948E93F2C02F47200EC4726 /* ViewRecentFriendsActivityPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E93E2C02F47200EC4726 /* ViewRecentFriendsActivityPage.swift */; };
 		2948E9412C02F8EF00EC4726 /* BottomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E9402C02F8EF00EC4726 /* BottomTabView.swift */; };
 		2948E9432C02F97200EC4726 /* ViewSearchPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E9422C02F97200EC4726 /* ViewSearchPage.swift */; };
@@ -33,6 +32,10 @@
 		294AA1722C0C63F10097F16C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 294AA16F2C0C63F10097F16C /* GoogleService-Info.plist */; };
 		294AA1752C0C67170097F16C /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 294AA1742C0C67170097F16C /* FirebaseAnalytics */; };
 		294AA1772C0D2D450097F16C /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 294AA1762C0D2D450097F16C /* FirebaseDatabase */; };
+		294AA17C2C0EE53D0097F16C /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 294AA17B2C0EE53D0097F16C /* SDWebImage */; };
+		294AA1802C0EFA490097F16C /* AlbumCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA17F2C0EFA490097F16C /* AlbumCarousel.swift */; };
+		294AA1832C0F00CE0097F16C /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 294AA1822C0F00CE0097F16C /* SDWebImageSwiftUI */; };
+		294AA1852C0F0BA40097F16C /* AlbumGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA1842C0F0BA40097F16C /* AlbumGrid.swift */; };
 		298183E62C001FB300E5E32B /* ChordedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183E52C001FB300E5E32B /* ChordedApp.swift */; };
 		298183E82C001FB300E5E32B /* ViewHomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183E72C001FB300E5E32B /* ViewHomePage.swift */; };
 		298183EA2C001FB500E5E32B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 298183E92C001FB500E5E32B /* Assets.xcassets */; };
@@ -73,7 +76,6 @@
 		2948E9332C02B91000EC4726 /* ViewTrendingAlbumsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTrendingAlbumsPage.swift; sourceTree = "<group>"; };
 		2948E9372C02BB7E00EC4726 /* HighlightButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightButtonStyle.swift; sourceTree = "<group>"; };
 		2948E9392C02C62B00EC4726 /* AppBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBackground.swift; sourceTree = "<group>"; };
-		2948E93B2C02D19700EC4726 /* AlbumCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCarousel.swift; sourceTree = "<group>"; };
 		2948E93E2C02F47200EC4726 /* ViewRecentFriendsActivityPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRecentFriendsActivityPage.swift; sourceTree = "<group>"; };
 		2948E9402C02F8EF00EC4726 /* BottomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomTabView.swift; sourceTree = "<group>"; };
 		2948E9422C02F97200EC4726 /* ViewSearchPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSearchPage.swift; sourceTree = "<group>"; };
@@ -85,6 +87,8 @@
 		2948E9552C066EA700EC4726 /* DiscogsCreds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscogsCreds.swift; sourceTree = "<group>"; };
 		294AA16D2C0C63310097F16C /* FirebaseDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDataManager.swift; sourceTree = "<group>"; };
 		294AA16F2C0C63F10097F16C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		294AA17F2C0EFA490097F16C /* AlbumCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCarousel.swift; sourceTree = "<group>"; };
+		294AA1842C0F0BA40097F16C /* AlbumGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumGrid.swift; sourceTree = "<group>"; };
 		298183E22C001FB300E5E32B /* Chorded.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chorded.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		298183E52C001FB300E5E32B /* ChordedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordedApp.swift; sourceTree = "<group>"; };
 		298183E72C001FB300E5E32B /* ViewHomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHomePage.swift; sourceTree = "<group>"; };
@@ -109,6 +113,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				294AA1832C0F00CE0097F16C /* SDWebImageSwiftUI in Frameworks */,
+				294AA17C2C0EE53D0097F16C /* SDWebImage in Frameworks */,
 				294AA1772C0D2D450097F16C /* FirebaseDatabase in Frameworks */,
 				294AA1752C0C67170097F16C /* FirebaseAnalytics in Frameworks */,
 			);
@@ -136,7 +142,8 @@
 			children = (
 				2948E9372C02BB7E00EC4726 /* HighlightButtonStyle.swift */,
 				2948E9392C02C62B00EC4726 /* AppBackground.swift */,
-				2948E93B2C02D19700EC4726 /* AlbumCarousel.swift */,
+				294AA17F2C0EFA490097F16C /* AlbumCarousel.swift */,
+				294AA1842C0F0BA40097F16C /* AlbumGrid.swift */,
 			);
 			path = reusable;
 			sourceTree = "<group>";
@@ -277,6 +284,8 @@
 			packageProductDependencies = (
 				294AA1742C0C67170097F16C /* FirebaseAnalytics */,
 				294AA1762C0D2D450097F16C /* FirebaseDatabase */,
+				294AA17B2C0EE53D0097F16C /* SDWebImage */,
+				294AA1822C0F00CE0097F16C /* SDWebImageSwiftUI */,
 			);
 			productName = MusicReviewApp;
 			productReference = 298183E22C001FB300E5E32B /* Chorded.app */;
@@ -354,6 +363,8 @@
 			mainGroup = 298183D92C001FB300E5E32B;
 			packageReferences = (
 				294AA1732C0C67170097F16C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				294AA17A2C0EE53D0097F16C /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				294AA1812C0F00CE0097F16C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = 298183E32C001FB300E5E32B /* Products */;
 			projectDirPath = "";
@@ -473,6 +484,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2948E9412C02F8EF00EC4726 /* BottomTabView.swift in Sources */,
+				294AA1802C0EFA490097F16C /* AlbumCarousel.swift in Sources */,
 				2948E93F2C02F47200EC4726 /* ViewRecentFriendsActivityPage.swift in Sources */,
 				298183E82C001FB300E5E32B /* ViewHomePage.swift in Sources */,
 				2948E9452C02F9D000EC4726 /* ViewProfilePage.swift in Sources */,
@@ -492,8 +504,8 @@
 				2948E9432C02F97200EC4726 /* ViewSearchPage.swift in Sources */,
 				2948E9302C01C03E00EC4726 /* AlbumReview.swift in Sources */,
 				2948E93A2C02C62B00EC4726 /* AppBackground.swift in Sources */,
+				294AA1852C0F0BA40097F16C /* AlbumGrid.swift in Sources */,
 				2948E9492C02FB1300EC4726 /* ViewRateReviewPage.swift in Sources */,
-				2948E93C2C02D19700EC4726 /* AlbumCarousel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -839,6 +851,22 @@
 				minimumVersion = 10.27.0;
 			};
 		};
+		294AA17A2C0EE53D0097F16C /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.19.3;
+			};
+		};
+		294AA1812C0F00CE0097F16C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -851,6 +879,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 294AA1732C0C67170097F16C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseDatabase;
+		};
+		294AA17B2C0EE53D0097F16C /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 294AA17A2C0EE53D0097F16C /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+		294AA1822C0F00CE0097F16C /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 294AA1812C0F00CE0097F16C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -14,7 +14,7 @@ class User {
     var profilePictureURl: URL
     var albumReviews: [AlbumReview]
     var albumFavorites: [Album]
-    var friends: [User]
+    var friends: [User]?
     
     init(id: String, username: String, email: String, profilePictureURL: URL) {
         self.id = id
@@ -34,17 +34,17 @@ class User {
         albumFavorites.append(album)
     }
     
-    func addFriend(_ user: User) {
-        // ensures that user is not the same user and is not already a friend
-        guard user.id != self.id && !friends.contains(where: {$0.id == user.id}) else { return }
-        friends.append(user)
-    }
-    
-    func removeFriend(_ user: User) {
-        friends.removeAll {$0.id == user.id }
-    }
-    
-    func listFriends() -> [User] {
-        return friends
-    }
+//    func addFriend(_ user: User) {
+//        // ensures that user is not the same user and is not already a friend
+//        guard user.id != self.id && !friends.contains(where: {$0.id == user.id}) else { return }
+//        friends.append(user)
+//    }
+//    
+//    func removeFriend(_ user: User) {
+//        friends.removeAll {$0.id == user.id }
+//    }
+//    
+//    func listFriends() -> [User] {
+//        return friends
+//    }
 }
