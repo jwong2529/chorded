@@ -86,7 +86,7 @@ class DiscogsAPIManager {
                 //fix the artist name part if needed
                 var truncatedArtistNames = [String]()
                 for artist in albumDetails.artists {
-                    var newArtistName = FixStrings().deleteDistinctArtistNum(artist.name)
+                    let newArtistName = FixStrings().deleteDistinctArtistNum(artist.name)
                     truncatedArtistNames.append(newArtistName)
                 }
                 
@@ -122,30 +122,31 @@ class DiscogsAPIManager {
             var trendingAlbums = [TrendingAlbum]()
             
             //skips first line (category labels))
-            for line in lines.dropFirst() {
+            for (index, line) in lines.dropFirst().enumerated() {
                 let components = line.split(separator: "\t")
                 if components.count == 2 {
                     let title = String(components[0])
                     let artistString = String(components[1])
                     let artistList = String(components[1]).split(separator: ",").map {String($0)}
-                    trendingAlbums.append(TrendingAlbum(title: title, artistList: artistList, artistString: artistString))
+                    trendingAlbums.append(TrendingAlbum(title: title, artistList: artistList, artistString: artistString, index: index))
                 }
             }
-            
             //process these albums with discogs and firebase
             var trendingAlbumKeys = [String]()
+            var albumKeysWithIndex = [Int: String]()
             let dispatchGroup = DispatchGroup()
             
             //for all trending albums, it checks if the album exists in firebase already
             //if so, the album is added to the trending list only
             //if not, the album information is retrieved through discogs api, stored in Firebase, and added to trending list
-            for trendingAlbum in trendingAlbums {
+            for (index, trendingAlbum) in trendingAlbums.enumerated() {
                 dispatchGroup.enter()
                 
                 FirebaseDataManager().doesAlbumExist(title: trendingAlbum.title, artists: trendingAlbum.artistList) { exists, firebaseAlbumKey in
                     if exists, let firebaseAlbumKey = firebaseAlbumKey {
                         print("\(trendingAlbum.title) exists in Firebase so just appending to trending list")
-                        trendingAlbumKeys.append(firebaseAlbumKey)
+//                        trendingAlbumKeys.append(firebaseAlbumKey)
+                        albumKeysWithIndex[index] = firebaseAlbumKey
                         dispatchGroup.leave()
                     } else {
                         print("\(trendingAlbum.title) does not exist in firebase so storing and adding to trending list")
@@ -157,7 +158,8 @@ class DiscogsAPIManager {
                                         print("Error storing trending album: \(error.localizedDescription)")
                                     } else if let firebaseAlbum = firebaseAlbum {
                                         print("Successfully stored \(firebaseAlbum.title) with key: \(firebaseAlbum.firebaseKey)")
-                                        trendingAlbumKeys.append(firebaseAlbum.firebaseKey)
+//                                        trendingAlbumKeys.append(firebaseAlbum.firebaseKey)
+                                        albumKeysWithIndex[index] = firebaseAlbum.firebaseKey
                                     }
                                     dispatchGroup.leave()
                                 }
@@ -171,6 +173,7 @@ class DiscogsAPIManager {
             }
             
             dispatchGroup.notify(queue: .main) {
+                trendingAlbumKeys = albumKeysWithIndex.sorted(by: {$0.key < $1.key}).map {$0.value}
                 print("All albums processed. \(trendingAlbumKeys.count) Trending album keys: \(trendingAlbumKeys)")
                 FirebaseDataManager().addTrendingList(trendingAlbumKeys)
             }
@@ -256,6 +259,7 @@ struct TrendingAlbum {
     let title: String
     let artistList: [String]
     let artistString: String
+    let index: Int
 }
 
 struct DiscogsSearchResponse: Decodable {

@@ -42,7 +42,6 @@ class FixStrings {
     }
     
     func sanitizeString(_ string: String) -> String {
-//        let disallowedCharacters = CharacterSet(charactersIn: ".,$#[]/").union(.controlCharacters)
         let disallowedCharacters = CharacterSet(charactersIn: ".$#[]/").union(.controlCharacters)
         return string.components(separatedBy: disallowedCharacters).joined()
     }

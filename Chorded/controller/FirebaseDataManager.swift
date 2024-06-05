@@ -58,7 +58,6 @@ class FirebaseDataManager {
                 
         var updates: [String: Any] = ["/Albums/\(albumKey)": albumData]
         
-        //remove periods from album title for AlbumIndex key
         
         let albumIndexKey = FixStrings().normalizeString(album.title)
         
@@ -140,10 +139,6 @@ class FirebaseDataManager {
     
     //this function still needs testing
     func addArtist(artist: Artist, completion: @escaping (Error?) -> Void) {
-//        let artistRef = databaseRef.child("Artists").child(String(artist.discogsID))
-//        artistRef.setValue(artist.toDictionary()) { error, _ in
-//            completion(error)
-//        }
         
         let artistRef = Database.database().reference().child("Artists")
         let query = artistRef.queryOrdered(byChild: "discogsID").queryEqual(toValue: artist.discogsID)
@@ -184,19 +179,26 @@ class FirebaseDataManager {
     // Lists
     
     func addTrendingList(_ albumKeys: [String]) {
+        
+        //preserves the order the albums are listed in the original txt file
+        var indexedAlbums: [String: Any] = [:]
+        for (index, key) in albumKeys.enumerated() {
+            indexedAlbums["\(index)"] = key
+        }
+
         let trendingAlbumsRef = databaseRef.child("CustomAlbumLists").child("TrendingAlbums")
-        trendingAlbumsRef.setValue(albumKeys) { error, _ in
+        trendingAlbumsRef.setValue(indexedAlbums) { error, _ in
             if let error = error {
                 print("Error storing trending album keys: \(error.localizedDescription)")
             } else {
-                print("Trending album keys stored succsesfully.")
+                print("Trending album keys stored successfully.")
             }
         }
     }
     
     func fetchTrendingList(completion: @escaping ([String]?, Error?) -> Void) {
         let trendingRef = databaseRef.child("CustomAlbumLists").child("TrendingAlbums")
-        
+
         trendingRef.observeSingleEvent(of: .value) { snapshot in
             guard snapshot.exists(), let trendingAlbumsData = snapshot.value as? [String] else {
                 completion(nil, NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Trending albums not found in Firebase"]))
