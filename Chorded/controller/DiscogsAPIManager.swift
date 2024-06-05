@@ -82,10 +82,18 @@ class DiscogsAPIManager {
             }
             do {
                 let albumDetails = try JSONDecoder().decode(DiscogsReleaseDetails.self, from: data)
+                
+                //fix the artist name part if needed
+                var truncatedArtistNames = [String]()
+                for artist in albumDetails.artists {
+                    var newArtistName = FixStrings().deleteDistinctArtistNum(artist.name)
+                    truncatedArtistNames.append(newArtistName)
+                }
+                
                 let album = Album(
                     title: albumDetails.title,
                     artistID: albumDetails.artists.map {$0.id},
-                    artistNames: albumDetails.artists.map {$0.name},
+                    artistNames: truncatedArtistNames.map {$0},
                     genres: albumDetails.genres ?? [],
                     styles: albumDetails.styles ?? [],
                     year: albumDetails.year,
@@ -136,11 +144,11 @@ class DiscogsAPIManager {
                 
                 FirebaseDataManager().doesAlbumExist(title: trendingAlbum.title, artists: trendingAlbum.artistList) { exists, firebaseAlbumKey in
                     if exists, let firebaseAlbumKey = firebaseAlbumKey {
-                        print("CHICKEN \(trendingAlbum.title)")
+                        print("\(trendingAlbum.title) exists in Firebase so just appending to trending list")
                         trendingAlbumKeys.append(firebaseAlbumKey)
                         dispatchGroup.leave()
                     } else {
-                        print("CHICKEN \(trendingAlbum.title) apparently does not exist in firebase")
+                        print("\(trendingAlbum.title) does not exist in firebase so storing and adding to trending list")
                         self.searchAlbum(albumName: trendingAlbum.title, artistName: trendingAlbum.artistString) { result in
                             switch result {
                             case .success(let album):

@@ -45,8 +45,8 @@ class QuickTesting: ObservableObject {
         
 //        fetchTrendingAlbums()
         
-//        let testTitle = "DAMN."
-//        let testArtists = ["Future (4)", "Metro Boomin"]
+//        let testTitle = "cowboy carter"
+//        let testArtists = ["Beyonce"]
 //        FirebaseDataManager().doesAlbumExist(title: testTitle, artists: testArtists) { exists, firebaseKey in
 //            if exists {
 //                print("\(testTitle) exists with key: \(firebaseKey ?? "No key)")")
@@ -54,6 +54,10 @@ class QuickTesting: ObservableObject {
 //                print("Album does not exist")
 //            }
 //        }
+        
+//        let testString = "Travis Scott (2)"
+//        print(FixStrings().deleteDistinctArtistNum(testString))
+        
     }
     
     

@@ -19,8 +19,9 @@ class FirebaseDataManager {
     // Albums
     
     func doesAlbumExist(title: String, artists: [String], completion: @escaping (Bool, String?) -> Void) {
-        let sanitizedTitle = sanitizeString(title)
-        let albumIndexRef = databaseRef.child("AlbumIndex").child(sanitizedTitle)
+        let normalizedTitle = FixStrings().normalizeString(title)
+        
+        let albumIndexRef = databaseRef.child("AlbumIndex").child(normalizedTitle)
         
         albumIndexRef.observeSingleEvent(of: .value) { snapshot in
             guard let albumDict = snapshot.value as? [String: String] else {
@@ -29,10 +30,12 @@ class FirebaseDataManager {
             }
             
             for storedArtist in albumDict.keys {
-                if artists.contains(storedArtist) {
-                    let firebaseKey = albumDict[storedArtist]
-                    completion(true, firebaseKey)
-                    return
+                for artist in artists {
+                    if FixStrings().normalizeString(artist) == storedArtist {
+                        let firebaseKey = albumDict[storedArtist]
+                        completion(true, firebaseKey)
+                        return
+                    }
                 }
             }
             completion(false, nil)
@@ -43,58 +46,27 @@ class FirebaseDataManager {
     
     }
     
-//    func doesAlbumExist(title: String, artists: [String], completion: @escaping (Bool, String?) -> Void) {
-//        let sanitizedTitle = sanitizeString(title.lowercased()) // Convert to lowercase for case-insensitive comparison
-//        let albumIndexRef = databaseRef.child("AlbumIndex")
-//
-//        albumIndexRef.observeSingleEvent(of: .value) { snapshot in
-//            guard let albumDict = snapshot.value as? [String: [String: String]] else {
-//                completion(false, nil)
-//                return
-//            }
-//            
-//            for (storedTitle, artistDict) in albumDict {
-//                if sanitizedTitle == sanitizeString(storedTitle.lowercased()) {
-//                    for storedArtist in artistDict.keys {
-//                        if artists.containsIgnoringPunctuation(artist: storedArtist) {
-//                            let firebaseKey = artistDict[storedArtist]
-//                            completion(true, firebaseKey)
-//                            return
-//                        }
-//                    }
-//                }
-//            }
-//            
-//            completion(false, nil)
-//        } withCancel: { error in
-//            print("Error checking if album exists: \(error.localizedDescription)")
-//            completion(false, nil)
-//        }
-//    }
-    
     func addAlbum(album: Album, completion: @escaping (Album?, Error?) -> Void) {
         
-        print("Starting addAlbum for: \(album.title)")
         //adds album to Albums
         let albumRef = databaseRef.child("Albums").childByAutoId()
         let albumKey = albumRef.key ?? UUID().uuidString
-        print("Generated album key: \(albumKey)")
         
         var albumWithKey = album
         albumWithKey.firebaseKey = albumKey
         let albumData = albumWithKey.toDictionary()
-        
-        print("Album data before saving: \(albumData)")  // Debugging print
-        
+                
         var updates: [String: Any] = ["/Albums/\(albumKey)": albumData]
         
         //remove periods from album title for AlbumIndex key
-        let albumIndexKey = sanitizeString(album.title)
+        
+        let albumIndexKey = FixStrings().normalizeString(album.title)
         
         //adds AlbumIndex node for querying for firebase key given album title and artist name
         for artistName in album.artistNames {
 //            databaseRef.child("AlbumIndex").child(album.title).child(artistName)
-            updates["/AlbumIndex/\(albumIndexKey)/\(artistName)"] = albumKey
+            let normalizedArtistName = FixStrings().normalizeString(artistName)
+            updates["/AlbumIndex/\(albumIndexKey)/\(normalizedArtistName)"] = albumKey
         }
    
         //update Artists node with the album ID
@@ -243,12 +215,6 @@ class FirebaseDataManager {
         
     }
     
-    // Helpful functions
-    func sanitizeString(_ string: String) -> String {
-        let disallowedCharacters = CharacterSet(charactersIn: ".,$#[]/").union(.controlCharacters)
-        return string.components(separatedBy: disallowedCharacters).joined()
-    }
-    
 }
 
 extension Album {
@@ -308,10 +274,4 @@ extension User {
     
 }
 
-extension String {
-    func containsIgnoringPunctuation(artist: String) -> Bool {
-        let selfFormatted = self.replacingOccurrences(of: "[^\\p{L}\\d\\s]", with: "", options: [.regularExpression, .caseInsensitive])
-        let artistFormatted = artist.replacingOccurrences(of: "[^\\p{L}\\d\\s]", with: "", options: [.regularExpression, .caseInsensitive])
-        return selfFormatted.lowercased() == artistFormatted.lowercased()
-    }
-}
+

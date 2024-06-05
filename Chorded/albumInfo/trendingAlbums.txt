@@ -2,7 +2,7 @@ albumTitle	artistName
 The Tortured Poets Department	Taylor Swift
 One Of Wun	Gunna
 One Thing At A Time	Morgan Wallen
-We Don't Trust You	"Future, Metro Boomin"
+We Don't Trust You	Future, Metro Boomin
 Dangerous: The Double Album	Morgan Wallen
 Stick Season	Noah Kahan
 SOS	SZA
