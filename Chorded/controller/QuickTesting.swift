@@ -1,14 +1,15 @@
 //
-//  TrendingAlbumsViewModel.swift
-//  MusicReviewApp
+//  QuickTesting.swift
+//  Chorded
 //
-//  Created by Janice Wong on 5/30/24.
+//  Created by Janice Wong on 6/4/24.
 //
+
 
 import Foundation
 import Combine
 
-class TrendingAlbumsViewModel: ObservableObject {
+class QuickTesting: ObservableObject {
     @Published var albums: [Album] = []
     private var trendingAlbums = [Album]()
     
@@ -41,37 +42,19 @@ class TrendingAlbumsViewModel: ObservableObject {
 //                print("Fetched artist: \(album.title)")
 //            }
 //        }
+        
 //        fetchTrendingAlbums()
+        
+//        let testTitle = "DAMN."
+//        let testArtists = ["Future (4)", "Metro Boomin"]
+//        FirebaseDataManager().doesAlbumExist(title: testTitle, artists: testArtists) { exists, firebaseKey in
+//            if exists {
+//                print("\(testTitle) exists with key: \(firebaseKey ?? "No key)")")
+//            } else {
+//                print("Album does not exist")
+//            }
+//        }
     }
     
-    func fetchTrendingAlbums() {
-        var fetchedAlbums: [Album] = []
-        let dispatchGroup = DispatchGroup()
-        
-        FirebaseDataManager().fetchTrendingList { albumKeys, error in
-            if let error = error {
-                print("Failed to fetch trending album keys: \(error.localizedDescription)")
-            } else if let albumKeys = albumKeys {
-                print("Fetched trending album keys: \(albumKeys)")
-                for albumKey in albumKeys {
-                    dispatchGroup.enter()
-                    FirebaseDataManager().fetchAlbum(firebaseKey: albumKey) { album, error in
-                        if let error = error {
-                            print("Failed to fetch trending album: \(error.localizedDescription)")
-                        } else if let album = album {
-                            print("Fetched album: \(album.title)")
-                            fetchedAlbums.append(album)
-                        }
-                        dispatchGroup.leave()
-                    }
-                }
-                dispatchGroup.notify(queue: .main) {
-                    self.trendingAlbums = fetchedAlbums
-                    print(self.trendingAlbums.count)
-
-                }
-            }
-        }
-    }
     
 }

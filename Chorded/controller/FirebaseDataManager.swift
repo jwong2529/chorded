@@ -18,6 +18,60 @@ class FirebaseDataManager {
     
     // Albums
     
+    func doesAlbumExist(title: String, artists: [String], completion: @escaping (Bool, String?) -> Void) {
+        let sanitizedTitle = sanitizeString(title)
+        let albumIndexRef = databaseRef.child("AlbumIndex").child(sanitizedTitle)
+        
+        albumIndexRef.observeSingleEvent(of: .value) { snapshot in
+            guard let albumDict = snapshot.value as? [String: String] else {
+                completion(false, nil)
+                return
+            }
+            
+            for storedArtist in albumDict.keys {
+                if artists.contains(storedArtist) {
+                    let firebaseKey = albumDict[storedArtist]
+                    completion(true, firebaseKey)
+                    return
+                }
+            }
+            completion(false, nil)
+        } withCancel: { error in
+            print("Error checking if album exists: \(error.localizedDescription)")
+            completion(false, nil)
+        }
+    
+    }
+    
+//    func doesAlbumExist(title: String, artists: [String], completion: @escaping (Bool, String?) -> Void) {
+//        let sanitizedTitle = sanitizeString(title.lowercased()) // Convert to lowercase for case-insensitive comparison
+//        let albumIndexRef = databaseRef.child("AlbumIndex")
+//
+//        albumIndexRef.observeSingleEvent(of: .value) { snapshot in
+//            guard let albumDict = snapshot.value as? [String: [String: String]] else {
+//                completion(false, nil)
+//                return
+//            }
+//            
+//            for (storedTitle, artistDict) in albumDict {
+//                if sanitizedTitle == sanitizeString(storedTitle.lowercased()) {
+//                    for storedArtist in artistDict.keys {
+//                        if artists.containsIgnoringPunctuation(artist: storedArtist) {
+//                            let firebaseKey = artistDict[storedArtist]
+//                            completion(true, firebaseKey)
+//                            return
+//                        }
+//                    }
+//                }
+//            }
+//            
+//            completion(false, nil)
+//        } withCancel: { error in
+//            print("Error checking if album exists: \(error.localizedDescription)")
+//            completion(false, nil)
+//        }
+//    }
+    
     func addAlbum(album: Album, completion: @escaping (Album?, Error?) -> Void) {
         
         print("Starting addAlbum for: \(album.title)")
@@ -35,7 +89,7 @@ class FirebaseDataManager {
         var updates: [String: Any] = ["/Albums/\(albumKey)": albumData]
         
         //remove periods from album title for AlbumIndex key
-        let albumIndexKey = album.title.replacingOccurrences(of: ".", with: "")
+        let albumIndexKey = sanitizeString(album.title)
         
         //adds AlbumIndex node for querying for firebase key given album title and artist name
         for artistName in album.artistNames {
@@ -189,9 +243,11 @@ class FirebaseDataManager {
         
     }
     
-//    private func parseAlbum(from data: [String: AnyObject]) -> Album {
-//        let discogsID = data[
-//    }
+    // Helpful functions
+    func sanitizeString(_ string: String) -> String {
+        let disallowedCharacters = CharacterSet(charactersIn: ".,$#[]/").union(.controlCharacters)
+        return string.components(separatedBy: disallowedCharacters).joined()
+    }
     
 }
 
@@ -215,8 +271,8 @@ extension Album {
             "title": title,
             "artistID": artistID,
             "artistNames": artistNames,
-            "genres": genres,
-            "styles": styles,
+            "genres": genres ?? [],
+            "styles": styles ?? [],
             "year": year,
             "albumTracks": albumTracks,
             "coverImageURL": coverImageURL
@@ -250,4 +306,12 @@ extension Artist {
 
 extension User {
     
+}
+
+extension String {
+    func containsIgnoringPunctuation(artist: String) -> Bool {
+        let selfFormatted = self.replacingOccurrences(of: "[^\\p{L}\\d\\s]", with: "", options: [.regularExpression, .caseInsensitive])
+        let artistFormatted = artist.replacingOccurrences(of: "[^\\p{L}\\d\\s]", with: "", options: [.regularExpression, .caseInsensitive])
+        return selfFormatted.lowercased() == artistFormatted.lowercased()
+    }
 }

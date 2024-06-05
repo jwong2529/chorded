@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		293C7C2C2C06EB55002605B1 /* SampleDiscogsAPI.plist in Resources */ = {isa = PBXBuildFile; fileRef = 293C7C2B2C06EB55002605B1 /* SampleDiscogsAPI.plist */; };
 		293C7C332C099541002605B1 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293C7C322C099541002605B1 /* Artist.swift */; };
-		293C7C352C09A1EB002605B1 /* TrendingAlbumsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293C7C342C09A1EB002605B1 /* TrendingAlbumsViewModel.swift */; };
 		293C7C392C09AB1C002605B1 /* albumInfo in Resources */ = {isa = PBXBuildFile; fileRef = 293C7C382C09AB1C002605B1 /* albumInfo */; };
 		2948E92E2C01BCD900EC4726 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E92D2C01BCD900EC4726 /* Album.swift */; };
 		2948E9302C01C03E00EC4726 /* AlbumReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E92F2C01C03E00EC4726 /* AlbumReview.swift */; };
@@ -36,6 +35,7 @@
 		294AA1802C0EFA490097F16C /* AlbumCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA17F2C0EFA490097F16C /* AlbumCarousel.swift */; };
 		294AA1832C0F00CE0097F16C /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 294AA1822C0F00CE0097F16C /* SDWebImageSwiftUI */; };
 		294AA1852C0F0BA40097F16C /* AlbumGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA1842C0F0BA40097F16C /* AlbumGrid.swift */; };
+		294AA1872C1035540097F16C /* QuickTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA1862C1035540097F16C /* QuickTesting.swift */; };
 		298183E62C001FB300E5E32B /* ChordedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183E52C001FB300E5E32B /* ChordedApp.swift */; };
 		298183E82C001FB300E5E32B /* ViewHomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183E72C001FB300E5E32B /* ViewHomePage.swift */; };
 		298183EA2C001FB500E5E32B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 298183E92C001FB500E5E32B /* Assets.xcassets */; };
@@ -43,6 +43,9 @@
 		298183F72C001FB500E5E32B /* ChordedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183F62C001FB500E5E32B /* ChordedTests.swift */; };
 		298184012C001FB500E5E32B /* ChordedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298184002C001FB500E5E32B /* ChordedUITests.swift */; };
 		298184032C001FB500E5E32B /* ChordedUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298184022C001FB500E5E32B /* ChordedUITestsLaunchTests.swift */; };
+		3E105439958E28936D4D94C2 /* Pods_ChordedTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11D63AF6ABE56E536588E751 /* Pods_ChordedTests.framework */; };
+		C2787A3388ECFDE7ADB27ED2 /* Pods_Chorded_ChordedUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 211D3B090AF7E20287B967B0 /* Pods_Chorded_ChordedUITests.framework */; };
+		C5A52620B8FB49FFC74DA67F /* Pods_Chorded.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADF4B5342A68A95F58631EC0 /* Pods_Chorded.framework */; };
 		F64E52622C0D7A25007824F8 /* ViewSignUpPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64E52612C0D7A25007824F8 /* ViewSignUpPage.swift */; };
 		F661FEE02C0D605800023E5A /* ViewLogInPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F661FEDF2C0D605800023E5A /* ViewLogInPage.swift */; };
 /* End PBXBuildFile section */
@@ -66,9 +69,10 @@
 
 /* Begin PBXFileReference section */
 		0B553D74BAD27DCC6A7DA694 /* Pods-Chorded.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chorded.release.xcconfig"; path = "Target Support Files/Pods-Chorded/Pods-Chorded.release.xcconfig"; sourceTree = "<group>"; };
+		11D63AF6ABE56E536588E751 /* Pods_ChordedTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChordedTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		211D3B090AF7E20287B967B0 /* Pods_Chorded_ChordedUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Chorded_ChordedUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		293C7C2B2C06EB55002605B1 /* SampleDiscogsAPI.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SampleDiscogsAPI.plist; sourceTree = "<group>"; };
 		293C7C322C099541002605B1 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
-		293C7C342C09A1EB002605B1 /* TrendingAlbumsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingAlbumsViewModel.swift; sourceTree = "<group>"; };
 		293C7C382C09AB1C002605B1 /* albumInfo */ = {isa = PBXFileReference; lastKnownFileType = folder; path = albumInfo; sourceTree = "<group>"; };
 		2948E92D2C01BCD900EC4726 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		2948E92F2C01C03E00EC4726 /* AlbumReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumReview.swift; sourceTree = "<group>"; };
@@ -89,6 +93,7 @@
 		294AA16F2C0C63F10097F16C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		294AA17F2C0EFA490097F16C /* AlbumCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCarousel.swift; sourceTree = "<group>"; };
 		294AA1842C0F0BA40097F16C /* AlbumGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumGrid.swift; sourceTree = "<group>"; };
+		294AA1862C1035540097F16C /* QuickTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTesting.swift; sourceTree = "<group>"; };
 		298183E22C001FB300E5E32B /* Chorded.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chorded.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		298183E52C001FB300E5E32B /* ChordedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordedApp.swift; sourceTree = "<group>"; };
 		298183E72C001FB300E5E32B /* ViewHomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHomePage.swift; sourceTree = "<group>"; };
@@ -101,6 +106,7 @@
 		298184022C001FB500E5E32B /* ChordedUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordedUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		7558F0C2A67661BEAD05E247 /* Pods-Chorded-ChordedUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chorded-ChordedUITests.release.xcconfig"; path = "Target Support Files/Pods-Chorded-ChordedUITests/Pods-Chorded-ChordedUITests.release.xcconfig"; sourceTree = "<group>"; };
 		76DE7D85FF1112E8D1CA4182 /* Pods-ChordedTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChordedTests.debug.xcconfig"; path = "Target Support Files/Pods-ChordedTests/Pods-ChordedTests.debug.xcconfig"; sourceTree = "<group>"; };
+		ADF4B5342A68A95F58631EC0 /* Pods_Chorded.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Chorded.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC2D434AF2E99935E178D2AA /* Pods-Chorded.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chorded.debug.xcconfig"; path = "Target Support Files/Pods-Chorded/Pods-Chorded.debug.xcconfig"; sourceTree = "<group>"; };
 		E2ED39AA1A463253CF09942A /* Pods-ChordedTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChordedTests.release.xcconfig"; path = "Target Support Files/Pods-ChordedTests/Pods-ChordedTests.release.xcconfig"; sourceTree = "<group>"; };
 		F64E52612C0D7A25007824F8 /* ViewSignUpPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSignUpPage.swift; sourceTree = "<group>"; };
@@ -117,6 +123,7 @@
 				294AA17C2C0EE53D0097F16C /* SDWebImage in Frameworks */,
 				294AA1772C0D2D450097F16C /* FirebaseDatabase in Frameworks */,
 				294AA1752C0C67170097F16C /* FirebaseAnalytics in Frameworks */,
+				C5A52620B8FB49FFC74DA67F /* Pods_Chorded.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E105439958E28936D4D94C2 /* Pods_ChordedTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2787A3388ECFDE7ADB27ED2 /* Pods_Chorded_ChordedUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +165,7 @@
 				298183FF2C001FB500E5E32B /* ChordedUITests */,
 				298183E32C001FB300E5E32B /* Products */,
 				9B982EA48F7E0B9CDAA196B4 /* Pods */,
+				56ED998E18CC2383FD659675 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -245,10 +255,20 @@
 			children = (
 				2948E94A2C04576F00EC4726 /* DiscogsAPIManager.swift */,
 				2948E9552C066EA700EC4726 /* DiscogsCreds.swift */,
-				293C7C342C09A1EB002605B1 /* TrendingAlbumsViewModel.swift */,
 				294AA16D2C0C63310097F16C /* FirebaseDataManager.swift */,
+				294AA1862C1035540097F16C /* QuickTesting.swift */,
 			);
 			path = controller;
+			sourceTree = "<group>";
+		};
+		56ED998E18CC2383FD659675 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ADF4B5342A68A95F58631EC0 /* Pods_Chorded.framework */,
+				211D3B090AF7E20287B967B0 /* Pods_Chorded_ChordedUITests.framework */,
+				11D63AF6ABE56E536588E751 /* Pods_ChordedTests.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		9B982EA48F7E0B9CDAA196B4 /* Pods */ = {
@@ -491,10 +511,10 @@
 				2948E94B2C04576F00EC4726 /* DiscogsAPIManager.swift in Sources */,
 				2948E9382C02BB7E00EC4726 /* HighlightButtonStyle.swift in Sources */,
 				294AA16E2C0C63310097F16C /* FirebaseDataManager.swift in Sources */,
-				293C7C352C09A1EB002605B1 /* TrendingAlbumsViewModel.swift in Sources */,
 				298183E62C001FB300E5E32B /* ChordedApp.swift in Sources */,
 				2948E9562C066EA700EC4726 /* DiscogsCreds.swift in Sources */,
 				2948E92E2C01BCD900EC4726 /* Album.swift in Sources */,
+				294AA1872C1035540097F16C /* QuickTesting.swift in Sources */,
 				F64E52622C0D7A25007824F8 /* ViewSignUpPage.swift in Sources */,
 				F661FEE02C0D605800023E5A /* ViewLogInPage.swift in Sources */,
 				2948E9342C02B91000EC4726 /* ViewTrendingAlbumsPage.swift in Sources */,

@@ -4,7 +4,7 @@ struct ViewHomePage: View {
     
     @State private var searchText = ""
     @State private var trendingAlbums = [Album]()
-    @StateObject private var trendingAlbumsVM = TrendingAlbumsViewModel()
+    @StateObject private var trendingAlbumsVM = QuickTesting()
     
     init() {
 //        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
@@ -101,8 +101,6 @@ struct ViewHomePage: View {
                 }
                 dispatchGroup.notify(queue: .main) {
                     self.trendingAlbums = fetchedAlbums
-                    print(self.trendingAlbums.count)
-
                 }
             }
         }
