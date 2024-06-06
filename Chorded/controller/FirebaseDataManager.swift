@@ -18,32 +18,31 @@ class FirebaseDataManager {
     
     // Albums
     
-    func doesAlbumExist(title: String, artists: [String], completion: @escaping (Bool, String?) -> Void) {
+    func doesAlbumExist(title: String, artists: [String], completion: @escaping (Bool, String?, String?) -> Void) {
         let normalizedTitle = FixStrings().normalizeString(title)
         
         let albumIndexRef = databaseRef.child("AlbumIndex").child(normalizedTitle)
         
         albumIndexRef.observeSingleEvent(of: .value) { snapshot in
-            guard let albumDict = snapshot.value as? [String: String] else {
-                completion(false, nil)
+            guard let albumDict = snapshot.value as? [String: Any], let artistNamesDict = albumDict["ArtistNames"] as? [String: String], let imagesDict = albumDict["Images"] as? [String: String], let coverImageURL = imagesDict["coverImageURL"] else {
+                completion(false, nil, nil)
                 return
             }
             
-            for storedArtist in albumDict.keys {
+            for storedArtist in artistNamesDict.keys {
                 for artist in artists {
                     if FixStrings().normalizeString(artist) == storedArtist {
-                        let firebaseKey = albumDict[storedArtist]
-                        completion(true, firebaseKey)
+                        let firebaseKey = artistNamesDict[storedArtist]
+                        completion(true, firebaseKey, coverImageURL)
                         return
                     }
                 }
             }
-            completion(false, nil)
+            completion(false, nil, nil)
         } withCancel: { error in
             print("Error checking if album exists: \(error.localizedDescription)")
-            completion(false, nil)
+            completion(false, nil, nil)
         }
-    
     }
     
     func addAlbum(album: Album, completion: @escaping (Album?, Error?) -> Void) {
@@ -62,12 +61,19 @@ class FirebaseDataManager {
         let albumIndexKey = FixStrings().normalizeString(album.title)
         
         //adds AlbumIndex node for querying for firebase key given album title and artist name
+        var artistNamesDict: [String: String] = [:]
         for artistName in album.artistNames {
 //            databaseRef.child("AlbumIndex").child(album.title).child(artistName)
             let normalizedArtistName = FixStrings().normalizeString(artistName)
-            updates["/AlbumIndex/\(albumIndexKey)/\(normalizedArtistName)"] = albumKey
+            artistNamesDict[normalizedArtistName] = albumKey
+//            updates["/AlbumIndex/\(albumIndexKey)/\(normalizedArtistName)"] = albumKey
         }
-   
+        let albumDetails: [String: Any] = [
+            "ArtistNames": artistNamesDict,
+            "Images": ["coverImageURL": albumWithKey.coverImageURL]
+        ]
+        updates["/AlbumIndex/\(albumIndexKey)"] = albumDetails
+        
         //update Artists node with the album ID
         
         let dispatchGroup = DispatchGroup()

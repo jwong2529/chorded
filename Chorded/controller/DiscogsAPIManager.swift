@@ -142,7 +142,7 @@ class DiscogsAPIManager {
             for (index, trendingAlbum) in trendingAlbums.enumerated() {
                 dispatchGroup.enter()
                 
-                FirebaseDataManager().doesAlbumExist(title: trendingAlbum.title, artists: trendingAlbum.artistList) { exists, firebaseAlbumKey in
+                FirebaseDataManager().doesAlbumExist(title: trendingAlbum.title, artists: trendingAlbum.artistList) { exists, firebaseAlbumKey, coverImageURL in
                     if exists, let firebaseAlbumKey = firebaseAlbumKey {
                         print("\(trendingAlbum.title) exists in Firebase so just appending to trending list")
 //                        trendingAlbumKeys.append(firebaseAlbumKey)

@@ -24,7 +24,7 @@ class QuickTesting: ObservableObject {
 //            }
 //        }
         
-//        DiscogsAPIManager().loadTrendingAlbums()
+        DiscogsAPIManager().loadTrendingAlbums()
         
 //        FirebaseDataManager().fetchTrendingList { albumKeys, error in
 //            if let error = error {

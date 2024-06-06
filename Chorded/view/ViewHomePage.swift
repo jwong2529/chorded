@@ -20,7 +20,7 @@ struct ViewHomePage: View {
             ZStack {
                 AppBackground()
                 VStack {
-                    NavigationLink(destination: ViewTrendingAlbumsPage()) {
+                    NavigationLink(destination: ViewTrendingAlbumsPage(trendingAlbums: trendingAlbums)) {
                         HStack {
                             Text("Trending")
                                 .font(.system(size: 20, weight: .medium, design: .default))
