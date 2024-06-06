@@ -24,7 +24,7 @@ class QuickTesting: ObservableObject {
 //            }
 //        }
         
-        DiscogsAPIManager().loadTrendingAlbums()
+//        DiscogsAPIManager().loadTrendingAlbums()
         
 //        FirebaseDataManager().fetchTrendingList { albumKeys, error in
 //            if let error = error {
@@ -45,9 +45,9 @@ class QuickTesting: ObservableObject {
         
 //        fetchTrendingAlbums()
         
-//        let testTitle = "cowboy carter"
-//        let testArtists = ["Beyonce"]
-//        FirebaseDataManager().doesAlbumExist(title: testTitle, artists: testArtists) { exists, firebaseKey in
+//        let testTitle = "American Heartbreak"
+//        let testArtists = ["Zach Bryan"]
+//        FirebaseDataManager().doesAlbumExist(title: testTitle, artists: testArtists) { exists, firebaseKey, coverImageURL in
 //            if exists {
 //                print("\(testTitle) exists with key: \(firebaseKey ?? "No key)")")
 //            } else {

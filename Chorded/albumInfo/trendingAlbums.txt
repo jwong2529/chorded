@@ -1,21 +1,21 @@
 albumTitle	artistName
 The Tortured Poets Department	Taylor Swift
-One Of Wun	Gunna
+Hit Me Hard And Soft	Billie Eilish
+Clancy	Twenty One Pilots
 One Thing At A Time	Morgan Wallen
-We Don't Trust You	Future, Metro Boomin
+Right Place, Wrong Person	Rap Monster
 Dangerous: The Double Album	Morgan Wallen
+We Don't Trust You	Future, Metro Boomin
+One Of Wun	Gunna
 Stick Season	Noah Kahan
-SOS	SZA
 Zach Bryan	Zach Bryan
+SOS	SZA
+American Heartbreak Zach Bryan
 Fireworks & Rollerblades	Benson Boone
-Cowboy Carter	Beyonce
-American Heartbreak	Zach Bryan
 The Diamond Collection	Post Malone
 Lover	Taylor Swift
+The Rise And Fall Of A Midwest Princess	Chappell Roan
+In Sexyy We Trust	Sexyy Red
+Cowboy Carter	Beyonce
 Eternal Sunshine	Ariana Grande
-Damn	Kendrick Lamar
-Guts	Olivia Rodrigo
-I've Tried Everything But Therapy (Part I)	Teddy Swims
-1989 (Taylor's Version)	Taylor Swift
-good kid, m.A.A.d city	Kendrick Lamar
-Utopia	Travis Scott
+This One's For You	Luke Combs
