@@ -17,7 +17,7 @@ struct AlbumCarousel: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 15) {
                 ForEach(albums.prefix(albumCount), id: \.firebaseKey) { album in
-                    VStack {
+                    NavigationLink(destination: ViewAlbumPage(album: album)) {
                         WebImage(url: URL(string: album.coverImageURL))
                             .resizable()
                             .aspectRatio(contentMode: .fill)

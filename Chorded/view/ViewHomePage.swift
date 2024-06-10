@@ -34,8 +34,6 @@ struct ViewHomePage: View {
                     }
                     .buttonStyle(HighlightButtonStyle())
                     
-                    //just sample cover for now, will rewrite logic for this when i set up database
-                    //need to pass in array of albums now instead of strings
                     AlbumCarousel(albums: trendingAlbums, albumCount: 10)
                         .padding(.bottom)
 
@@ -107,8 +105,8 @@ struct ViewHomePage: View {
     }
 }
 
-#Preview {
-    ViewHomePage()
-}
+//#Preview {
+//    ViewHomePage()
+//}
 
 
