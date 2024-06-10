@@ -249,7 +249,8 @@ extension Album {
             "styles": styles ?? [],
             "year": year,
             "albumTracks": albumTracks,
-            "coverImageURL": coverImageURL
+            "coverImageURL": coverImageURL,
+            "albumRating": albumRating ?? NSNull()
         ]
     }
 }

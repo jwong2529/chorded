@@ -18,6 +18,7 @@ struct Album: Decodable {
     let year: Int
     let albumTracks: [String]
     let coverImageURL: String
+    var albumRating: Double?
 //    var albumReviews: [String] //album ID
     
     init(title: String, artistID: [Int], artistNames: [String], genres: [String]?, styles: [String]?, year: Int, albumTracks: [String], coverImageURL: String) {
@@ -32,6 +33,7 @@ struct Album: Decodable {
 //        self.albumReviews = []
         self.albumTracks = albumTracks
         self.coverImageURL = coverImageURL
+        self.albumRating = nil
     }
     
 //    mutating func addAlbumReview(review: String) {

@@ -35,11 +35,11 @@ class QuickTesting: ObservableObject {
 //            }
 //        }
         
-//        FirebaseDataManager().fetchAlbum(firebaseKey: "-NzV_bo6GDTDILFXd3dX") { album, error in
+//        FirebaseDataManager().fetchAlbum(firebaseKey: "-NzgJWM2gxpU-fQliYjR") { album, error in
 //            if let error = error {
 //                print("Failed to fetch album: \(error.localizedDescription)")
 //            } else if let album = album {
-//                print("Fetched artist: \(album.title)")
+//                print("FETCHED ALBUM: \(album.title)")
 //            }
 //        }
         
