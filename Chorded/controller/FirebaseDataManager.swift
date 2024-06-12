@@ -90,7 +90,8 @@ class FirebaseDataManager {
                     if var artistData = snapshot.value as? [String: Any] {
                         var currentAlbums = artistData["albums"] as? [String] ?? []
                         currentAlbums.append(albumKey)
-                        updates["/Artists/\(albumWithKey.artistID[index])/albums"] = [currentAlbums]
+                        artistData["albums"] = currentAlbums
+                        updates["/Artists/\(albumWithKey.artistID[index])/albums"] = currentAlbums
                     }
                     dispatchGroup.leave()
 

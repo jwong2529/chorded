@@ -15,6 +15,7 @@ struct ViewAlbumPage: View {
     @State private var ratingProgress: CGFloat = 0.0
     @State var selection1: String? = "Tracklist"
     let album: Album
+    @State private var artists = [Artist]()
 
     var body: some View {
         NavigationStack {
@@ -128,14 +129,44 @@ struct ViewAlbumPage: View {
                         .buttonStyle(HighlightButtonStyle())
                         .padding()
                         
-                        MiniTabBar()
-                            .padding(.bottom)
-                            .padding(.horizontal)
+                        ViewAlbumPageMiniBar(artists: artists)
+                            .onAppear {
+                                fetchArtists(discogsKeys: album.artistID)
+                            }
+//                            .padding(.bottom)
+//                            .padding(.horizontal)
                     }
                 }
             }
         }
         
+    }
+    
+    func fetchArtists(discogsKeys: [Int]) {
+        let dispatchGroup = DispatchGroup()
+        var fetchedArtists: [Artist] = []
+        var fetchError: Error?
+        
+        for discogsKey in discogsKeys {
+            dispatchGroup.enter()
+            FirebaseDataManager().fetchArtist(discogsKey: discogsKey) { artist, error in
+                defer {
+                    dispatchGroup.leave()
+                }
+                if let artist = artist {
+                    fetchedArtists.append(artist)
+                } else if let error = error {
+                    fetchError = error
+                }
+            }
+        }
+        dispatchGroup.notify(queue: .main) {
+            if let error = fetchError {
+                print("Couldn't fetch artists to display on album page")
+            } else {
+                self.artists = fetchedArtists
+            }
+        }
     }
 }
 
@@ -143,3 +174,5 @@ struct ViewAlbumPage: View {
 //#Preview {
 //    ViewAlbumPage()
 //}
+
+

@@ -16,7 +16,7 @@ class QuickTesting: ObservableObject {
     init() {
 //        DiscogsAPIManager().testingAPI()
         
-//        FirebaseDataManager().fetchArtist(discogsKey: 52835) { artist, error in
+//        FirebaseDataManager().fetchArtist(discogsKey: 6628105) { artist, error in
 //            if let error = error {
 //                print("Failed to fetch artist: \(error.localizedDescription)")
 //            } else if let artist = artist {
