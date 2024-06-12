@@ -9,17 +9,19 @@ import Foundation
 
 struct Artist: Decodable {
     let name: String
+    let profileDescription: String
     let discogsID: Int
 //    let firebaseKey: String
     var imageURL: String
     var albums: [String] //album IDs
     
-    init(name: String, discogsID: Int, imageURL: String, albums: [String]) {
+    init(name: String, profileDescription: String, discogsID: Int, imageURL: String) {
         self.name = name
+        self.profileDescription = profileDescription
 //        self.firebaseKey = ""
         self.discogsID = discogsID
         self.imageURL = imageURL
-        self.albums = albums
+        self.albums = []
     }
     
 //    mutating func addAlbum(album: Int) {

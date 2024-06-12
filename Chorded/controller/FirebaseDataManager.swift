@@ -24,7 +24,10 @@ class FirebaseDataManager {
         let albumIndexRef = databaseRef.child("AlbumIndex").child(normalizedTitle)
         
         albumIndexRef.observeSingleEvent(of: .value) { snapshot in
-            guard let albumDict = snapshot.value as? [String: Any], let artistNamesDict = albumDict["ArtistNames"] as? [String: String], let imagesDict = albumDict["Images"] as? [String: String], let coverImageURL = imagesDict["coverImageURL"] else {
+            guard let albumDict = snapshot.value as? [String: Any], 
+                  let artistNamesDict = albumDict["ArtistNames"] as? [String: String],
+                  let imagesDict = albumDict["Images"] as? [String: String],
+                  let coverImageURL = imagesDict["coverImageURL"] else {
                 completion(false, nil, nil)
                 return
             }
@@ -58,15 +61,13 @@ class FirebaseDataManager {
         var updates: [String: Any] = ["/Albums/\(albumKey)": albumData]
         
         
-        let albumIndexKey = FixStrings().normalizeString(album.title)
+        let albumIndexKey = FixStrings().normalizeString(albumWithKey.title)
         
         //adds AlbumIndex node for querying for firebase key given album title and artist name
         var artistNamesDict: [String: String] = [:]
-        for artistName in album.artistNames {
-//            databaseRef.child("AlbumIndex").child(album.title).child(artistName)
-            let normalizedArtistName = FixStrings().normalizeString(artistName)
+        for index in albumWithKey.artistNames.indices {
+            let normalizedArtistName = FixStrings().normalizeString(albumWithKey.artistNames[index])
             artistNamesDict[normalizedArtistName] = albumKey
-//            updates["/AlbumIndex/\(albumIndexKey)/\(normalizedArtistName)"] = albumKey
         }
         let albumDetails: [String: Any] = [
             "ArtistNames": artistNamesDict,
@@ -78,31 +79,45 @@ class FirebaseDataManager {
         
         let dispatchGroup = DispatchGroup()
         
-        for index in album.artistID.indices {
+        for index in albumWithKey.artistID.indices {
             dispatchGroup.enter()
             
-            let artistRef = Database.database().reference().child("Artists").child(String(album.artistID[index]))
+            let artistRef = databaseRef.child("Artists").child(String(albumWithKey.artistID[index]))
             artistRef.observeSingleEvent(of: .value) { snapshot in
                 if snapshot.exists() {
                     // Artist with the given Discogs ID already exists so append album to album list
+                    print("TURKEY: \(albumWithKey.artistNames[index])")
                     if var artistData = snapshot.value as? [String: Any] {
                         var currentAlbums = artistData["albums"] as? [String] ?? []
                         currentAlbums.append(albumKey)
-                        artistData["albums"] = currentAlbums
-                        updates["/Artists/\(album.artistID[index])"] = artistData
+                        updates["/Artists/\(albumWithKey.artistID[index])/albums"] = [currentAlbums]
                     }
+                    dispatchGroup.leave()
+
                     
                 } else {
-                    //Artist doesn't exist, add to Firebase
-                    let newArtistData: [String: Any] = [
-                        "name": album.artistNames[index],
-                        "discogsID": album.artistID[index],
-                        "imageURL": "",
-                        "albums": [albumKey]
-                    ]
-                    updates["/Artists/\(album.artistID[index])"] = newArtistData
+                    DiscogsAPIManager().fetchArtistDetails(artistID: albumWithKey.artistID[index]) { result in
+                        switch result {
+                        case .success(let artist):
+                            print("Discogs artist fetched successfully: \(artist.name)")
+                            
+                            let artistData: [String: Any] = [
+                                "name": artist.name,
+                                "profileDescription": artist.profileDescription,
+                                "discogsID": artist.discogsID,
+                                "imageURL": artist.imageURL,
+                                "albums": [albumKey]
+                            ]
+                            
+                            updates["Artists/\(albumWithKey.artistID[index])"] = artistData
+                            
+                        case .failure(let error):
+                            print("Failed to fetch Discogs artist: \(error.localizedDescription)")
+                        }
+                        dispatchGroup.leave()
+
+                    }
                 }
-                dispatchGroup.leave()
             }
             
         }
@@ -120,6 +135,7 @@ class FirebaseDataManager {
             }
         }
     }
+    
     
     func fetchAlbum(firebaseKey: String, completion: @escaping (Album?, Error?) -> Void) {
         let albumRef = databaseRef.child("Albums").child(firebaseKey)
@@ -272,6 +288,7 @@ extension Artist {
     func toDictionary() -> [String: Any] {
         return [
             "name": name,
+            "profileDescription": profileDescription,
             "discogsID": discogsID,
             "imageURL": imageURL,
             "albums": albums

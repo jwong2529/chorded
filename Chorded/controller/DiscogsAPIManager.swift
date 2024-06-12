@@ -14,8 +14,11 @@ class DiscogsAPIManager {
     private let apiKey = DiscogsCreds.shared.discogsAPIKey
     private let apiSecret = DiscogsCreds.shared.discogsAPISecret
     private let apiCredsString = "key=\(DiscogsCreds.shared.discogsAPIKey)&secret=\(DiscogsCreds.shared.discogsAPISecret)"
-        
-    private func searchAlbum(albumName: String, artistName: String, completion: @escaping (Result<Album, Error>) -> Void) {
+    
+    
+    // ALBUMS
+    
+    func searchAlbum(albumName: String, artistName: String, completion: @escaping (Result<Album, Error>) -> Void) {
 
         let query = "release_title=\(albumName)&q=\(artistName)"
         guard let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
@@ -52,7 +55,7 @@ class DiscogsAPIManager {
         task.resume()
     }
     
-    private func fetchAlbumDetails(discogsAlbum: DiscogsAlbum, completion: @escaping (Result<Album, Error>) -> Void) {
+    func fetchAlbumDetails(discogsAlbum: DiscogsAlbum, completion: @escaping (Result<Album, Error>) -> Void) {
         
         //set the id num to master id unless it's equal to 0
         
@@ -183,6 +186,46 @@ class DiscogsAPIManager {
         }
     }
     
+    // ARTISTS
+    
+    func fetchArtistDetails(artistID: Int, completion: @escaping (Result<Artist, Error>) -> Void) {
+        let urlString = "\(baseURL)artists/\(artistID)?\(apiCredsString)"
+        guard let artistURL = URL(string: urlString) else {
+            print("Invalid URL")
+            exit(1)
+        }
+        
+        var request = URLRequest(url: artistURL)
+        request.setValue("Chorded/1.0", forHTTPHeaderField: "User-Agent")
+        
+        let task = URLSession.shared.dataTask(with: artistURL) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+            }
+            guard let data = data else {
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No data received"])))
+                return
+            }
+            do {
+//                print("Received data: \(String(data: data, encoding: .utf8) ?? "Invalid data")")
+
+                let artistDetails = try JSONDecoder().decode(DiscogsArtistDetails.self, from: data)
+                
+                let truncatedArtistName = FixStrings().deleteDistinctArtistNum(artistDetails.name)
+                
+                let artist = Artist(
+                    name: truncatedArtistName,
+                    profileDescription: artistDetails.profile ?? "",
+                    discogsID: artistDetails.id,
+                    imageURL: artistDetails.images?.first?.uri ?? ""
+                )
+                completion(.success(artist))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+    }
     
     private func cleanString(_ input: String) -> String {
         let allowedCharacters = CharacterSet.alphanumerics.union(CharacterSet.whitespaces)
@@ -293,6 +336,17 @@ struct DiscogsReleaseDetails: Decodable {
     struct AlbumArtists: Decodable {
         let name: String
         let id: Int
+    }
+}
+
+struct DiscogsArtistDetails: Decodable {
+    let name: String
+    let profile: String?
+    let id: Int
+    let images: [ArtistPhoto]?
+    
+    struct ArtistPhoto: Decodable {
+        let uri: String
     }
 }
 

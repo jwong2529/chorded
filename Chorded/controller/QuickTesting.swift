@@ -16,7 +16,7 @@ class QuickTesting: ObservableObject {
     init() {
 //        DiscogsAPIManager().testingAPI()
         
-//        FirebaseDataManager().fetchArtist(discogsKey: 3244227) { artist, error in
+//        FirebaseDataManager().fetchArtist(discogsKey: 52835) { artist, error in
 //            if let error = error {
 //                print("Failed to fetch artist: \(error.localizedDescription)")
 //            } else if let artist = artist {
@@ -40,6 +40,16 @@ class QuickTesting: ObservableObject {
 //                print("Failed to fetch album: \(error.localizedDescription)")
 //            } else if let album = album {
 //                print("FETCHED ALBUM: \(album.title)")
+//            }
+//        }
+        
+        
+//        DiscogsAPIManager().fetchArtistDetails(artistID: 5590213) { result in
+//            switch result {
+//            case .success(let artist):
+//                print("DISCOGS ARTIST FETCHED SUCCESSFULLY: \(artist.imageURL)")
+//            case .failure(let error):
+//                print("FAILED TO FETCH DISCOGS ARTIST: \(error.localizedDescription)")
 //            }
 //        }
         
