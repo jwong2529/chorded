@@ -46,7 +46,8 @@ struct ViewAlbumPageMiniBar: View {
                 ViewGenresSectionTabBar(album: album)
             }
         }
-        .padding()
+        .padding(.horizontal)
+        .padding(.bottom)
     }
 }
 
