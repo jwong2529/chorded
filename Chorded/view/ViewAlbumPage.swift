@@ -78,9 +78,12 @@ struct ViewAlbumPage: View {
                         HStack(alignment: .top) {
                             HStack(spacing: 15) {
                                 ForEach(0..<4) { _ in
-                                    Circle()
-                                        .fill(Color.blue.opacity(0.5))
+                                    Image(systemName: "person.circle.fill")
+                                        .resizable()
+                                        .foregroundColor(.gray)
                                         .frame(width: 50, height: 50)
+                                        .clipShape(Circle())
+                                        .padding(.trailing, 10)
                                 }
                             }
                             .padding(.horizontal)
@@ -103,9 +106,12 @@ struct ViewAlbumPage: View {
                         HStack(alignment: .top) {
                             HStack(spacing: 15) {
                                 ForEach(0..<4) { _ in
-                                    Circle()
-                                        .fill(Color.blue.opacity(0.5))
+                                    Image(systemName: "person.circle.fill")
+                                        .resizable()
+                                        .foregroundColor(.gray)
                                         .frame(width: 50, height: 50)
+                                        .clipShape(Circle())
+                                        .padding(.trailing, 10)
                                 }
                             }
                             .padding(.horizontal)
@@ -129,17 +135,15 @@ struct ViewAlbumPage: View {
                         .buttonStyle(HighlightButtonStyle())
                         .padding()
                         
-                        ViewAlbumPageMiniBar(artists: artists)
-                            .onAppear {
-                                fetchArtists(discogsKeys: album.artistID)
-                            }
-//                            .padding(.bottom)
-//                            .padding(.horizontal)
+                        ViewAlbumPageMiniBar(artists: artists, album: album)
+                        
                     }
                 }
             }
         }
-        
+        .onAppear {
+            fetchArtists(discogsKeys: album.artistID)
+        }
     }
     
     func fetchArtists(discogsKeys: [Int]) {
@@ -161,7 +165,7 @@ struct ViewAlbumPage: View {
             }
         }
         dispatchGroup.notify(queue: .main) {
-            if let error = fetchError {
+            if fetchError != nil {
                 print("Couldn't fetch artists to display on album page")
             } else {
                 self.artists = fetchedArtists

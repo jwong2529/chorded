@@ -12,6 +12,7 @@ struct ViewAlbumPageMiniBar: View {
     @State private var selectedTab = 0
     private let tabs = ["Artist", "Genres"]
     var artists: [Artist]
+    var album: Album
     
     var body: some View {
         VStack {
@@ -35,9 +36,14 @@ struct ViewAlbumPageMiniBar: View {
             .cornerRadius(10)
             
             if selectedTab == 0 {
-                ArtistsView(artists: artists)
-            } else if selectedTab == 1{
-                //do something here
+                if artists.isEmpty {
+                    Text("No artists available")
+                        .foregroundColor(.gray)
+                } else {
+                    ViewArtistsSectionTabBar(artists: artists)
+                }
+            } else if selectedTab == 1 {
+                ViewGenresSectionTabBar(album: album)
             }
         }
         .padding()
@@ -48,22 +54,3 @@ struct ViewAlbumPageMiniBar: View {
 //    ViewAlbumPage()
 //}
 
-struct ArtistsView: View {
-    var artists: [Artist]
-    
-    var body: some View {
-        NavigationStack {
-            List(artists, id: \.discogsID) { artist in
-                NavigationLink(destination: ViewHomePage()) {
-                    HStack {
-                        Circle()
-                            .fill(Color.blue.opacity(0.5))
-                            .frame(width: 50, height: 50)
-                        Text(artist.name)
-                            .foregroundColor(.gray)
-                    }
-                }
-            }
-        }
-    }
-}

@@ -42,6 +42,8 @@
 		294AA18F2C15A7CE0097F16C /* DropdownList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA18E2C15A7CD0097F16C /* DropdownList.swift */; };
 		294AA1912C163FB10097F16C /* ViewAlbumPageMiniBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA1902C163FB10097F16C /* ViewAlbumPageMiniBar.swift */; };
 		294AA1932C1658F20097F16C /* ViewReviewPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA1922C1658F20097F16C /* ViewReviewPage.swift */; };
+		294AA1952C1994EC0097F16C /* ViewArtistsSectionTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA1942C1994EC0097F16C /* ViewArtistsSectionTabBar.swift */; };
+		294AA1972C1AE5F90097F16C /* ViewGenresSectionTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA1962C1AE5F90097F16C /* ViewGenresSectionTabBar.swift */; };
 		298183E62C001FB300E5E32B /* ChordedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183E52C001FB300E5E32B /* ChordedApp.swift */; };
 		298183E82C001FB300E5E32B /* ViewHomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183E72C001FB300E5E32B /* ViewHomePage.swift */; };
 		298183EA2C001FB500E5E32B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 298183E92C001FB500E5E32B /* Assets.xcassets */; };
@@ -106,6 +108,8 @@
 		294AA18E2C15A7CD0097F16C /* DropdownList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownList.swift; sourceTree = "<group>"; };
 		294AA1902C163FB10097F16C /* ViewAlbumPageMiniBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAlbumPageMiniBar.swift; sourceTree = "<group>"; };
 		294AA1922C1658F20097F16C /* ViewReviewPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewReviewPage.swift; sourceTree = "<group>"; };
+		294AA1942C1994EC0097F16C /* ViewArtistsSectionTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewArtistsSectionTabBar.swift; sourceTree = "<group>"; };
+		294AA1962C1AE5F90097F16C /* ViewGenresSectionTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewGenresSectionTabBar.swift; sourceTree = "<group>"; };
 		298183E22C001FB300E5E32B /* Chorded.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chorded.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		298183E52C001FB300E5E32B /* ChordedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordedApp.swift; sourceTree = "<group>"; };
 		298183E72C001FB300E5E32B /* ViewHomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHomePage.swift; sourceTree = "<group>"; };
@@ -264,6 +268,8 @@
 				F661FEDF2C0D605800023E5A /* ViewLogInPage.swift */,
 				294AA18A2C12C6CB0097F16C /* ViewAlbumPage.swift */,
 				294AA1922C1658F20097F16C /* ViewReviewPage.swift */,
+				294AA1942C1994EC0097F16C /* ViewArtistsSectionTabBar.swift */,
+				294AA1962C1AE5F90097F16C /* ViewGenresSectionTabBar.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -534,6 +540,7 @@
 				2948E92E2C01BCD900EC4726 /* Album.swift in Sources */,
 				294AA1872C1035540097F16C /* QuickTesting.swift in Sources */,
 				294AA18B2C12C6CB0097F16C /* ViewAlbumPage.swift in Sources */,
+				294AA1952C1994EC0097F16C /* ViewArtistsSectionTabBar.swift in Sources */,
 				294AA1932C1658F20097F16C /* ViewReviewPage.swift in Sources */,
 				294AA1892C1056C50097F16C /* FixStrings.swift in Sources */,
 				F64E52622C0D7A25007824F8 /* ViewSignUpPage.swift in Sources */,
@@ -545,6 +552,7 @@
 				293C7C332C099541002605B1 /* Artist.swift in Sources */,
 				2948E9432C02F97200EC4726 /* ViewSearchPage.swift in Sources */,
 				2948E9302C01C03E00EC4726 /* AlbumReview.swift in Sources */,
+				294AA1972C1AE5F90097F16C /* ViewGenresSectionTabBar.swift in Sources */,
 				2948E93A2C02C62B00EC4726 /* AppBackground.swift in Sources */,
 				294AA1912C163FB10097F16C /* ViewAlbumPageMiniBar.swift in Sources */,
 				294AA1852C0F0BA40097F16C /* AlbumGrid.swift in Sources */,
