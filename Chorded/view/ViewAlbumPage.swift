@@ -36,8 +36,9 @@ struct ViewAlbumPage: View {
                                     .font(.system(size: 27, weight: .bold, design: .default))
                                     .foregroundColor(.white)
                                 HStack(spacing: 10) {
-                                    Text(album.artistNames.joined(separator: ", "))
-                                        .foregroundColor(.white)
+//                                    Text(album.artistNames.joined(separator: ", "))
+//                                        .foregroundColor(.white)
+                                    ClickableArtistsView(artists: artists)
                                     Circle()
                                         .fill(Color.gray)
                                         .frame(width: 5, height: 5)
