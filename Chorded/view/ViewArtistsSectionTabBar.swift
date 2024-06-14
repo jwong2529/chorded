@@ -17,12 +17,16 @@ struct ViewArtistsSectionTabBar: View {
             ForEach(artists) { artist in
                 NavigationLink(destination: ViewArtistPage(artist: artist)) {
                     HStack {
-                        WebImage(url: URL(string: artist.imageURL))
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 35, height: 35)
-                            .clipShape(Circle())
-                            .padding(.trailing, 10)
+                        if artist.imageURL != "", let url = URL(string: artist.imageURL) {
+                            WebImage(url: url)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 35, height: 35)
+                                .clipShape(Circle())
+                                .padding(.trailing, 10)
+                        } else {
+                            PlaceholderArtistImage(width: 35, height: 35)
+                        }
                         Text(artist.name)
                             .foregroundColor(.gray)
                         Spacer()

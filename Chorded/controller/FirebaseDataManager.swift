@@ -60,7 +60,6 @@ class FirebaseDataManager {
                 
         var updates: [String: Any] = ["/Albums/\(albumKey)": albumData]
         
-        
         let albumIndexKey = FixStrings().normalizeString(albumWithKey.title)
         
         //adds AlbumIndex node for querying for firebase key given album title and artist name
@@ -86,7 +85,6 @@ class FirebaseDataManager {
             artistRef.observeSingleEvent(of: .value) { snapshot in
                 if snapshot.exists() {
                     // Artist with the given Discogs ID already exists so append album to album list
-                    print("TURKEY: \(albumWithKey.artistNames[index])")
                     if var artistData = snapshot.value as? [String: Any] {
                         var currentAlbums = artistData["albums"] as? [String] ?? []
                         currentAlbums.append(albumKey)

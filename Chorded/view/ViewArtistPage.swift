@@ -22,13 +22,17 @@ struct ViewArtistPage: View {
                     VStack(alignment: .leading, spacing: 16) {
                         HStack {
                             Spacer()
-                            WebImage(url: URL(string: artist.imageURL))
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .shadow(color: .blue, radius: 5)
-                                .frame(width: 120, height: 120)
-                                .clipShape(Circle())
-                                .padding(.top, 16)
+                            if artist.imageURL != "", let url = URL(string: artist.imageURL) {
+                                WebImage(url: url)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .shadow(color: .blue, radius: 5)
+                                    .frame(width: 120, height: 120)
+                                    .clipShape(Circle())
+                                    .padding(.top, 16)
+                            } else {
+                                PlaceholderArtistImage(width: 120, height: 120)
+                            }
                             Spacer()
                         }
                         

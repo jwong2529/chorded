@@ -18,13 +18,17 @@ struct AlbumGrid: View {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 15) {
                 ForEach(albums.prefix(albumCount), id: \.firebaseKey) { album in
                     NavigationLink(destination: ViewAlbumPage(album: album)) {
-                        WebImage(url: URL(string: album.coverImageURL))
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 150, height: 150)
-                            .clipped()
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
+                        if album.coverImageURL != "", let url = URL(string: album.coverImageURL) {
+                            WebImage(url: url)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 150, height: 150)
+                                .clipped()
+                                .cornerRadius(10)
+                                .shadow(radius: 5)
+                        } else {
+                            PlaceholderAlbumCover(width: 150, height: 150)
+                        }
                     }
                 }
             }

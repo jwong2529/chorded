@@ -23,14 +23,19 @@ struct ViewAlbumPage: View {
                 AppBackground()
                 ScrollView {
                     VStack(spacing: 20) {
-                        WebImage(url: URL(string: album.coverImageURL))
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 200, height: 200)
-                            .clipped()
-                            .cornerRadius(10)
-                            .shadow(color: .blue, radius: 5)
-                            .padding(.top, 20)
+                        if album.coverImageURL != "", let url = URL(string: album.coverImageURL) {
+                            WebImage(url: url)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 200, height: 200)
+                                .clipped()
+                                .cornerRadius(10)
+                                .shadow(color: .blue, radius: 5)
+                                .padding(.top, 20)
+                        } else {
+                            PlaceholderAlbumCover(width: 200, height: 200)
+                                .padding(.top, 20)
+                        }
                         
                         HStack(alignment: .top) {
                             VStack(alignment: .leading, spacing: 5) {

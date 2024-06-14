@@ -101,7 +101,7 @@ class DiscogsAPIManager {
                     styles: albumDetails.styles ?? [],
                     year: albumDetails.year,
                     albumTracks: albumDetails.tracklist.map { $0.title},
-                    coverImageURL: albumDetails.images.first?.uri ?? ""
+                    coverImageURL: albumDetails.images?.first?.uri ?? ""
                 )
                 completion(.success(album))
 //                print(albumDetails)
@@ -279,7 +279,7 @@ class DiscogsAPIManager {
                     styles: albumDetails.styles ?? [],
                     year: albumDetails.year,
                     albumTracks: albumDetails.tracklist.map { $0.title},
-                    coverImageURL: albumDetails.images.first?.uri ?? ""
+                    coverImageURL: albumDetails.images?.first?.uri ?? ""
                 )
                 
 //                self.storeAlbum(album)
@@ -323,7 +323,7 @@ struct DiscogsReleaseDetails: Decodable {
     let styles: [String]?
     let year: Int
     let tracklist: [MusicTrack]
-    let images: [AlbumCover]
+    let images: [AlbumCover]?
     
     struct MusicTrack: Decodable {
         let title: String

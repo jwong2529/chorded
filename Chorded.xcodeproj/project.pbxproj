@@ -46,6 +46,8 @@
 		294AA1972C1AE5F90097F16C /* ViewGenresSectionTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA1962C1AE5F90097F16C /* ViewGenresSectionTabBar.swift */; };
 		294AA1992C1C0A920097F16C /* ViewArtistPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA1982C1C0A920097F16C /* ViewArtistPage.swift */; };
 		294AA19B2C1C17EA0097F16C /* ClickableArtistsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA19A2C1C17EA0097F16C /* ClickableArtistsView.swift */; };
+		294AA19D2C1D02AB0097F16C /* PlaceholderAlbumCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA19C2C1D02AB0097F16C /* PlaceholderAlbumCover.swift */; };
+		294AA19F2C1D03EC0097F16C /* PlaceholderArtistImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA19E2C1D03EC0097F16C /* PlaceholderArtistImage.swift */; };
 		298183E62C001FB300E5E32B /* ChordedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183E52C001FB300E5E32B /* ChordedApp.swift */; };
 		298183E82C001FB300E5E32B /* ViewHomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183E72C001FB300E5E32B /* ViewHomePage.swift */; };
 		298183EA2C001FB500E5E32B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 298183E92C001FB500E5E32B /* Assets.xcassets */; };
@@ -114,6 +116,8 @@
 		294AA1962C1AE5F90097F16C /* ViewGenresSectionTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewGenresSectionTabBar.swift; sourceTree = "<group>"; };
 		294AA1982C1C0A920097F16C /* ViewArtistPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewArtistPage.swift; sourceTree = "<group>"; };
 		294AA19A2C1C17EA0097F16C /* ClickableArtistsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickableArtistsView.swift; sourceTree = "<group>"; };
+		294AA19C2C1D02AB0097F16C /* PlaceholderAlbumCover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderAlbumCover.swift; sourceTree = "<group>"; };
+		294AA19E2C1D03EC0097F16C /* PlaceholderArtistImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderArtistImage.swift; sourceTree = "<group>"; };
 		298183E22C001FB300E5E32B /* Chorded.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chorded.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		298183E52C001FB300E5E32B /* ChordedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordedApp.swift; sourceTree = "<group>"; };
 		298183E72C001FB300E5E32B /* ViewHomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHomePage.swift; sourceTree = "<group>"; };
@@ -177,6 +181,8 @@
 				294AA18C2C1589400097F16C /* RatingRing.swift */,
 				294AA18E2C15A7CD0097F16C /* DropdownList.swift */,
 				294AA19A2C1C17EA0097F16C /* ClickableArtistsView.swift */,
+				294AA19C2C1D02AB0097F16C /* PlaceholderAlbumCover.swift */,
+				294AA19E2C1D03EC0097F16C /* PlaceholderArtistImage.swift */,
 			);
 			path = reusable;
 			sourceTree = "<group>";
@@ -537,6 +543,7 @@
 				294AA1802C0EFA490097F16C /* AlbumCarousel.swift in Sources */,
 				2948E93F2C02F47200EC4726 /* ViewRecentFriendsActivityPage.swift in Sources */,
 				294AA19B2C1C17EA0097F16C /* ClickableArtistsView.swift in Sources */,
+				294AA19F2C1D03EC0097F16C /* PlaceholderArtistImage.swift in Sources */,
 				298183E82C001FB300E5E32B /* ViewHomePage.swift in Sources */,
 				2948E9452C02F9D000EC4726 /* ViewProfilePage.swift in Sources */,
 				2948E94B2C04576F00EC4726 /* DiscogsAPIManager.swift in Sources */,
@@ -546,6 +553,7 @@
 				2948E9562C066EA700EC4726 /* DiscogsCreds.swift in Sources */,
 				2948E92E2C01BCD900EC4726 /* Album.swift in Sources */,
 				294AA1872C1035540097F16C /* QuickTesting.swift in Sources */,
+				294AA19D2C1D02AB0097F16C /* PlaceholderAlbumCover.swift in Sources */,
 				294AA18B2C12C6CB0097F16C /* ViewAlbumPage.swift in Sources */,
 				294AA1952C1994EC0097F16C /* ViewArtistsSectionTabBar.swift in Sources */,
 				294AA1932C1658F20097F16C /* ViewReviewPage.swift in Sources */,
