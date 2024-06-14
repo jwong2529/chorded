@@ -27,6 +27,8 @@ struct ViewAlbumPage: View {
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 200, height: 200)
+                            .clipped()
+                            .cornerRadius(10)
                             .shadow(color: .blue, radius: 5)
                             .padding(.top, 20)
                         
