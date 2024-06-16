@@ -26,6 +26,7 @@ class QuickTesting: ObservableObject {
         
 //        AlbumLoadingManager().loadAlbumList(fileName: "trendingAlbums", listName: "TrendingAlbums")
 //        AlbumLoadingManager().loadAlbumList(fileName: "greatestAlbumsRS", listName: "GreatestAlbumsOfAllTimeRS")
+//        AlbumLoadingManager().loadAlbumList(fileName: "topLast25Yrs", listName: "TopAlbumsLast25Yrs")
         
 //        FirebaseDataManager().fetchTrendingList { albumKeys, error in
 //            if let error = error {

@@ -1,0 +1,41 @@
+albumTitle	artistName
+Blonde	Frank Ocean
+OK Computer	Radiohead
+Parachutes	Coldplay
+Good Kid, M.A.A.d City	Kendrick Lamar
+Norman Fucking Rockwell!	Lana Del Rey
+Good Girl Gone Bad	Rihanna
+The Fame Monster	Lady Gaga
+Melodrama	Lorde
+Fetch the Bolt Cutters	Fiona Apple
+Currents	Tame Impala
+For Emma, Forever Ago	Bon Iver
+Sweetener	Ariana Grande
+Discovery	Daft Punk
+Punisher	Phoebe Bridgers
+Lemonade	Beyonce
+21	Adele
+Bloom	Beach House
+Back To Black	Amy Winehouse
+Igor	Tyler, The Creator
+Continuum	John Mayer
+Golden Hour	Kacey Musgraves
+Demon Days	Gorillaz
+1989	Taylor Swift
+Graduation	Kanye West
+Be The Cowboy	Mitski
+Anti	Rihanna
+AM	Arctic Monkeys
+Sea Change	Beck
+Take Care	Drake
+Teenage Dream	Katy Perry
+Swimming	Mac Miller
+Is This It	The Strokes
+The Blueprint	Jay-Z
+Jubilee	Japanese Breakfast
+Purpose	Justin Bieber
+The 20/20 Experience	Justin Timberlake
+Fine Line	Harry Styles
+Wasting Light	Foo Fighters
+Map Of The Soul: Persona	BTS
+Unorthodox Jukebox	Bruno Mars

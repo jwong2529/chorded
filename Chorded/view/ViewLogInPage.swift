@@ -20,7 +20,7 @@ struct ViewLogInPage: View {
     var body: some View {
         VStack {
             Color.black
-            Image("Logo").resizable().aspectRatio(contentMode: .fit).frame(minWidth: 300, minHeight: 400, alignment: .top)
+            Image("vinyl").resizable().aspectRatio(contentMode: .fit).frame(minWidth: 300, minHeight: 400, alignment: .top)
             Text("Log In").font(.largeTitle).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
             TextField("Username", text: $username).padding().frame(width: 300, height: 50).background(Color.black.opacity(0.05)).cornerRadius(10)
             SecureField("Password", text: $password).padding().frame(width: 300, height: 50).background(Color.black.opacity(0.05)).cornerRadius(10)

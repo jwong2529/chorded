@@ -22,7 +22,7 @@ struct ViewSignUpPage: View {
     var body: some View {
         VStack {
             Color.black
-            Image("Logo").resizable().aspectRatio(contentMode: .fit).frame(minWidth: 300, minHeight: 400, alignment: .top)
+            Image("vinyl").resizable().aspectRatio(contentMode: .fit).frame(minWidth: 300, minHeight: 400, alignment: .top)
             Text("Sign Up").font(.largeTitle).fontWeight(.bold)
             TextField("Name", text: $username).padding().frame(width: 300, height: 50).background(Color.black.opacity(0.05)).cornerRadius(10)
             TextField("Email", text: $username).padding().frame(width: 300, height: 50).background(Color.black.opacity(0.05)).cornerRadius(10)

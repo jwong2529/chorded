@@ -256,6 +256,32 @@ class FirebaseDataManager {
         }
     }
     
+    func fetchAlbumListAndDetails(listName: String, completion: @escaping ([Album]?, Error?) -> Void) {
+        var fetchedAlbums: [Album] = []
+        let dispatchGroup = DispatchGroup()
+        
+        fetchAlbumList(listName: listName) { albumKeys, error in
+            if let error = error {
+                completion(nil, error)
+            } else if let albumKeys = albumKeys {
+                for albumKey in albumKeys {
+                    dispatchGroup.enter()
+                    self.fetchAlbum(firebaseKey: albumKey) { album, error in
+                        if let error = error {
+                            print("Failed to fetch album: \(error.localizedDescription)")
+                        } else if let album = album {
+                            fetchedAlbums.append(album)
+                        }
+                        dispatchGroup.leave()
+                    }
+                }
+                dispatchGroup.notify(queue: .main) {
+                    completion(fetchedAlbums, nil)
+                }
+            }
+        }
+    }
+    
     // Users
     func addUser(user: User, completion: @escaping (Error?) -> Void) {
         
