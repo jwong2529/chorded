@@ -16,7 +16,7 @@ class QuickTesting: ObservableObject {
     init() {
 //        DiscogsAPIManager().testingAPI()
         
-//        FirebaseDataManager().fetchArtist(discogsKey: 6628105) { artist, error in
+//        FirebaseDataManager().fetchArtist(discogsKey: 82730) { artist, error in
 //            if let error = error {
 //                print("Failed to fetch artist: \(error.localizedDescription)")
 //            } else if let artist = artist {
@@ -24,7 +24,8 @@ class QuickTesting: ObservableObject {
 //            }
 //        }
         
-//        DiscogsAPIManager().loadTrendingAlbums()
+//        AlbumLoadingManager().loadAlbumList(fileName: "trendingAlbums", listName: "TrendingAlbums")
+//        AlbumLoadingManager().loadAlbumList(fileName: "greatestAlbumsRS", listName: "GreatestAlbumsOfAllTimeRS")
         
 //        FirebaseDataManager().fetchTrendingList { albumKeys, error in
 //            if let error = error {
@@ -67,6 +68,8 @@ class QuickTesting: ObservableObject {
         
 //        let testString = "Travis Scott (2)"
 //        print(FixStrings().deleteDistinctArtistNum(testString))
+        
+        
         
     }
     

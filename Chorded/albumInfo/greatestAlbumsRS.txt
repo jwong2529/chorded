@@ -1,0 +1,32 @@
+albumTitle	artistName
+Ready To Die	Notorious B.I.G.albumTitle	artistName
+What's Going On	Marvin Gaye
+Pet Sounds	The Beach Boys
+Blue	Joni Mitchell
+Songs In The Key Of Life	Stevie Wonder
+Abbey Road	The Beatles
+Nevermind	Nirvana
+Rumours	Fleetwood Mac
+Purple Rain	Prince and the Revolution
+Blood On The Tracks	Bob Dylan
+The Miseducation Of Lauryn Hill	Lauryn Hill
+Revolver	The Beatles
+Thriller	Michael Jackson
+I Never Loved A Man The Way I Love You	Aretha Franklin
+Exile On Main St.	The Rolling Stones
+It Takes A Nation of Millions to Hold Us Back	Public Enemy
+London Calling	The Clash
+My Beautiful Dark Twisted Fantasy	Kanye West
+Highway 61 Revisited	Bob Dylan
+To Pimp A Butterfly	Kendrick Lamar
+Kid A	Radiohead
+Born To Run	Bruce Springsteen
+Ready To Die	Notorious B.I.G.
+The Velvet Underground & Nico	The Velvet Underground; Nico
+Sgt. Pepper's Lonely Hearts Club Band	The Beatles
+Tapestry	Carole King
+Horses	Patti Smith
+Enter The Wu-Tang (36 Chambers)	Wu-Tang Clan
+Voodoo	D'Angelo
+The Beatles	The Beatles
+Are You Experienced	The Jimi Hendrix Experience

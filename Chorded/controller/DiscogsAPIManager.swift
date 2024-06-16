@@ -15,12 +15,11 @@ class DiscogsAPIManager {
     private let apiSecret = DiscogsCreds.shared.discogsAPISecret
     private let apiCredsString = "key=\(DiscogsCreds.shared.discogsAPIKey)&secret=\(DiscogsCreds.shared.discogsAPISecret)"
     
-    
     // ALBUMS
     
     func searchAlbum(albumName: String, artistName: String, completion: @escaping (Result<Album, Error>) -> Void) {
 
-        let query = "release_title=\(albumName)&q=\(artistName)"
+        let query = "q=\"\(albumName)\"&artist=\(artistName)&type=master&format=album"
         guard let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
             completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Error encoding URL components"])))
             return
@@ -43,10 +42,37 @@ class DiscogsAPIManager {
             do {
                 let searchResponse = try JSONDecoder().decode(DiscogsSearchResponse.self, from: data)
                 if let discogsAlbum = searchResponse.results.first {
-                    
                     self.fetchAlbumDetails(discogsAlbum: discogsAlbum, completion: completion)
                 } else {
-                    completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No album found"])))
+                    // If no album found, try another query
+                    let alternateQuery = "release_title=\(albumName)&q=\(artistName)"
+                    guard let encodedAlternateQuery = alternateQuery.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+                        completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Error encoding URL components"])))
+                        return
+                    }
+                    
+                    let alternateSearchURL = URL(string: "\(self.baseURL)database/search?\(encodedAlternateQuery)&per_page=1&page=1&\(self.apiCredsString)")!
+                    
+                    URLSession.shared.dataTask(with: alternateSearchURL) { data, response, error in
+                        if let error = error {
+                            completion(.failure(error))
+                            return
+                        }
+                        guard let data = data else {
+                            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No data received"])))
+                            return
+                        }
+                        do {
+                            let alternateSearchResponse = try JSONDecoder().decode(DiscogsSearchResponse.self, from: data)
+                            if let alternateDiscogsAlbum = alternateSearchResponse.results.first {
+                                self.fetchAlbumDetails(discogsAlbum: alternateDiscogsAlbum, completion: completion)
+                            } else {
+                                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No album found"])))
+                            }
+                        } catch {
+                            completion(.failure(error))
+                        }
+                    }.resume()
                 }
             } catch {
                 completion(.failure(error))
@@ -54,6 +80,7 @@ class DiscogsAPIManager {
         }
         task.resume()
     }
+
     
     func fetchAlbumDetails(discogsAlbum: DiscogsAlbum, completion: @escaping (Result<Album, Error>) -> Void) {
         
@@ -113,79 +140,6 @@ class DiscogsAPIManager {
         task.resume()
     }
     
-    //return the trending albums as an array?
-    func loadTrendingAlbums() {
-        guard let filePath = Bundle.main.path(forResource: "trendingAlbums", ofType: "txt", inDirectory: "albumInfo") else {
-            print("Error: Trending albums file not found.")
-            return
-        }
-        do {
-            let fileContent = try String(contentsOfFile: filePath, encoding: .utf8)
-            let lines = fileContent.components(separatedBy: .newlines)
-            var trendingAlbums = [TrendingAlbum]()
-            
-            //skips first line (category labels))
-            for (index, line) in lines.dropFirst().enumerated() {
-                let components = line.split(separator: "\t")
-                if components.count == 2 {
-                    let title = String(components[0])
-                    let artistString = String(components[1])
-                    let artistList = String(components[1]).split(separator: ",").map {String($0)}
-                    trendingAlbums.append(TrendingAlbum(title: title, artistList: artistList, artistString: artistString, index: index))
-                }
-            }
-            //process these albums with discogs and firebase
-            var trendingAlbumKeys = [String]()
-            var albumKeysWithIndex = [Int: String]()
-            let dispatchGroup = DispatchGroup()
-            
-            //for all trending albums, it checks if the album exists in firebase already
-            //if so, the album is added to the trending list only
-            //if not, the album information is retrieved through discogs api, stored in Firebase, and added to trending list
-            for (index, trendingAlbum) in trendingAlbums.enumerated() {
-                dispatchGroup.enter()
-                
-                FirebaseDataManager().doesAlbumExist(title: trendingAlbum.title, artists: trendingAlbum.artistList) { exists, firebaseAlbumKey, coverImageURL in
-                    if exists, let firebaseAlbumKey = firebaseAlbumKey {
-                        print("\(trendingAlbum.title) exists in Firebase so just appending to trending list")
-//                        trendingAlbumKeys.append(firebaseAlbumKey)
-                        albumKeysWithIndex[index] = firebaseAlbumKey
-                        dispatchGroup.leave()
-                    } else {
-                        print("\(trendingAlbum.title) does not exist in firebase so storing and adding to trending list")
-                        self.searchAlbum(albumName: trendingAlbum.title, artistName: trendingAlbum.artistString) { result in
-                            switch result {
-                            case .success(let album):
-                                FirebaseDataManager().addAlbum(album: album) { firebaseAlbum, error in
-                                    if let error = error {
-                                        print("Error storing trending album: \(error.localizedDescription)")
-                                    } else if let firebaseAlbum = firebaseAlbum {
-                                        print("Successfully stored \(firebaseAlbum.title) with key: \(firebaseAlbum.firebaseKey)")
-//                                        trendingAlbumKeys.append(firebaseAlbum.firebaseKey)
-                                        albumKeysWithIndex[index] = firebaseAlbum.firebaseKey
-                                    }
-                                    dispatchGroup.leave()
-                                }
-                            case .failure(let error):
-                                print("Error fetching album: \(error.localizedDescription)")
-                                dispatchGroup.leave()
-                            }
-                        }
-                    }
-                }
-            }
-            
-            dispatchGroup.notify(queue: .main) {
-                trendingAlbumKeys = albumKeysWithIndex.sorted(by: {$0.key < $1.key}).map {$0.value}
-                print("All albums processed. \(trendingAlbumKeys.count) Trending album keys: \(trendingAlbumKeys)")
-                FirebaseDataManager().addTrendingList(trendingAlbumKeys)
-            }
-            
-        } catch {
-            print("Error reading file for trending albums.")
-        }
-    }
-    
     // ARTISTS
     
     func fetchArtistDetails(artistID: Int, completion: @escaping (Result<Artist, Error>) -> Void) {
@@ -232,77 +186,6 @@ class DiscogsAPIManager {
         return input.unicodeScalars.filter { allowedCharacters.contains($0) }.map { String($0) }.joined()
     }
     
-    func testingAPI() {
-//        let urlString = "https://api.discogs.com/database/search?release_title=fleetwood mac&q=fleetwood mac&per_page=1&page=1&\(apiCredsString)"
-        let urlString = "https://api.discogs.com/masters/2890219?\(apiCredsString)"
-        
-        guard let url = URL(string: urlString) else {
-            print("Invalid URL")
-            exit(1)
-        }
-
-        var request = URLRequest(url: url)
-        request.setValue("Chorded/1.0", forHTTPHeaderField: "User-Agent")
-
-        // Create a data task to fetch the data
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            // Check for errors
-            if let error = error {
-                print("Error: \(error)")
-                return
-            }
-            
-            // Check for response status code
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                print("Invalid response")
-                return
-            }
-            
-            // Check if data is available
-            guard let data = data else {
-                print("No data received")
-                return
-            }
-            
-            // Decode the JSON data
-            do {
-                let decoder = JSONDecoder()
-                // Define the SearchResult struct as shown earlier
-                let albumDetails = try decoder.decode(DiscogsReleaseDetails.self, from: data)
-                
-                let album = Album(
-                    title: albumDetails.title,
-                    artistID: albumDetails.artists.map {$0.id},
-                    artistNames: albumDetails.artists.map {$0.name},
-                    genres: albumDetails.genres ?? [],
-                    styles: albumDetails.styles ?? [],
-                    year: albumDetails.year,
-                    albumTracks: albumDetails.tracklist.map { $0.title},
-                    coverImageURL: albumDetails.images?.first?.uri ?? ""
-                )
-                
-//                self.storeAlbum(album)
-//                completion(.success(album))
-                
-                // Print the entire JSON data
-//                print(albumDetails)
-            } catch {
-                print("Error decoding JSON: \(error)")
-            }
-        }
-
-        // Start the task
-        task.resume()
-    }
-    
-}
-
-struct TrendingAlbum {
-    let title: String
-    let artistList: [String]
-    let artistString: String
-    let index: Int
 }
 
 struct DiscogsSearchResponse: Decodable {

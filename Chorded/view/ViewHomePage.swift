@@ -80,7 +80,7 @@ struct ViewHomePage: View {
         var fetchedAlbums: [Album] = []
         let dispatchGroup = DispatchGroup()
         
-        FirebaseDataManager().fetchTrendingList { albumKeys, error in
+        FirebaseDataManager().fetchAlbumList(listName: "TrendingAlbums") { albumKeys, error in
             if let error = error {
                 print("Failed to fetch trending album keys: \(error.localizedDescription)")
             } else if let albumKeys = albumKeys {

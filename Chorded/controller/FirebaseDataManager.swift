@@ -80,7 +80,6 @@ class FirebaseDataManager {
         
         for index in albumWithKey.artistID.indices {
             dispatchGroup.enter()
-            
             let artistRef = databaseRef.child("Artists").child(String(albumWithKey.artistID[index]))
             artistRef.observeSingleEvent(of: .value) { snapshot in
                 if snapshot.exists() {
@@ -92,7 +91,6 @@ class FirebaseDataManager {
                         updates["/Artists/\(albumWithKey.artistID[index])/albums"] = currentAlbums
                     }
                     dispatchGroup.leave()
-
                     
                 } else {
                     DiscogsAPIManager().fetchArtistDetails(artistID: albumWithKey.artistID[index]) { result in
@@ -111,7 +109,7 @@ class FirebaseDataManager {
                             updates["Artists/\(albumWithKey.artistID[index])"] = artistData
                             
                         case .failure(let error):
-                            print("Failed to fetch Discogs artist: \(error.localizedDescription)")
+                            print("Failed to fetch Discogs artist named \(albumWithKey.artistNames[index]) with ID as \(albumWithKey.artistID[index]): \(error.localizedDescription)")
                         }
                         dispatchGroup.leave()
 
@@ -134,7 +132,6 @@ class FirebaseDataManager {
             }
         }
     }
-    
     
     func fetchAlbum(firebaseKey: String, completion: @escaping (Album?, Error?) -> Void) {
         let albumRef = databaseRef.child("Albums").child(firebaseKey)
@@ -226,6 +223,36 @@ class FirebaseDataManager {
                 return
             }
             completion(trendingAlbumsData, nil)
+        }
+    }
+    
+    func addAlbumList(_ albumKeys: [String], listName: String) {
+        
+        //preserves the order the albums are listed in the original txt file
+        var indexedAlbums: [String: Any] = [:]
+        for (index, key) in albumKeys.enumerated() {
+            indexedAlbums["\(index)"] = key
+        }
+        
+        let listRef = databaseRef.child("CustomAlbumLists").child(listName)
+        listRef.setValue(indexedAlbums) { error, _ in
+            if let error = error {
+                print("Error adding \(listName) list: \(error.localizedDescription)")
+            } else {
+                print("Successfully added \(listName) list")
+            }
+        }
+    }
+    
+    func fetchAlbumList(listName: String, completion: @escaping ([String]?, Error?) -> Void) {
+        let listRef = databaseRef.child("CustomAlbumLists").child(listName)
+        
+        listRef.observeSingleEvent(of: .value) { snapshot in
+            guard snapshot.exists(), let albumsData = snapshot.value as? [String] else {
+                completion(nil, NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "\(listName) list not found in Firebase"]))
+                return
+            }
+            completion(albumsData, nil)
         }
     }
     
