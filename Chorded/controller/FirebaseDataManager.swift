@@ -69,6 +69,7 @@ class FirebaseDataManager {
             artistNamesDict[normalizedArtistName] = albumKey
         }
         let albumDetails: [String: Any] = [
+            "AlbumTitle": albumWithKey.title,
             "ArtistNames": artistNamesDict,
             "Images": ["coverImageURL": albumWithKey.coverImageURL]
         ]
@@ -107,6 +108,14 @@ class FirebaseDataManager {
                             ]
                             
                             updates["Artists/\(albumWithKey.artistID[index])"] = artistData
+                            
+                            let cleanArtistName = FixStrings().normalizeString(albumWithKey.artistNames[index])
+                            self.addArtistIndex(cleanedArtistName: cleanArtistName,artist: artist) { error in
+                                if let error = error {
+                                    print("Error adding artist index: \(error.localizedDescription)")
+                                }
+//                                dispatchGroup.leave()
+                            }
                             
                         case .failure(let error):
                             print("Failed to fetch Discogs artist named \(albumWithKey.artistNames[index]) with ID as \(albumWithKey.artistID[index]): \(error.localizedDescription)")
@@ -173,6 +182,19 @@ class FirebaseDataManager {
                 }
             }
         }
+    }
+    
+    func addArtistIndex(cleanedArtistName: String, artist: Artist, completion: @escaping (Error?) -> Void) {
+        let artistIndexRef = databaseRef.child("ArtistIndex")
+        let artistData: [String: Any] = [
+            "name": artist.name,
+            "discogsID": artist.discogsID,
+            "profilePicture": artist.imageURL
+        ]
+        artistIndexRef.child(cleanedArtistName).setValue(artistData) { error, _ in
+            completion(error)
+        }
+        
     }
     
     func fetchArtist(discogsKey: Int, completion: @escaping (Artist?, Error?) -> Void) {
@@ -348,8 +370,17 @@ extension Artist {
     }
 }
 
-extension User {
-    
+struct AlbumIndex: Identifiable {
+    var id: String
+    var title: String
+    var artistNames: [String]
+    var coverImageURL: String
+}
+
+struct ArtistIndex: Identifiable {
+    var id: Int
+    var name: String
+    var profilePicture: String
 }
 
 

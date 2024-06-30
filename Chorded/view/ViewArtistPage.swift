@@ -10,7 +10,8 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct ViewArtistPage: View {
-    var artist: Artist
+    let artistID: Int
+    @State private var artist = Artist(name: "", profileDescription: "", discogsID: 0, imageURL: "")
     @State private var profileDescriptionIsExpanded = false
     @State private var albums: [Album] = []
     
@@ -69,11 +70,26 @@ struct ViewArtistPage: View {
             }
             
             .onAppear {
-                fetchAlbums(albumIDs: artist.albums)
+                fetchData()
+            }
+        }
+        .navigationTitle(artist.name)
+    }
+    
+    private func fetchData() {
+        fetchArtist(discogsID: artistID)
+    }
+    
+    func fetchArtist(discogsID: Int) {
+        FirebaseDataManager().fetchArtist(discogsKey: discogsID) { fetchedArtist, error in
+            if let error = error {
+                print("Error fetching artist:", error)
+            } else if let fetchedArtist = fetchedArtist {
+                self.artist = fetchedArtist
+                fetchAlbums(albumIDs: fetchedArtist.albums)
             }
         }
     }
-    
     func fetchAlbums(albumIDs: [String]) {
         var fetchedAlbums: [Album] = []
         let dispatchGroup = DispatchGroup()

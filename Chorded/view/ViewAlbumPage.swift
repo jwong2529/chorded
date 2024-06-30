@@ -11,10 +11,12 @@ import SDWebImageSwiftUI
 
 struct ViewAlbumPage: View {
 //    @State private var album: Album
+    let albumKey: String
+
     @State private var showTracklist = false
     @State private var ratingProgress: CGFloat = 0.0
     @State var selection1: String? = "Tracklist"
-    let album: Album
+    @State private var album = Album(title: "", artistID: [0], artistNames: [""], genres: [""], styles: [""], year: 0, albumTracks: [""], coverImageURL: "")
     @State private var artists = [Artist]()
 
     var body: some View {
@@ -150,8 +152,14 @@ struct ViewAlbumPage: View {
             }
         }
         .onAppear {
-            fetchArtists(discogsKeys: album.artistID)
+            fetchData()
         }
+        .navigationTitle(album.title)
+    }
+    
+    
+    private func fetchData() {
+        fetchAlbum(firebaseKey: albumKey)
     }
     
     func fetchArtists(discogsKeys: [Int]) {
@@ -177,6 +185,17 @@ struct ViewAlbumPage: View {
                 print("Couldn't fetch artists to display on album page")
             } else {
                 self.artists = fetchedArtists
+            }
+        }
+    }
+    
+    func fetchAlbum(firebaseKey: String) {
+        FirebaseDataManager().fetchAlbum(firebaseKey: firebaseKey) { fetchedAlbum, error in
+            if let error = error {
+                print("Error fetching album:", error)
+            } else if let fetchedAlbum = fetchedAlbum {
+                self.album = fetchedAlbum
+                fetchArtists(discogsKeys: fetchedAlbum.artistID)
             }
         }
     }

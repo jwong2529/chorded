@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		291FFE9E2C3131B10066AC79 /* ViewSearchTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291FFE9D2C3131B10066AC79 /* ViewSearchTabBar.swift */; };
 		293C7C2C2C06EB55002605B1 /* SampleDiscogsAPI.plist in Resources */ = {isa = PBXBuildFile; fileRef = 293C7C2B2C06EB55002605B1 /* SampleDiscogsAPI.plist */; };
 		293C7C332C099541002605B1 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293C7C322C099541002605B1 /* Artist.swift */; };
 		293C7C392C09AB1C002605B1 /* albumInfo in Resources */ = {isa = PBXBuildFile; fileRef = 293C7C382C09AB1C002605B1 /* albumInfo */; };
@@ -89,6 +90,7 @@
 		0B553D74BAD27DCC6A7DA694 /* Pods-Chorded.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chorded.release.xcconfig"; path = "Target Support Files/Pods-Chorded/Pods-Chorded.release.xcconfig"; sourceTree = "<group>"; };
 		11D63AF6ABE56E536588E751 /* Pods_ChordedTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChordedTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		211D3B090AF7E20287B967B0 /* Pods_Chorded_ChordedUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Chorded_ChordedUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		291FFE9D2C3131B10066AC79 /* ViewSearchTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSearchTabBar.swift; sourceTree = "<group>"; };
 		293C7C2B2C06EB55002605B1 /* SampleDiscogsAPI.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SampleDiscogsAPI.plist; sourceTree = "<group>"; };
 		293C7C322C099541002605B1 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		293C7C382C09AB1C002605B1 /* albumInfo */ = {isa = PBXFileReference; lastKnownFileType = folder; path = albumInfo; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 				294AA1962C1AE5F90097F16C /* ViewGenresSectionTabBar.swift */,
 				294AA1982C1C0A920097F16C /* ViewArtistPage.swift */,
 				294AA1AA2C1FAAFC0097F16C /* ViewCustomListPage.swift */,
+				291FFE9D2C3131B10066AC79 /* ViewSearchTabBar.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -557,6 +560,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				291FFE9E2C3131B10066AC79 /* ViewSearchTabBar.swift in Sources */,
 				294AA1A32C1E7A670097F16C /* RateLimiter.swift in Sources */,
 				294AA1A52C1F7E760097F16C /* AlbumListCard.swift in Sources */,
 				2948E9412C02F8EF00EC4726 /* BottomTabView.swift in Sources */,

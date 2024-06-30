@@ -17,7 +17,7 @@ struct AlbumGrid: View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 15) {
                 ForEach(albums.prefix(albumCount), id: \.firebaseKey) { album in
-                    NavigationLink(destination: ViewAlbumPage(album: album)) {
+                    NavigationLink(destination: ViewAlbumPage(albumKey: album.firebaseKey)) {
                         if album.coverImageURL != "", let url = URL(string: album.coverImageURL) {
                             WebImage(url: url)
                                 .resizable()

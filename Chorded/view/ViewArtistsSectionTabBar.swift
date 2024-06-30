@@ -15,7 +15,7 @@ struct ViewArtistsSectionTabBar: View {
     var body: some View {
         VStack(alignment: .leading) {
             ForEach(artists) { artist in
-                NavigationLink(destination: ViewArtistPage(artist: artist)) {
+                NavigationLink(destination: ViewArtistPage(artistID: artist.id)) {
                     HStack {
                         if artist.imageURL != "", let url = URL(string: artist.imageURL) {
                             WebImage(url: url)

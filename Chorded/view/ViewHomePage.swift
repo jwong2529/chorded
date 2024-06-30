@@ -20,9 +20,9 @@ struct ViewHomePage: View {
 //        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
 //        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont(name: "Georgia-Bold", size: 26)!]
         
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .systemGray4
+//        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .systemGray4
 //        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = .black
-        UISearchBar.appearance().barTintColor = UIColor.white
+//        UISearchBar.appearance().barTintColor = UIColor.white
     }
 
     var body: some View {
@@ -97,7 +97,7 @@ struct ViewHomePage: View {
                     }
                 }
             }
-            .searchable(text: $searchText)
+//            .searchable(text: $searchText)
             .onAppear {
                 fetchAlbums()
             }

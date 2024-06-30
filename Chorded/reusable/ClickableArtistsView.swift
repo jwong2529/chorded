@@ -14,7 +14,7 @@ struct ClickableArtistsView: View {
     var body: some View {
         HStack(spacing: 5) {
             ForEach(Array(artists.enumerated()), id: \.element.id) { index, artist in
-                NavigationLink(destination: ViewArtistPage(artist: artist)) {
+                NavigationLink(destination: ViewArtistPage(artistID: artist.id)) {
                     Text(artist.name)
                         .foregroundColor(.blue)
                         .underline()
