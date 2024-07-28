@@ -20,11 +20,29 @@ struct ChordedApp: App {
     
     //register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject private var session = SessionStore()
     
     var body: some Scene {
         WindowGroup {
 //            ViewHomePage()
-            BottomTabView()
+//            BottomTabView()
+            ContentView().environmentObject(session)
+        }
+    }
+}
+
+struct ContentView: View {
+    @EnvironmentObject var session: SessionStore
+    
+    var body: some View {
+        Group {
+            if session.isLoggedIn {
+                BottomTabView()
+            } else {
+                NavigationView {
+                    ViewLogInPage()
+                }
+            }
         }
     }
 }

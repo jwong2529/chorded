@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 struct ViewProfilePage: View {
+    @EnvironmentObject var session: SessionStore
+    
     init() {
 //        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -17,47 +19,91 @@ struct ViewProfilePage: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                NavigationView{
+                AppBackground()
                     
                     ScrollView{
                         
                         VStack{
-                            Image("profilePic").resizable().aspectRatio(contentMode: .fit).frame(width: 120, height: 120).cornerRadius(100).padding(22).padding(.top,-20)
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                        VStack{
-                            Text("Spongebob").font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/).fontWeight(.bold).offset(x:120, y:-20)
-                            Text("300").font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/).offset(x:-10, y:5)
-                            Text("Following").font(.system(size:15)).fontWeight(.light).offset(x:-10, y:5)
-                            Text("100").font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/).offset(x:130, y:-47)
-                            Text("Followers").font(.system(size:15)).fontWeight(.light).offset(x:130, y:-45)
-                            Text("5").font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/).offset(x:260, y:-98)
-                            Text("Reviews").font(.system(size:15)).fontWeight(.light).offset(x:260, y:-95)
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    session.signOut()
+                                }) {
+                                    Text("Logout")
+                                        .padding(.top, -5)
+                                        .padding(5)
+                                        .foregroundColor(.white)
+                                        .background(Color.red)
+                                        .cornerRadius(8)
+                                }
+                                .padding()
+                            }
+                            Spacer()
+                            
+                            VStack(spacing: 16) {
+                                Image("profilePic")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 120, height: 120)
+                                    .clipShape(Circle())
+                                    .shadow(color: .blue, radius: 5)
+                                    .padding(.top, -10)
+                                
+                                if let user = session.currentUser {
+                                    Text(user.username)
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.white)
+                                        .padding(.top, -10)
+                                    
+                                    HStack(spacing: 40) {
+                                        VStack {
+                                            Text("\(session.userConnections?.following.count ?? 0)")
+                                                .font(.title)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.white)
+                                            Text("Following")
+                                                .font(.system(size: 15))
+                                                .fontWeight(.light)
+                                                .foregroundColor(.white)
+                                        }
+                                        VStack {
+                                            Text("\(session.userConnections?.followers.count ?? 0)")
+                                                .font(.title)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.white)
+                                            Text("Followers")
+                                                .font(.system(size: 15))
+                                                .fontWeight(.light)
+                                                .foregroundColor(.white)
+                                        }
+                                        VStack {
+                                            Text("\(session.userReviews?.albumReviews.count ?? 0)")
+                                                .font(.title)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.white)
+                                            Text("Reviews")
+                                                .font(.system(size: 15))
+                                                .fontWeight(.light)
+                                                .foregroundColor(.white)
+                                        }
+                                    }
+                                    .padding(.top, 10)
+                                }
+                                
+                                
+                            }
+                            Spacer()
+                            
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                         
-                        VStack{
-                            
                         
-                            HStack {
-                                Text("Recent Activity")
-                                    .font(.system(size: 20, weight: .medium, design: .default))
-                                    .foregroundColor(.black)
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.blue)
-                            }
-                            .contentShape(Rectangle())
-                            .padding()
-                        }
-                        .buttonStyle(HighlightButtonStyle())
-                        
-//                        AlbumCarousel(albumImages: Array(repeating: "sampleAlbumCover", count: 10), count: 10)
                         
                         Spacer()
                         
                     }
-                }
+            
             }
             .navigationTitle("Profile")
         }

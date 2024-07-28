@@ -62,6 +62,8 @@
 		298183F72C001FB500E5E32B /* ChordedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183F62C001FB500E5E32B /* ChordedTests.swift */; };
 		298184012C001FB500E5E32B /* ChordedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298184002C001FB500E5E32B /* ChordedUITests.swift */; };
 		298184032C001FB500E5E32B /* ChordedUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298184022C001FB500E5E32B /* ChordedUITestsLaunchTests.swift */; };
+		29FBF4312C51B26E0068E64F /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FBF4302C51B26D0068E64F /* SessionStore.swift */; };
+		29FBF4332C51B6660068E64F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 29FBF4322C51B6660068E64F /* FirebaseAuth */; };
 		3E105439958E28936D4D94C2 /* Pods_ChordedTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11D63AF6ABE56E536588E751 /* Pods_ChordedTests.framework */; };
 		C2787A3388ECFDE7ADB27ED2 /* Pods_Chorded_ChordedUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 211D3B090AF7E20287B967B0 /* Pods_Chorded_ChordedUITests.framework */; };
 		C5A52620B8FB49FFC74DA67F /* Pods_Chorded.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADF4B5342A68A95F58631EC0 /* Pods_Chorded.framework */; };
@@ -142,6 +144,7 @@
 		298183FC2C001FB500E5E32B /* ChordedUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChordedUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		298184002C001FB500E5E32B /* ChordedUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordedUITests.swift; sourceTree = "<group>"; };
 		298184022C001FB500E5E32B /* ChordedUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordedUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		29FBF4302C51B26D0068E64F /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		7558F0C2A67661BEAD05E247 /* Pods-Chorded-ChordedUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chorded-ChordedUITests.release.xcconfig"; path = "Target Support Files/Pods-Chorded-ChordedUITests/Pods-Chorded-ChordedUITests.release.xcconfig"; sourceTree = "<group>"; };
 		76DE7D85FF1112E8D1CA4182 /* Pods-ChordedTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChordedTests.debug.xcconfig"; path = "Target Support Files/Pods-ChordedTests/Pods-ChordedTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ADF4B5342A68A95F58631EC0 /* Pods_Chorded.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Chorded.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,6 +161,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				294AA1832C0F00CE0097F16C /* SDWebImageSwiftUI in Frameworks */,
+				29FBF4332C51B6660068E64F /* FirebaseAuth in Frameworks */,
 				294AA17C2C0EE53D0097F16C /* SDWebImage in Frameworks */,
 				294AA1772C0D2D450097F16C /* FirebaseDatabase in Frameworks */,
 				294AA1752C0C67170097F16C /* FirebaseAnalytics in Frameworks */,
@@ -314,6 +318,7 @@
 				294AA1862C1035540097F16C /* QuickTesting.swift */,
 				294AA1A02C1E61320097F16C /* AlbumLoadingManager.swift */,
 				294AA1A22C1E7A670097F16C /* RateLimiter.swift */,
+				29FBF4302C51B26D0068E64F /* SessionStore.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -363,6 +368,7 @@
 				294AA1762C0D2D450097F16C /* FirebaseDatabase */,
 				294AA17B2C0EE53D0097F16C /* SDWebImage */,
 				294AA1822C0F00CE0097F16C /* SDWebImageSwiftUI */,
+				29FBF4322C51B6660068E64F /* FirebaseAuth */,
 			);
 			productName = MusicReviewApp;
 			productReference = 298183E22C001FB300E5E32B /* Chorded.app */;
@@ -563,6 +569,7 @@
 				291FFE9E2C3131B10066AC79 /* ViewSearchTabBar.swift in Sources */,
 				294AA1A32C1E7A670097F16C /* RateLimiter.swift in Sources */,
 				294AA1A52C1F7E760097F16C /* AlbumListCard.swift in Sources */,
+				29FBF4312C51B26E0068E64F /* SessionStore.swift in Sources */,
 				2948E9412C02F8EF00EC4726 /* BottomTabView.swift in Sources */,
 				294AA1802C0EFA490097F16C /* AlbumCarousel.swift in Sources */,
 				2948E93F2C02F47200EC4726 /* ViewRecentFriendsActivityPage.swift in Sources */,
@@ -985,6 +992,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 294AA1812C0F00CE0097F16C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
+		};
+		29FBF4322C51B6660068E64F /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
