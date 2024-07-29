@@ -23,30 +23,32 @@ struct ViewSignUpPage: View {
     @State private var error: String?
     
     var body: some View {
-        VStack {
-            Color.black
-            Image("vinyl").resizable().aspectRatio(contentMode: .fit).frame(minWidth: 300, minHeight: 400, alignment: .top)
-            Text("Sign Up").font(.largeTitle).fontWeight(.bold)
-            TextField("Username", text: $username).padding().frame(width: 300, height: 50).background(Color.black.opacity(0.05)).cornerRadius(10).autocapitalization(.none)
-            TextField("Email", text: $email).padding().frame(width: 300, height: 50).background(Color.black.opacity(0.05)).cornerRadius(10).autocapitalization(.none)
-            SecureField("Password", text: $password).padding().frame(width: 300, height: 50).background(Color.black.opacity(0.05)).cornerRadius(10).autocapitalization(.none)
-            
-            if let error = error {
-                Text(error).foregroundColor(.red)
-            }
-            
-//            Button("Sign Up") {
-//                // Authenification
-//            }.foregroundColor(.black).frame(width:300, height:50).background(Color.white).cornerRadius(50)
-            
-            Button(action: signUp) {
-                Text("Sign Up")
-                    .foregroundColor(.black)
-                    .frame(width: 300, height: 50)
-                    .background(Color.white)
-                    .cornerRadius(50)
-            }
+        ZStack {
+            AppBackground()
+            VStack {
+                Image("vinyl").resizable().aspectRatio(contentMode: .fit).frame(minWidth: 300, minHeight: 400, alignment: .top)
+                Text("Sign Up").font(.largeTitle).fontWeight(.bold)
+                TextField("Username", text: $username).padding().frame(width: 300, height: 50).background(Color.black.opacity(0.05)).cornerRadius(10).autocapitalization(.none)
+                TextField("Email", text: $email).padding().frame(width: 300, height: 50).background(Color.black.opacity(0.05)).cornerRadius(10).autocapitalization(.none)
+                SecureField("Password", text: $password).padding().frame(width: 300, height: 50).background(Color.black.opacity(0.05)).cornerRadius(10).autocapitalization(.none)
+                
+                if let error = error {
+                    Text(error).foregroundColor(.red)
+                }
+                
+    //            Button("Sign Up") {
+    //                // Authenification
+    //            }.foregroundColor(.black).frame(width:300, height:50).background(Color.white).cornerRadius(50)
+                
+                Button(action: signUp) {
+                    Text("Sign Up")
+                        .foregroundColor(.black)
+                        .frame(width: 300, height: 50)
+                        .background(Color.white)
+                        .cornerRadius(50)
+                }
 
+            }
         }
     }
     

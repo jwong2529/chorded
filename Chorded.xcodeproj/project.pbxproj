@@ -62,6 +62,8 @@
 		298183F72C001FB500E5E32B /* ChordedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183F62C001FB500E5E32B /* ChordedTests.swift */; };
 		298184012C001FB500E5E32B /* ChordedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298184002C001FB500E5E32B /* ChordedUITests.swift */; };
 		298184032C001FB500E5E32B /* ChordedUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298184022C001FB500E5E32B /* ChordedUITestsLaunchTests.swift */; };
+		29CA161D2C56D854006C5805 /* FirebaseUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CA161C2C56D854006C5805 /* FirebaseUserData.swift */; };
+		29CA161F2C571BDF006C5805 /* PostReviewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CA161E2C571BDF006C5805 /* PostReviewModal.swift */; };
 		29FBF4312C51B26E0068E64F /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FBF4302C51B26D0068E64F /* SessionStore.swift */; };
 		29FBF4332C51B6660068E64F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 29FBF4322C51B6660068E64F /* FirebaseAuth */; };
 		3E105439958E28936D4D94C2 /* Pods_ChordedTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11D63AF6ABE56E536588E751 /* Pods_ChordedTests.framework */; };
@@ -144,6 +146,8 @@
 		298183FC2C001FB500E5E32B /* ChordedUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChordedUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		298184002C001FB500E5E32B /* ChordedUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordedUITests.swift; sourceTree = "<group>"; };
 		298184022C001FB500E5E32B /* ChordedUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordedUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		29CA161C2C56D854006C5805 /* FirebaseUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserData.swift; sourceTree = "<group>"; };
+		29CA161E2C571BDF006C5805 /* PostReviewModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReviewModal.swift; sourceTree = "<group>"; };
 		29FBF4302C51B26D0068E64F /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		7558F0C2A67661BEAD05E247 /* Pods-Chorded-ChordedUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chorded-ChordedUITests.release.xcconfig"; path = "Target Support Files/Pods-Chorded-ChordedUITests/Pods-Chorded-ChordedUITests.release.xcconfig"; sourceTree = "<group>"; };
 		76DE7D85FF1112E8D1CA4182 /* Pods-ChordedTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChordedTests.debug.xcconfig"; path = "Target Support Files/Pods-ChordedTests/Pods-ChordedTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -204,6 +208,7 @@
 				294AA1A42C1F7E760097F16C /* AlbumListCard.swift */,
 				294AA1A62C1F9B710097F16C /* SpinningVinyl.swift */,
 				294AA1A82C1F9D0F0097F16C /* FannedAlbums.swift */,
+				29CA161E2C571BDF006C5805 /* PostReviewModal.swift */,
 			);
 			path = reusable;
 			sourceTree = "<group>";
@@ -319,6 +324,7 @@
 				294AA1A02C1E61320097F16C /* AlbumLoadingManager.swift */,
 				294AA1A22C1E7A670097F16C /* RateLimiter.swift */,
 				29FBF4302C51B26D0068E64F /* SessionStore.swift */,
+				29CA161C2C56D854006C5805 /* FirebaseUserData.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -601,8 +607,10 @@
 				294AA1A92C1F9D0F0097F16C /* FannedAlbums.swift in Sources */,
 				293C7C332C099541002605B1 /* Artist.swift in Sources */,
 				2948E9432C02F97200EC4726 /* ViewSearchPage.swift in Sources */,
+				29CA161D2C56D854006C5805 /* FirebaseUserData.swift in Sources */,
 				2948E9302C01C03E00EC4726 /* AlbumReview.swift in Sources */,
 				294AA1972C1AE5F90097F16C /* ViewGenresSectionTabBar.swift in Sources */,
+				29CA161F2C571BDF006C5805 /* PostReviewModal.swift in Sources */,
 				2948E93A2C02C62B00EC4726 /* AppBackground.swift in Sources */,
 				294AA1912C163FB10097F16C /* ViewAlbumPageMiniBar.swift in Sources */,
 				294AA1852C0F0BA40097F16C /* AlbumGrid.swift in Sources */,

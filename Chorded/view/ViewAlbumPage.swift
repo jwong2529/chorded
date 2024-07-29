@@ -18,6 +18,8 @@ struct ViewAlbumPage: View {
     @State var selection1: String? = "Tracklist"
     @State private var album = Album(title: "", artistID: [0], artistNames: [""], genres: [""], styles: [""], year: 0, albumTracks: [""], coverImageURL: "")
     @State private var artists = [Artist]()
+    
+    @State private var showReviewModal = false
 
     var body: some View {
         NavigationStack {
@@ -71,11 +73,28 @@ struct ViewAlbumPage: View {
                         )
                         .padding(.horizontal)
                         
+                        HStack {
+                            Text("Rate, review, add to listen list")
+                            Spacer()
+                            Image(systemName: "ellipsis")
+                                .foregroundColor(.blue)
+                        }
+                        .padding()
+                        .contentShape(Rectangle())
+                        .background(.gray.opacity(0.4))
+                        .cornerRadius(20)
+                        .padding(.horizontal)
+                        .onTapGesture {
+                            self.showReviewModal = true
+                        }
+                        
+                        
                         // later, group the listened by and wants to listen parts and put in another class and only display if users have friends that have this album in their list
                         NavigationLink(destination: ViewReviewPage()) {
                             HStack {
-                                Text("Listened By")
-                                    .font(.system(size: 20, weight: .medium, design: .default))
+                                Text("LISTENED BY")
+//                                    .font(.system(size: 20, weight: .medium, design: .default))
+                                    .font(.subheadline)
                                     .foregroundColor(.white)
                                 Spacer()
                                 Image(systemName: "chevron.right")
@@ -102,8 +121,9 @@ struct ViewAlbumPage: View {
                         
                         NavigationLink(destination: ViewReviewPage()) {
                             HStack {
-                                Text("Wants to Listen")
-                                    .font(.system(size: 20, weight: .medium, design: .default))
+                                Text("WANTS TO LISTEN")
+//                                    .font(.system(size: 20, weight: .medium, design: .default))
+                                    .font(.subheadline)
                                     .foregroundColor(.white)
                                 Spacer()
                                 Image(systemName: "chevron.right")
@@ -131,7 +151,7 @@ struct ViewAlbumPage: View {
                         NavigationLink(destination: ViewReviewPage()) {
                             HStack {
                                 Text("Reviews - 0")
-                                    .font(.system(size: 20, weight: .medium, design: .default))
+//                                    .font(.system(size: 20, weight: .medium, design: .default))
                                     .foregroundColor(.white)
                                 Spacer()
                                 Image(systemName: "chevron.right")
@@ -143,7 +163,7 @@ struct ViewAlbumPage: View {
                             .cornerRadius(25)
                         }
                         .buttonStyle(HighlightButtonStyle())
-                        .padding()
+                        .padding(.horizontal)
                         
                         ViewAlbumPageMiniBar(artists: artists, album: album)
                         
@@ -154,7 +174,17 @@ struct ViewAlbumPage: View {
         .onAppear {
             fetchData()
         }
+        .navigationBarItems(trailing: Button(action: {
+            self.showReviewModal = true
+        }) {
+            Image(systemName: "ellipsis")
+                .imageScale(.large)
+                .padding()
+        })
         .navigationTitle(album.title)
+        .sheet(isPresented: $showReviewModal) {
+            PostReviewModal(showModal: self.$showReviewModal, album: self.album)
+        }
     }
     
     
@@ -202,8 +232,8 @@ struct ViewAlbumPage: View {
 }
 
 
-//#Preview {
-//    ViewAlbumPage()
-//}
+#Preview {
+    ViewAlbumPage(albumKey: "O0beOq2J7OO7IYxLXQY")
+}
 
 

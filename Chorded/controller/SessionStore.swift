@@ -13,11 +13,7 @@ import FirebaseDatabase
 
 class SessionStore: ObservableObject {
     @Published var isLoggedIn: Bool = false
-    @Published var currentUser: User?
-    @Published var userConnections: UserConnections?
-    @Published var userReviews: UserReviews?
-    @Published var userListenList: UserListenList?
-    
+    @Published var currentUserID: String? = nil
     private var handle: AuthStateDidChangeListenerHandle?
     
     init() {
@@ -28,61 +24,18 @@ class SessionStore: ObservableObject {
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if let user = user {
                 self.isLoggedIn = true
-                self.fetchUserData(uid: user.uid)
+                self.currentUserID = user.uid
+                print("User is logged in with ID: \(user.uid)")
             } else {
                 self.isLoggedIn = false
-                self.currentUser = nil
-                self.userConnections = nil
-                self.userReviews = nil
-                self.userListenList = nil
-            }
-        }
-    }
-    
-    func fetchUserData(uid: String) {
-        let userRef = Database.database().reference().child("Users").child(uid)
-        userRef.observeSingleEvent(of: .value) { snapshot in
-            if let data = snapshot.value as? [String: Any] {
-                self.currentUser = User.fromDictionary(data)
-                self.fetchUserConnections(uid: uid)
-                self.fetchUserReviews(uid: uid)
-                self.fetchUserListenList(uid: uid)
-            }
-        }
-    }
-    
-    func fetchUserConnections(uid: String) {
-        let connectionsRef = Database.database().reference().child("UserConnections").child(uid)
-        connectionsRef.observeSingleEvent(of: .value) { snapshot in
-            if let data = snapshot.value as? [String: Any] {
-                self.userConnections = UserConnections.fromDictionary(data)
-            }
-        }
-    }
-    
-    func fetchUserReviews(uid: String) {
-        let reviewsRef = Database.database().reference().child("UserReviews").child(uid)
-        reviewsRef.observeSingleEvent(of: .value) { snapshot in
-            if let data = snapshot.value as? [String: Any] {
-                self.userReviews = UserReviews.fromDictionary(data)
-            }
-        }
-    }
-
-    func fetchUserListenList(uid: String) {
-        let listenListRef = Database.database().reference().child("UserListenList").child(uid)
-        listenListRef.observeSingleEvent(of: .value) { snapshot in
-            if let data = snapshot.value as? [String: Any] {
-                self.userListenList = UserListenList.fromDictionary(data)
+                self.currentUserID = nil
+                print("User is not logged in")
             }
         }
     }
     
     func signIn(email: String, password: String, completion: @escaping (Error?) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
-            if let user = authResult?.user {
-                self.fetchUserData(uid: user.uid)
-            }
             completion(error)
         }
     }
@@ -91,7 +44,6 @@ class SessionStore: ObservableObject {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let user = authResult?.user {
                 self.createUserInDatabase(uid: user.uid, email: email, username: username)
-                self.fetchUserData(uid: user.uid)
             }
             completion(error)
         }
@@ -139,11 +91,7 @@ class SessionStore: ObservableObject {
         do {
             try Auth.auth().signOut()
             self.isLoggedIn = false
-            self.currentUser = nil
-            self.currentUser = nil
-            self.userConnections = nil
-            self.userReviews = nil
-            self.userListenList = nil
+            self.currentUserID = nil
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
@@ -156,55 +104,12 @@ class SessionStore: ObservableObject {
     }
 }
 
-extension Encodable {
-    func toDictionary() -> [String: Any] {
-        guard let data = try? JSONEncoder().encode(self),
-              let dictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
-            return [:]
-        }
-        return dictionary
-    }
-}
-
-extension User {
-    static func fromDictionary(_ dictionary: [String: Any]) -> User? {
-        guard let id = dictionary["id"] as? String,
-              let username = dictionary["username"] as? String,
-              let email = dictionary["email"] as? String,
-              let profilePictureURL = dictionary["profilePictureURL"] as? String else {
-            return nil
-        }
-        return User(id: id, username: username, email: email, profilePictureURL: profilePictureURL)
-    }
-}
-
-extension UserConnections {
-    static func fromDictionary(_ dictionary: [String: Any]) -> UserConnections? {
-        guard let id = dictionary["id"] as? String,
-              let following = dictionary["following"] as? [String],
-              let followers = dictionary["followers"] as? [String] else {
-            return nil
-        }
-        return UserConnections(id: id, following: following, followers: followers)
-    }
-}
-
-extension UserReviews {
-    static func fromDictionary(_ dictionary: [String: Any]) -> UserReviews? {
-        guard let id = dictionary["id"] as? String,
-              let albumReviews = dictionary["albumReviews"] as? [String] else {
-            return nil
-        }
-        return UserReviews(id: id, albumReviews: albumReviews)
-    }
-}
-
-extension UserListenList {
-    static func fromDictionary(_ dictionary: [String: Any]) -> UserListenList? {
-        guard let id = dictionary["id"] as? String,
-              let listenList = dictionary["listenList"] as? [String] else {
-            return nil
-        }
-        return UserListenList(id: id, listenList: listenList)
-    }
-}
+//extension Encodable {
+//    func toDictionary() -> [String: Any] {
+//        guard let data = try? JSONEncoder().encode(self),
+//              let dictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+//            return [:]
+//        }
+//        return dictionary
+//    }
+//}

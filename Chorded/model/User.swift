@@ -7,26 +7,50 @@
 
 import Foundation
 
-struct User: Codable {
+struct User: Decodable {
     var id: String
     var username: String
     var email: String
-    var profilePictureURL: String
-    var albumFavorites: [String] = []
+    let profilePictureURL: String
+    let albumFavorites: [String]?
+    
+    init(id: String, username: String, email: String, profilePictureURL: String) {
+        self.id = id
+        self.username = username
+        self.email = email
+        self.profilePictureURL = profilePictureURL
+        self.albumFavorites = []
+    }
 }
 
-struct UserConnections: Codable {
+struct UserConnections: Decodable {
     var id: String
-    var following: [String] = []
-    var followers: [String] = []
+    let following: [String]?
+    let followers: [String]?
+    
+    init(id: String) {
+        self.id = id
+        self.following = []
+        self.followers = []
+    }
 }
 
-struct UserReviews: Codable {
+struct UserReviews: Decodable {
     var id: String
-    var albumReviews: [String] = []
+    let albumReviews: [String]?
+    
+    init(id: String) {
+        self.id = id
+        self.albumReviews = []
+    }
 }
 
-struct UserListenList: Codable {
+struct UserListenList: Decodable {
     var id: String
-    var listenList: [String] = []
+    let listenList: [String]?
+    
+    init(id: String) {
+        self.id = id
+        self.listenList = []
+    }
 }
