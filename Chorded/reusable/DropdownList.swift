@@ -63,20 +63,20 @@ struct DropdownList: View {
     func OptionsView() -> some View {
         VStack(spacing: 0) {
             ForEach(options, id: \.self) { option in
-                Button(action: {
-                    selection = option
-                    withAnimation(.easeInOut) {
-                        showDropdown.toggle()
-                    }
-                }) {
-                    HStack {
-                        Text(option)
-                        Spacer()
-                    }
-                    .foregroundStyle(Color.gray)
-                    .padding(.horizontal, 15)
-                    .frame(height: 40)
+//                Button(action: {
+//                    selection = option
+//                    withAnimation(.easeInOut) {
+//                        showDropdown.toggle()
+//                    }
+//                }) {
+                HStack {
+                    Text(option)
+                    Spacer()
                 }
+                .foregroundStyle(Color.gray)
+                .padding(.horizontal, 15)
+                .frame(height: 40)
+//                }
             }
         }
         .shadow(radius: 5)

@@ -15,7 +15,7 @@ struct PostReviewModal: View {
     @State private var rating: Double = 0.0
     @State private var addToListenList: Bool = false
     @State private var starStates: [StarState] = Array(repeating: .empty, count: 5)
-    @FocusState private var isTextEditorFocused: Bool
+//    @FocusState private var isTextEditorFocused: Bool
     
     var album: Album
     
@@ -90,7 +90,7 @@ struct PostReviewModal: View {
                             Text("Review")
                                 .font(.headline)
                             TextEditor(text: $reviewText)
-                                .focused($isTextEditorFocused)
+//                                .focused($isTextEditorFocused)
                                 .frame(minHeight: 200)
                                 .scrollContentBackground(.hidden)
                                 .foregroundColor(.white)
@@ -144,10 +144,10 @@ struct PostReviewModal: View {
                     .onAppear {
                         self.updateRating()
                     }
-                    .background(Color.clear) // Add clear background to allow tap detection
-                    .onTapGesture {
-                        hideKeyboard()
-                    }
+//                    .background(Color.clear) // Add clear background to allow tap detection
+//                    .onTapGesture {
+//                        hideKeyboard()
+//                    }
 
                 }
                 
