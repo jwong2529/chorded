@@ -11,11 +11,16 @@ import SDWebImageSwiftUI
 
 struct PostReviewModal: View {
     @Binding var showModal: Bool
-    @State private var reviewText: String = "Write your review here..."
+    @State private var reviewText: String = ""
+    @State private var placeholderText: String = "Write your review here..."
     @State private var rating: Double = 0.0
     @State private var addToListenList: Bool = false
     @State private var starStates: [StarState] = Array(repeating: .empty, count: 5)
-//    @FocusState private var isTextEditorFocused: Bool
+    var starSize: CGFloat = 25
+    @EnvironmentObject var session: SessionStore
+    
+    @State private var showAlert: Bool = false
+    @State private var alertMessage: String = ""
     
     var album: Album
     
@@ -75,7 +80,7 @@ struct PostReviewModal: View {
                                 .font(.headline)
                             HStack {
                                 ForEach(0..<5) { index in
-                                    StarView(state: self.$starStates[index])
+                                    StarView(state: self.$starStates[index], starSize: starSize)
                                         .onTapGesture {
                                             self.toggleStar(at: index)
                                         }
@@ -89,36 +94,30 @@ struct PostReviewModal: View {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Review")
                                 .font(.headline)
-                            TextEditor(text: $reviewText)
-//                                .focused($isTextEditorFocused)
-                                .frame(minHeight: 200)
-                                .scrollContentBackground(.hidden)
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color.gray.opacity(0.2))
-                                .cornerRadius(8)
-                                .lineSpacing(5)
-                                .multilineTextAlignment(.leading)
-                            
-                                .onAppear {
-                                    //remove the placeholder text when keyboard appears
-                                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { (noti) in
-                                        withAnimation {
-                                            if self.reviewText == "Write your review here..." {
-                                                self.reviewText = ""
-                                            }
-                                        }
-                                    }
-                                    
-                                    //put back the placeholder text if the user dismisses the keyboard without adding any text
-                                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (noti) in
-                                        withAnimation {
-                                            if self.reviewText == "" {
-                                                self.reviewText = "Write your review here..."
-                                            }
-                                        }
-                                    }
+                            ZStack {
+                                if reviewText.isEmpty {
+                                    TextEditor(text: $placeholderText)
+                                        .disabled(true)
+                                        .frame(minHeight: 200)
+                                        .scrollContentBackground(.hidden)
+                                        .foregroundColor(.white)
+                                        .padding()
+//                                        .background(Color.gray.opacity(0.2))
+                                        .cornerRadius(8)
+                                        .lineSpacing(5)
+                                        .multilineTextAlignment(.leading)
                                 }
+                                TextEditor(text: $reviewText)
+                                    .frame(minHeight: 200)
+                                    .scrollContentBackground(.hidden)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .background(Color.gray.opacity(0.2))
+                                    .cornerRadius(8)
+                                    .lineSpacing(5)
+                                    .multilineTextAlignment(.leading)
+                            }
+                            
                         }
                         .padding(.horizontal)
                         .padding(.bottom, 16)
@@ -134,8 +133,7 @@ struct PostReviewModal: View {
                         Text("Cancel")
                     })
                     .navigationBarItems(trailing: Button(action: {
-                        //Handle review submission
-                        self.showModal = false
+                        saveReview()
                     }) {
                         Text("Save")
                             .padding(3)
@@ -144,15 +142,62 @@ struct PostReviewModal: View {
                     .onAppear {
                         self.updateRating()
                     }
-//                    .background(Color.clear) // Add clear background to allow tap detection
-//                    .onTapGesture {
-//                        hideKeyboard()
-//                    }
+                    .alert(isPresented: $showAlert) {
+                        Alert(title: Text(""), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+                    }
 
                 }
                 
             }
             
+        }
+    }
+    
+    private func saveReview() {
+        guard let userID = session.currentUserID else {
+            print("No current user ID found")
+            return
+        }
+        
+        // user must submit a rating if they've written a review
+        if reviewText != "" && rating <= 0 {
+            alertMessage = "Rating is required to submit the review"
+            showAlert = true
+            return
+        }
+        
+        // ensure review text does not exceed 1000 characters
+        if reviewText.count > 1000 {
+            alertMessage = "Review must not exceed 1000 characters"
+            showAlert = true
+            return
+        }
+        
+        let reviewID = UUID().uuidString
+        let timestamp = ISO8601DateFormatter().string(from: Date())
+        
+        let review = AlbumReview(
+            id: reviewID,
+            userID: userID,
+            albumKey: album.firebaseKey,
+            rating: rating,
+            reviewText: reviewText,
+            timestamp: timestamp
+        )
+        
+        // post review if rating is non empty
+         if review.rating != 0 {
+            FirebaseDataManager().postAlbumReview(albumID: album.firebaseKey, review: review) { error in
+                if let error = error {
+                    print("Error posting review: \(error.localizedDescription)")
+                } else {
+                    alertMessage = "Saved review!"
+                    showAlert = true
+                    self.showModal = false
+                }
+            }
+        } else {
+            self.showModal = false
         }
     }
     
@@ -188,38 +233,10 @@ struct PostReviewModal: View {
     }
 }
 
-enum StarState: Double {
-    case empty = 0.0
-    case half = 0.5
-    case full = 1.0
-}
-
-struct StarView: View {
-    @Binding var state: StarState
-    
-    var body: some View {
-        switch state {
-        case .empty:
-            Image(systemName: "star")
-                .resizable()
-                .frame(width: 25, height: 25)
-                .foregroundColor(.gray)
-        case .half:
-            Image(systemName: "star.leadinghalf.filled")
-                .resizable()
-                .frame(width: 25, height: 25)
-                .foregroundColor(.yellow)
-        case .full:
-            Image(systemName: "star.fill")
-                .resizable()
-                .frame(width: 25, height: 25)
-                .foregroundColor(.yellow)
-        }
-    }
-}
-
 private let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateStyle = .medium
     return formatter
 }()
+
+

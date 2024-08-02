@@ -18,6 +18,7 @@ struct ViewAlbumPage: View {
     @State var selection1: String? = "Tracklist"
     @State private var album = Album(title: "", artistID: [0], artistNames: [""], genres: [""], styles: [""], year: 0, albumTracks: [""], coverImageURL: "")
     @State private var artists = [Artist]()
+    @State private var reviews: [AlbumReview] = []
     
     @State private var showReviewModal = false
 
@@ -90,7 +91,7 @@ struct ViewAlbumPage: View {
                         
                         
                         // later, group the listened by and wants to listen parts and put in another class and only display if users have friends that have this album in their list
-                        NavigationLink(destination: ViewReviewPage()) {
+                        NavigationLink(destination: ViewReviewPage(reviews: reviews)) {
                             HStack {
                                 Text("LISTENED BY")
 //                                    .font(.system(size: 20, weight: .medium, design: .default))
@@ -119,7 +120,7 @@ struct ViewAlbumPage: View {
                             Spacer()
                         }
                         
-                        NavigationLink(destination: ViewReviewPage()) {
+                        NavigationLink(destination: ViewReviewPage(reviews: reviews)) {
                             HStack {
                                 Text("WANTS TO LISTEN")
 //                                    .font(.system(size: 20, weight: .medium, design: .default))
@@ -148,9 +149,9 @@ struct ViewAlbumPage: View {
                             Spacer()
                         }
 
-                        NavigationLink(destination: ViewReviewPage()) {
+                        NavigationLink(destination: ViewReviewPage(reviews: reviews)) {
                             HStack {
-                                Text("Reviews - 0")
+                                Text("Reviews - \(reviews.count)")
 //                                    .font(.system(size: 20, weight: .medium, design: .default))
                                     .foregroundColor(.white)
                                 Spacer()
@@ -190,6 +191,7 @@ struct ViewAlbumPage: View {
     
     private func fetchData() {
         fetchAlbum(firebaseKey: albumKey)
+        fetchReviews(firebaseKey: albumKey)
     }
     
     func fetchArtists(discogsKeys: [Int]) {
@@ -226,6 +228,17 @@ struct ViewAlbumPage: View {
             } else if let fetchedAlbum = fetchedAlbum {
                 self.album = fetchedAlbum
                 fetchArtists(discogsKeys: fetchedAlbum.artistID)
+            }
+        }
+    }
+    
+    private func fetchReviews(firebaseKey: String) {
+        FirebaseDataManager().fetchAlbumReviews(albumID: firebaseKey) { reviews, error in
+            if let error = error {
+                print("Failed to fetch reviews for \(album.title): \(error)")
+            } else {
+                // filters out the reviews that only have a rating
+                self.reviews = (reviews ?? []).filter { !$0.reviewText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty}
             }
         }
     }

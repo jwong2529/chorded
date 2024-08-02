@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User: Decodable {
+struct User: Identifiable, Decodable {
     var id: String
     var username: String
     var email: String
@@ -23,7 +23,7 @@ struct User: Decodable {
     }
 }
 
-struct UserConnections: Decodable {
+struct UserConnections: Identifiable, Decodable {
     var id: String
     let following: [String]?
     let followers: [String]?
@@ -35,7 +35,7 @@ struct UserConnections: Decodable {
     }
 }
 
-struct UserReviews: Decodable {
+struct UserReviews: Identifiable, Decodable {
     var id: String
     let albumReviews: [String]?
     
@@ -45,7 +45,7 @@ struct UserReviews: Decodable {
     }
 }
 
-struct UserListenList: Decodable {
+struct UserListenList: Identifiable, Decodable {
     var id: String
     let listenList: [String]?
     

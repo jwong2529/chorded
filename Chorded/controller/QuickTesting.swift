@@ -45,6 +45,14 @@ class QuickTesting: ObservableObject {
 //            }
 //        }
         
+//        FirebaseDataManager().fetchAlbumReviews(albumID: "-O0beOq2J7OO7IYxLXQY") { albumReview, error in
+//            if let error = error {
+//                print("failed to fetch album reviews: \(error)")
+//            } else if let albumReview = albumReview {
+//                print("Fetched album review: \(albumReview)")
+//            }
+//        }
+        
         
 //        DiscogsAPIManager().fetchArtistDetails(artistID: 5590213) { result in
 //            switch result {

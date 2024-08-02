@@ -7,16 +7,20 @@
 
 import Foundation
 
-struct AlbumReview {
-    let userId: String
-    let albumTitle: String
-    let rating: Float
-    let review: String?
+struct AlbumReview: Identifiable {
+    var id: String = UUID().uuidString
+    var userID: String
+    var albumKey: String
+    var rating: Double
+    var reviewText: String
+    var timestamp: String
     
-    init(userID: String, albumTitle: String, rating: Float, review: String) {
-        self.userId = userID
-        self.albumTitle = albumTitle
+    init(id: String, userID: String, albumKey: String, rating: Double, reviewText: String, timestamp: String) {
+        self.id = id
+        self.userID = userID
+        self.albumKey = albumKey
         self.rating = rating
-        self.review = review
+        self.reviewText = reviewText
+        self.timestamp = timestamp
     }
 }

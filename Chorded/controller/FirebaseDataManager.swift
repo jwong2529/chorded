@@ -304,13 +304,72 @@ class FirebaseDataManager {
         }
     }
     
-    // Users
-    func addUser(user: User, completion: @escaping (Error?) -> Void) {
+    func postAlbumReview(albumID: String, review: AlbumReview, completion: @escaping (Error?) -> Void) {
+        
+        let reviewData: [String: Any] = [
+            "id": review.id,
+            "userID": review.userID,
+            "albumKey": review.albumKey,
+            "rating": review.rating,
+            "reviewText": review.reviewText,
+            "timestamp": review.timestamp
+        ]
+        
+        let albumReviewsRef = databaseRef.child("AlbumReviews").child(albumID)
+        let userReviewsRef = databaseRef.child("UserReviews").child(review.userID)
+        
+        //Add review to corresponding AlbumReviews list (key: albumkey, value: list of AlbumReviews)
+        albumReviewsRef.observeSingleEvent(of: .value) { snapshot in
+            var albumReviews = snapshot.value as? [[String: Any]] ?? []
+            albumReviews.append(reviewData)
+            
+            albumReviewsRef.setValue(albumReviews) { error, _ in
+                if let error = error {
+                    completion(error)
+                    return
+                }
+                
+                // add review to UserReviews list
+                userReviewsRef.observeSingleEvent(of: .value) { snapshot in
+                    var userReviews = snapshot.value as? [[String: Any]] ?? []
+                    userReviews.append(reviewData)
+                    
+                    userReviewsRef.setValue(userReviews) { error, _ in
+                        completion(error)
+                    }
+                }
+            }
+        }
         
     }
     
-    func fetchUser(completion: @escaping ([User]?, Error?) -> Void) {
+    func fetchAlbumReviews(albumID: String, completion: @escaping ([AlbumReview]?, Error?) -> Void) {
         
+        let albumReviewsRef = databaseRef.child("AlbumReviews").child(albumID)
+        
+        albumReviewsRef.observeSingleEvent(of: .value) { snapshot in
+            guard let reviewsList = snapshot.value as? [[String: Any]] else {
+                completion(nil, nil)
+                return
+            }
+            
+            var albumReviews: [AlbumReview] = []
+            
+            for reviewData in reviewsList {
+                if let id = reviewData["id"] as? String,
+                   let userID = reviewData["userID"] as? String,
+                   let albumKey = reviewData["albumKey"] as? String,
+                   let rating = reviewData["rating"] as? Double,
+                   let reviewText = reviewData["reviewText"] as? String,
+                   let timestamp = reviewData["timestamp"] as? String {
+                    
+                    let review = AlbumReview(id: id, userID: userID, albumKey: albumKey, rating: rating, reviewText: reviewText, timestamp: timestamp)
+                    albumReviews.append(review)
+                }
+            }
+            
+            completion(albumReviews, nil)
+        }
     }
     
 }
