@@ -22,7 +22,7 @@ struct ViewReviewPage: View {
                 ScrollView {
                     VStack {
                         if reviews.isEmpty {
-                            Text("No reviews yet.")
+                            Text("Be the first to leave a review!")
                                 .foregroundColor(.gray)
                         } else {
                             ForEach(reviews.reversed()) { review in

@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import SDWebImageSwiftUI
+import Firebase
 
 struct ViewAlbumPage: View {
 //    @State private var album: Album
@@ -18,6 +19,7 @@ struct ViewAlbumPage: View {
     @State var selection1: String? = "Tracklist"
     @State private var album = Album(title: "", artistID: [0], artistNames: [""], genres: [""], styles: [""], year: 0, albumTracks: [""], coverImageURL: "")
     @State private var artists = [Artist]()
+    @State private var unfilteredReviews: [AlbumReview] = [] //used to consider ratings from reviews without any reviewText
     @State private var reviews: [AlbumReview] = []
     
     @State private var showReviewModal = false
@@ -59,11 +61,13 @@ struct ViewAlbumPage: View {
                                 }
                             }
                             Spacer()
-                            ZStack {
-                                RatingRing(rating: $ratingProgress)
-                                    .frame(width: 50, height: 50)
+                            if unfilteredReviews.count > 0 {
+                                ZStack {
+                                    RatingRing(rating: $ratingProgress)
+                                        .frame(width: 50, height: 50)
+                                }
+                                .padding(.leading)
                             }
-                            .padding(.leading)
                                 
                         }
                         .padding(.horizontal)
@@ -186,12 +190,16 @@ struct ViewAlbumPage: View {
         .sheet(isPresented: $showReviewModal) {
             PostReviewModal(showModal: self.$showReviewModal, album: self.album)
         }
+        .refreshable {
+            fetchData()
+        }
     }
     
     
     private func fetchData() {
         fetchAlbum(firebaseKey: albumKey)
         fetchReviews(firebaseKey: albumKey)
+        calculateAverageRating(firebaseKey: albumKey)
     }
     
     func fetchArtists(discogsKeys: [Int]) {
@@ -237,13 +245,36 @@ struct ViewAlbumPage: View {
             if let error = error {
                 print("Failed to fetch reviews for \(album.title): \(error)")
             } else {
+                self.unfilteredReviews = reviews ?? []
                 // filters out the reviews that only have a rating
                 self.reviews = (reviews ?? []).filter { !$0.reviewText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty}
             }
         }
     }
+    
+    private func calculateAverageRating(firebaseKey: String) {
+        let albumReviewsRef = Database.database().reference().child("AlbumReviews").child(firebaseKey)
+        albumReviewsRef.observeSingleEvent(of: .value) { snapshot in
+            guard let albumData = snapshot.value as? [String: Any],
+                  let totalRatingSum = albumData["TotalRatingSum"] as? Double else {
+                print("Failed to fetch album's total rating sum")
+                return
+            }
+            
+            let numOfReviews = Double(unfilteredReviews.count)
+            let averageRating = (totalRatingSum / numOfReviews).rounded(toPlaces: 1)
+            self.ratingProgress = averageRating
+        }
+    }
 }
 
+extension Double {
+    // rounds the double to 'places' decimal places
+    func rounded(toPlaces places: Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
+    }
+}
 
 #Preview {
     ViewAlbumPage(albumKey: "O0beOq2J7OO7IYxLXQY")

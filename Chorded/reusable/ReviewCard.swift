@@ -73,7 +73,6 @@ struct ReviewCard: View {
                 print("Failed to fetch user data: \(error.localizedDescription)")
             } else if let fetchedUser = fetchedUser {
                 self.user = fetchedUser
-                print("Fetched user: \(fetchedUser)")
             }
         }
     }

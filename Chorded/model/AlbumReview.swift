@@ -8,7 +8,7 @@
 import Foundation
 
 struct AlbumReview: Identifiable {
-    var id: String = UUID().uuidString
+    var id: String
     var userID: String
     var albumKey: String
     var rating: Double

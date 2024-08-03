@@ -65,6 +65,7 @@
 		2987B2B02C5A1A99000F7B6D /* SearchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2987B2AF2C5A1A99000F7B6D /* SearchData.swift */; };
 		2987B2B22C5C9F09000F7B6D /* ReviewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2987B2B12C5C9F08000F7B6D /* ReviewCard.swift */; };
 		2987B2B42C5CC751000F7B6D /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2987B2B32C5CC751000F7B6D /* StarView.swift */; };
+		2987B2B62C5D6E08000F7B6D /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2987B2B52C5D6E08000F7B6D /* Activity.swift */; };
 		29CA161D2C56D854006C5805 /* FirebaseUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CA161C2C56D854006C5805 /* FirebaseUserData.swift */; };
 		29CA161F2C571BDF006C5805 /* PostReviewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CA161E2C571BDF006C5805 /* PostReviewModal.swift */; };
 		29FBF4312C51B26E0068E64F /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FBF4302C51B26D0068E64F /* SessionStore.swift */; };
@@ -152,6 +153,7 @@
 		2987B2AF2C5A1A99000F7B6D /* SearchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchData.swift; sourceTree = "<group>"; };
 		2987B2B12C5C9F08000F7B6D /* ReviewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCard.swift; sourceTree = "<group>"; };
 		2987B2B32C5CC751000F7B6D /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
+		2987B2B52C5D6E08000F7B6D /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		29CA161C2C56D854006C5805 /* FirebaseUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserData.swift; sourceTree = "<group>"; };
 		29CA161E2C571BDF006C5805 /* PostReviewModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReviewModal.swift; sourceTree = "<group>"; };
 		29FBF4302C51B26D0068E64F /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				2948E92F2C01C03E00EC4726 /* AlbumReview.swift */,
 				2948E9312C01C1DA00EC4726 /* User.swift */,
 				293C7C322C099541002605B1 /* Artist.swift */,
+				2987B2B52C5D6E08000F7B6D /* Activity.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -625,6 +628,7 @@
 				2948E93A2C02C62B00EC4726 /* AppBackground.swift in Sources */,
 				294AA1912C163FB10097F16C /* ViewAlbumPageMiniBar.swift in Sources */,
 				294AA1852C0F0BA40097F16C /* AlbumGrid.swift in Sources */,
+				2987B2B62C5D6E08000F7B6D /* Activity.swift in Sources */,
 				294AA18D2C1589400097F16C /* RatingRing.swift in Sources */,
 				294AA1992C1C0A920097F16C /* ViewArtistPage.swift in Sources */,
 				2987B2B22C5C9F09000F7B6D /* ReviewCard.swift in Sources */,

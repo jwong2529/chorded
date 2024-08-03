@@ -305,7 +305,6 @@ class FirebaseDataManager {
     }
     
     func postAlbumReview(albumID: String, review: AlbumReview, completion: @escaping (Error?) -> Void) {
-        
         let reviewData: [String: Any] = [
             "id": review.id,
             "userID": review.userID,
@@ -315,54 +314,54 @@ class FirebaseDataManager {
             "timestamp": review.timestamp
         ]
         
-        let albumReviewsRef = databaseRef.child("AlbumReviews").child(albumID)
-        let userReviewsRef = databaseRef.child("UserReviews").child(review.userID)
-        
         //Add review to corresponding AlbumReviews list (key: albumkey, value: list of AlbumReviews)
-        albumReviewsRef.observeSingleEvent(of: .value) { snapshot in
-            var albumReviews = snapshot.value as? [[String: Any]] ?? []
-            albumReviews.append(reviewData)
+        let albumReviewsRef = databaseRef.child("AlbumReviews").child(albumID).child("Reviews").child(review.id)
+        let totalRatingSumRef = databaseRef.child("AlbumReviews").child(albumID).child("TotalRatingSum")
+        let userReviewsRef = databaseRef.child("UserReviews").child(review.userID).child(review.id)
+        
+        albumReviewsRef.setValue(reviewData) { error, _ in
+            if let error = error {
+                completion(error)
+                return
+            }
             
-            albumReviewsRef.setValue(albumReviews) { error, _ in
+            // add review to UserReviews list
+            userReviewsRef.setValue(reviewData) { error, _ in
                 if let error = error {
                     completion(error)
                     return
                 }
                 
-                // add review to UserReviews list
-                userReviewsRef.observeSingleEvent(of: .value) { snapshot in
-                    var userReviews = snapshot.value as? [[String: Any]] ?? []
-                    userReviews.append(reviewData)
-                    
-                    userReviewsRef.setValue(userReviews) { error, _ in
-                        completion(error)
+                //update TotalRatingSum
+                totalRatingSumRef.runTransactionBlock { currentData -> TransactionResult in
+                    if var totalRatingSum = currentData.value as? Double {
+                        totalRatingSum += review.rating
+                        currentData.value = totalRatingSum
+                    } else {
+                        currentData.value = review.rating
                     }
+                    return TransactionResult.success(withValue: currentData)
                 }
+                completion(nil)
             }
         }
-        
     }
     
     func fetchAlbumReviews(albumID: String, completion: @escaping ([AlbumReview]?, Error?) -> Void) {
+        let albumReviewsRef = databaseRef.child("AlbumReviews").child(albumID).child("Reviews")
         
-        let albumReviewsRef = databaseRef.child("AlbumReviews").child(albumID)
-        
-        albumReviewsRef.observeSingleEvent(of: .value) { snapshot in
-            guard let reviewsList = snapshot.value as? [[String: Any]] else {
-                completion(nil, nil)
-                return
-            }
-            
+        albumReviewsRef.queryOrdered(byChild: "timestamp").observeSingleEvent(of: .value) { snapshot in
             var albumReviews: [AlbumReview] = []
             
-            for reviewData in reviewsList {
-                if let id = reviewData["id"] as? String,
+            for child in snapshot.children {
+                if let snapshot = child as? DataSnapshot,
+                   let reviewData = snapshot.value as? [String: Any],
+                   let id = reviewData["id"] as? String,
                    let userID = reviewData["userID"] as? String,
                    let albumKey = reviewData["albumKey"] as? String,
                    let rating = reviewData["rating"] as? Double,
                    let reviewText = reviewData["reviewText"] as? String,
                    let timestamp = reviewData["timestamp"] as? String {
-                    
                     let review = AlbumReview(id: id, userID: userID, albumKey: albumKey, rating: rating, reviewText: reviewText, timestamp: timestamp)
                     albumReviews.append(review)
                 }

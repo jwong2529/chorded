@@ -73,6 +73,21 @@ class FirebaseUserData {
             }
         }
     }
+    
+    func logActivity(activity: Activity) {
+        let activityLogRef = Database.database().reference().child("ActivityLog")
+        let userActivityRef = Database.database().reference().child("UserActivities")
+        
+        let activityData: [String: Any] = [
+            "id": activity.id,
+            "userID": activity.userID,
+            "timestamp": activity.timestamp,
+            "type": activity.type
+        ]
+        
+        activityLogRef.child(activity.id).setValue(activityData)
+        userActivityRef.child(activity.userID).child(activity.id).setValue(activityData)
+    }
 }
 
 extension User {

@@ -25,9 +25,9 @@ struct RatingRing: View {
                     .font(.headline)
                     .foregroundColor(.white)
             }
-            .onAppear {
-                rating = 3.7
-            }
+//            .onAppear {
+//                rating = 3.7
+//            }
         }
 }
 
