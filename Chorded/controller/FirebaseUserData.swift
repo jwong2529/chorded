@@ -2,9 +2,9 @@ import Foundation
 import FirebaseDatabase
 
 class FirebaseUserData {
-    static let shared = FirebaseUserData()
-    
-    private init() {}
+//    static let shared = FirebaseUserData()
+//    
+//    private init() {}
     
     func fetchUserData(uid: String, completion: @escaping (User?, Error?) -> Void) {
         let userRef = Database.database().reference().child("Users").child(uid)
@@ -74,20 +74,80 @@ class FirebaseUserData {
         }
     }
     
-    func logActivity(activity: Activity) {
-        let activityLogRef = Database.database().reference().child("ActivityLog")
-        let userActivityRef = Database.database().reference().child("UserActivities")
+    func logActivity(activity: Activity, completion: @escaping (Error?) -> Void) {
+        let activityLogRef = Database.database().reference().child("ActivityLog").child(activity.activityID)
+        let userActivityRef = Database.database().reference().child("UserActivities").child(activity.userID).child(activity.activityID)
         
         let activityData: [String: Any] = [
-            "id": activity.id,
+            "activityID": activity.activityID,
             "userID": activity.userID,
-            "timestamp": activity.timestamp,
-            "type": activity.type
+            "activityTimestamp": activity.activityTimestamp,
+            "activityType": activity.activityType.rawValue,
+            "albumID": activity.albumID,
+            "albumReviewID": activity.albumReviewID ?? ""
         ]
         
-        activityLogRef.child(activity.id).setValue(activityData)
-        userActivityRef.child(activity.userID).child(activity.id).setValue(activityData)
+        activityLogRef.setValue(activityData) { error, _ in
+            if let error = error {
+                completion(error)
+                return
+            }
+            
+            userActivityRef.setValue(activityData) { error, _ in
+                if let error = error {
+                    completion(error)
+                    return
+                }
+                completion(nil)
+            }
+        }
+        
     }
+    
+    func fetchUserActivities(userID: String, completion: @escaping ([Activity]?, Error?) -> Void) {
+        let userActivitiesRef = Database.database().reference().child("UserActivities").child(userID)
+        
+        userActivitiesRef.queryOrdered(byChild: "activityTimestamp").observeSingleEvent(of: .value) { snapshot in
+            var activities: [Activity] = []
+            
+            guard snapshot.exists() else {
+                completion([], nil)
+                return
+            }
+            
+            for child in snapshot.children {
+                if let activitySnapshot = child as? DataSnapshot,
+                   let activityData = activitySnapshot.value as? [String: Any],
+                   let activityID = activityData["activityID"] as? String,
+                   let userID = activityData["userID"] as? String,
+                   let activityTimestamp = activityData["activityTimestamp"] as? String,
+                   let activityTypeRawValue = activityData["activityType"] as? String,
+                   let activityType = ActivityType(rawValue: activityTypeRawValue),
+                   let albumID = activityData["albumID"] as? String {
+                    
+                    let albumReviewID = activityData["albumReviewID"] as? String
+                    
+                    let activity = Activity(
+                        activityID: activityID,
+                        userID: userID,
+                        activityTimestamp: activityTimestamp,
+                        activityType: activityType,
+                        albumID: albumID,
+                        albumReviewID: albumReviewID
+                    )
+                    activities.append(activity)
+                }
+            }
+            
+            completion(activities, nil)
+        } withCancel: { error in
+            completion(nil, error)
+        }
+    }
+
+
+
+    
 }
 
 extension User {
@@ -106,11 +166,11 @@ extension User {
     
     func toDictionary() -> [String: Any] {
         return [
-            "id": id,
+            "userID": userID,
             "username": username,
             "email": email,
-            "profilePictureURL": profilePictureURL,
-            "albumFavorites": albumFavorites ?? []
+            "userProfilePictureURL": userProfilePictureURL,
+            "userAlbumFavorites": userAlbumFavorites ?? []
         ]
     }
 }
@@ -131,7 +191,7 @@ extension UserConnections {
     
     func toDictionary() -> [String: Any] {
         return [
-            "id": id,
+            "userID": userID,
             "following": following ?? [],
             "followers": followers ?? []
         ]
@@ -154,8 +214,8 @@ extension UserReviews {
     
     func toDictionary() -> [String: Any] {
         return [
-            "id": id,
-            "albumReviews": albumReviews ?? []
+            "userID": userID,
+            "userAlbumReviews": userAlbumReviews ?? []
         ]
     }
 }
@@ -176,8 +236,8 @@ extension UserListenList {
     
     func toDictionary() -> [String: Any] {
         return [
-            "id": id,
-            "listenList": listenList ?? []
+            "userID": userID,
+            "userListenList": userListenList ?? []
         ]
     }
 }

@@ -177,12 +177,12 @@ struct PostReviewModal: View {
         let timestamp = ISO8601DateFormatter().string(from: Date())
         
         let review = AlbumReview(
-            id: reviewID,
+            albumReviewID: reviewID,
             userID: userID,
             albumKey: album.firebaseKey,
             rating: rating,
             reviewText: reviewText,
-            timestamp: timestamp
+            reviewTimestamp: timestamp
         )
         
         // post review if rating is non empty

@@ -71,7 +71,7 @@ struct ViewProfilePage: View {
                                         .fontWeight(.light)
                                 }
                                 VStack {
-                                    Text("\(reviews?.albumReviews?.count ?? 0)")
+                                    Text("\(reviews?.userAlbumReviews?.count ?? 0)")
                                         .font(.title)
                                         .fontWeight(.bold)
                                     Text("Reviews")
@@ -102,39 +102,39 @@ struct ViewProfilePage: View {
         
         print("Fetching data for userID: \(userID)")
         
-        FirebaseUserData.shared.fetchUserData(uid: userID) { fetchedUser, error in
+        FirebaseUserData().fetchUserData(uid: userID) { fetchedUser, error in
             if let error = error {
                 print("Failed to fetch user data: \(error.localizedDescription)")
             } else if let fetchedUser = fetchedUser {
                 self.user = fetchedUser
-                print("Fetched user: \(fetchedUser)")
+//                print("Fetched user: \(fetchedUser)")
             }
         }
         
-        FirebaseUserData.shared.fetchUserConnections(uid: userID) { fetchedConnections, error in
+        FirebaseUserData().fetchUserConnections(uid: userID) { fetchedConnections, error in
             if let error = error {
                 print("Failed to fetch user connections: \(error.localizedDescription)")
             } else if let fetchedConnections = fetchedConnections {
                 self.connections = fetchedConnections
-                print("Fetched user connections: \(fetchedConnections)")
+//                print("Fetched user connections: \(fetchedConnections)")
             }
         }
         
-        FirebaseUserData.shared.fetchUserReviews(uid: userID) { fetchedReviews, error in
+        FirebaseUserData().fetchUserReviews(uid: userID) { fetchedReviews, error in
             if let error = error {
                 print("Failed to fetch user reviews: \(error.localizedDescription)")
             } else if let fetchedReviews = fetchedReviews {
                 self.reviews = fetchedReviews
-                print("Fetched reviews: \(fetchedReviews)")
+//                print("Fetched reviews: \(fetchedReviews)")
             }
         }
         
-        FirebaseUserData.shared.fetchUserListenList(uid: userID) { fetchedListenList, error in
+        FirebaseUserData().fetchUserListenList(uid: userID) { fetchedListenList, error in
             if let error = error {
                 print("Failed to fetch user listen list: \(error.localizedDescription)")
             } else if let fetchedListenList = fetchedListenList {
                 self.listenList = fetchedListenList
-                print("Fetched user listen list: \(fetchedListenList)")
+//                print("Fetched user listen list: \(fetchedListenList)")
             }
         }
     }

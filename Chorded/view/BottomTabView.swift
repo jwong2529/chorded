@@ -35,12 +35,11 @@ struct BottomTabView: View {
                     ViewSearchPage()    // search page is the sheet behind review modal
                         .tabItem {
                             Image(systemName: "square.and.pencil")
-//                            Text("Review")
                         }
                         .tag(2)
-                    ViewDiscoverPage()
+                    ViewActivitiesPage()
                         .tabItem {
-                            Image(systemName: "headphones")
+                            Image(systemName: "bolt")
                         }
                         .tag(3)
                     ViewProfilePage()

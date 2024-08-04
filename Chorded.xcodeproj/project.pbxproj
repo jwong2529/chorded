@@ -21,7 +21,6 @@
 		2948E9412C02F8EF00EC4726 /* BottomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E9402C02F8EF00EC4726 /* BottomTabView.swift */; };
 		2948E9432C02F97200EC4726 /* ViewSearchPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E9422C02F97200EC4726 /* ViewSearchPage.swift */; };
 		2948E9452C02F9D000EC4726 /* ViewProfilePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E9442C02F9D000EC4726 /* ViewProfilePage.swift */; };
-		2948E9472C02FA2B00EC4726 /* ViewDiscoverPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E9462C02FA2B00EC4726 /* ViewDiscoverPage.swift */; };
 		2948E9492C02FB1300EC4726 /* ViewRateReviewPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E9482C02FB1300EC4726 /* ViewRateReviewPage.swift */; };
 		2948E94B2C04576F00EC4726 /* DiscogsAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2948E94A2C04576F00EC4726 /* DiscogsAPIManager.swift */; };
 		2948E9542C066E0A00EC4726 /* DiscogsAPI.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2948E9532C066E0A00EC4726 /* DiscogsAPI.plist */; };
@@ -66,6 +65,7 @@
 		2987B2B22C5C9F09000F7B6D /* ReviewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2987B2B12C5C9F08000F7B6D /* ReviewCard.swift */; };
 		2987B2B42C5CC751000F7B6D /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2987B2B32C5CC751000F7B6D /* StarView.swift */; };
 		2987B2B62C5D6E08000F7B6D /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2987B2B52C5D6E08000F7B6D /* Activity.swift */; };
+		2987B2B82C5EF8A6000F7B6D /* ViewActivitiesPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2987B2B72C5EF8A6000F7B6D /* ViewActivitiesPage.swift */; };
 		29CA161D2C56D854006C5805 /* FirebaseUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CA161C2C56D854006C5805 /* FirebaseUserData.swift */; };
 		29CA161F2C571BDF006C5805 /* PostReviewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CA161E2C571BDF006C5805 /* PostReviewModal.swift */; };
 		29FBF4312C51B26E0068E64F /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FBF4302C51B26D0068E64F /* SessionStore.swift */; };
@@ -112,7 +112,6 @@
 		2948E9402C02F8EF00EC4726 /* BottomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomTabView.swift; sourceTree = "<group>"; };
 		2948E9422C02F97200EC4726 /* ViewSearchPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSearchPage.swift; sourceTree = "<group>"; };
 		2948E9442C02F9D000EC4726 /* ViewProfilePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewProfilePage.swift; sourceTree = "<group>"; };
-		2948E9462C02FA2B00EC4726 /* ViewDiscoverPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDiscoverPage.swift; sourceTree = "<group>"; };
 		2948E9482C02FB1300EC4726 /* ViewRateReviewPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRateReviewPage.swift; sourceTree = "<group>"; };
 		2948E94A2C04576F00EC4726 /* DiscogsAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscogsAPIManager.swift; sourceTree = "<group>"; };
 		2948E9532C066E0A00EC4726 /* DiscogsAPI.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = DiscogsAPI.plist; sourceTree = "<group>"; };
@@ -154,6 +153,7 @@
 		2987B2B12C5C9F08000F7B6D /* ReviewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCard.swift; sourceTree = "<group>"; };
 		2987B2B32C5CC751000F7B6D /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 		2987B2B52C5D6E08000F7B6D /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
+		2987B2B72C5EF8A6000F7B6D /* ViewActivitiesPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewActivitiesPage.swift; sourceTree = "<group>"; };
 		29CA161C2C56D854006C5805 /* FirebaseUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserData.swift; sourceTree = "<group>"; };
 		29CA161E2C571BDF006C5805 /* PostReviewModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReviewModal.swift; sourceTree = "<group>"; };
 		29FBF4302C51B26D0068E64F /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
@@ -311,7 +311,6 @@
 				2948E9402C02F8EF00EC4726 /* BottomTabView.swift */,
 				2948E9422C02F97200EC4726 /* ViewSearchPage.swift */,
 				2948E9442C02F9D000EC4726 /* ViewProfilePage.swift */,
-				2948E9462C02FA2B00EC4726 /* ViewDiscoverPage.swift */,
 				2948E9482C02FB1300EC4726 /* ViewRateReviewPage.swift */,
 				F661FEDF2C0D605800023E5A /* ViewLogInPage.swift */,
 				294AA18A2C12C6CB0097F16C /* ViewAlbumPage.swift */,
@@ -321,6 +320,7 @@
 				294AA1982C1C0A920097F16C /* ViewArtistPage.swift */,
 				294AA1AA2C1FAAFC0097F16C /* ViewCustomListPage.swift */,
 				291FFE9D2C3131B10066AC79 /* ViewSearchTabBar.swift */,
+				2987B2B72C5EF8A6000F7B6D /* ViewActivitiesPage.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -588,6 +588,7 @@
 				294AA1A32C1E7A670097F16C /* RateLimiter.swift in Sources */,
 				294AA1A52C1F7E760097F16C /* AlbumListCard.swift in Sources */,
 				29FBF4312C51B26E0068E64F /* SessionStore.swift in Sources */,
+				2987B2B82C5EF8A6000F7B6D /* ViewActivitiesPage.swift in Sources */,
 				2948E9412C02F8EF00EC4726 /* BottomTabView.swift in Sources */,
 				294AA1802C0EFA490097F16C /* AlbumCarousel.swift in Sources */,
 				2948E93F2C02F47200EC4726 /* ViewRecentFriendsActivityPage.swift in Sources */,
@@ -616,7 +617,6 @@
 				294AA18F2C15A7CE0097F16C /* DropdownList.swift in Sources */,
 				2987B2B42C5CC751000F7B6D /* StarView.swift in Sources */,
 				2948E9342C02B91000EC4726 /* ViewTrendingAlbumsPage.swift in Sources */,
-				2948E9472C02FA2B00EC4726 /* ViewDiscoverPage.swift in Sources */,
 				2948E9322C01C1DA00EC4726 /* User.swift in Sources */,
 				294AA1A92C1F9D0F0097F16C /* FannedAlbums.swift in Sources */,
 				293C7C332C099541002605B1 /* Artist.swift in Sources */,

@@ -10,7 +10,8 @@ import SwiftUI
 
 struct AppBackground: View {
     var body: some View {
-        LinearGradient(gradient: Gradient(colors: [.blue, .black]), startPoint: .topLeading, endPoint: .bottomTrailing)
-            .edgesIgnoringSafeArea(.all)
+//        LinearGradient(gradient: Gradient(colors: [.blue, .black]), startPoint: .topLeading, endPoint: .bottomTrailing)
+//            .edgesIgnoringSafeArea(.all)
+        Color.blue.opacity(0.2).edgesIgnoringSafeArea(.all)
     }
 }

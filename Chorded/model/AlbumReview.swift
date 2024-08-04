@@ -7,20 +7,20 @@
 
 import Foundation
 
-struct AlbumReview: Identifiable {
-    var id: String
+struct AlbumReview: Decodable {
+    var albumReviewID: String
     var userID: String
     var albumKey: String
     var rating: Double
     var reviewText: String
-    var timestamp: String
+    var reviewTimestamp: String
     
-    init(id: String, userID: String, albumKey: String, rating: Double, reviewText: String, timestamp: String) {
-        self.id = id
+    init(albumReviewID: String, userID: String, albumKey: String, rating: Double, reviewText: String, reviewTimestamp: String) {
+        self.albumReviewID = albumReviewID
         self.userID = userID
         self.albumKey = albumKey
         self.rating = rating
         self.reviewText = reviewText
-        self.timestamp = timestamp
+        self.reviewTimestamp = reviewTimestamp
     }
 }

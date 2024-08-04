@@ -25,7 +25,7 @@ struct ViewReviewPage: View {
                             Text("Be the first to leave a review!")
                                 .foregroundColor(.gray)
                         } else {
-                            ForEach(reviews.reversed()) { review in
+                            ForEach(reviews.reversed(), id: \.albumReviewID) { review in
                                 ReviewCard(review: review)
                                 Divider().overlay(Color.white)
                             }

@@ -7,50 +7,50 @@
 
 import Foundation
 
-struct User: Identifiable, Decodable {
-    var id: String
+struct User: Decodable {
+    var userID: String
     var username: String
     var email: String
-    let profilePictureURL: String
-    let albumFavorites: [String]?
+    var userProfilePictureURL: String
+    var userAlbumFavorites: [String]?
     
-    init(id: String, username: String, email: String, profilePictureURL: String) {
-        self.id = id
+    init(userID: String, username: String, email: String, userProfilePictureURL: String) {
+        self.userID = userID
         self.username = username
         self.email = email
-        self.profilePictureURL = profilePictureURL
-        self.albumFavorites = []
+        self.userProfilePictureURL = userProfilePictureURL
+        self.userAlbumFavorites = []
     }
 }
 
-struct UserConnections: Identifiable, Decodable {
-    var id: String
-    let following: [String]?
-    let followers: [String]?
+struct UserConnections: Decodable {
+    var userID: String
+    var following: [String]?
+    var followers: [String]?
     
-    init(id: String) {
-        self.id = id
+    init(userID: String) {
+        self.userID = userID
         self.following = []
         self.followers = []
     }
 }
 
-struct UserReviews: Identifiable, Decodable {
-    var id: String
-    let albumReviews: [String]?
+struct UserReviews: Decodable {
+    var userID: String
+    var userAlbumReviews: [String]?
     
-    init(id: String) {
-        self.id = id
-        self.albumReviews = []
+    init(userID: String) {
+        self.userID = userID
+        self.userAlbumReviews = []
     }
 }
 
-struct UserListenList: Identifiable, Decodable {
-    var id: String
-    let listenList: [String]?
+struct UserListenList: Decodable {
+    var userID: String
+    var userListenList: [String]?
     
-    init(id: String) {
-        self.id = id
-        self.listenList = []
+    init(userID: String) {
+        self.userID = userID
+        self.userListenList = []
     }
 }

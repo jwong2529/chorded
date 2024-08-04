@@ -51,7 +51,7 @@ class SessionStore: ObservableObject {
     
     private func createUserInDatabase(uid: String, email: String, username: String) {
         let userRef = Database.database().reference().child("Users").child(uid)
-        let user = User(id: uid, username: username, email: email, profilePictureURL: "")
+        let user = User(userID: uid, username: username, email: email, userProfilePictureURL: "")
         
         userRef.setValue(user.toDictionary()) { error, _ in
             if let error = error {
@@ -60,7 +60,7 @@ class SessionStore: ObservableObject {
         }
                       
         let connectionsRef = Database.database().reference().child("UserConnections").child(uid)
-        let connections = UserConnections(id: uid)
+        let connections = UserConnections(userID: uid)
         
         connectionsRef.setValue(connections.toDictionary()) { error, _ in
             if let error = error {
@@ -69,7 +69,7 @@ class SessionStore: ObservableObject {
         }
         
         let reviewsRef = Database.database().reference().child("UserReviews").child(uid)
-        let reviews = UserReviews(id: uid)
+        let reviews = UserReviews(userID: uid)
         
         reviewsRef.setValue(reviews.toDictionary()) { error, _ in
             if let error = error {
@@ -78,7 +78,7 @@ class SessionStore: ObservableObject {
         }
         
         let listenListRef = Database.database().reference().child("UserListenList").child(uid)
-        let listenList = UserListenList(id: uid)
+        let listenList = UserListenList(userID: uid)
         
         listenListRef.setValue(listenList.toDictionary()) { error, _ in
             if let error = error {

@@ -306,18 +306,18 @@ class FirebaseDataManager {
     
     func postAlbumReview(albumID: String, review: AlbumReview, completion: @escaping (Error?) -> Void) {
         let reviewData: [String: Any] = [
-            "id": review.id,
+            "albumReviewID": review.albumReviewID,
             "userID": review.userID,
             "albumKey": review.albumKey,
             "rating": review.rating,
             "reviewText": review.reviewText,
-            "timestamp": review.timestamp
+            "reviewTimestamp": review.reviewTimestamp
         ]
         
         //Add review to corresponding AlbumReviews list (key: albumkey, value: list of AlbumReviews)
-        let albumReviewsRef = databaseRef.child("AlbumReviews").child(albumID).child("Reviews").child(review.id)
+        let albumReviewsRef = databaseRef.child("AlbumReviews").child(albumID).child("Reviews").child(review.albumReviewID)
         let totalRatingSumRef = databaseRef.child("AlbumReviews").child(albumID).child("TotalRatingSum")
-        let userReviewsRef = databaseRef.child("UserReviews").child(review.userID).child(review.id)
+        let userReviewsRef = databaseRef.child("UserReviews").child(review.userID).child(review.albumReviewID)
         
         albumReviewsRef.setValue(reviewData) { error, _ in
             if let error = error {
@@ -341,8 +341,29 @@ class FirebaseDataManager {
                         currentData.value = review.rating
                     }
                     return TransactionResult.success(withValue: currentData)
+                } andCompletionBlock: { error, _, _ in
+                    if let error = error {
+                        completion(error)
+                        return
+                    }
+                    
+                    let activity = Activity(
+                        activityID: UUID().uuidString,
+                        userID: review.userID,
+                        activityTimestamp: review.reviewTimestamp,
+                        activityType: .albumReview,
+                        albumID: albumID,
+                        albumReviewID: review.albumReviewID
+                    )
+                    
+                    FirebaseUserData().logActivity(activity: activity) { error in
+                        if let error = error {
+                            completion(error)
+                            return
+                        }
+                        completion(nil)
+                    }
                 }
-                completion(nil)
             }
         }
     }
@@ -350,24 +371,41 @@ class FirebaseDataManager {
     func fetchAlbumReviews(albumID: String, completion: @escaping ([AlbumReview]?, Error?) -> Void) {
         let albumReviewsRef = databaseRef.child("AlbumReviews").child(albumID).child("Reviews")
         
-        albumReviewsRef.queryOrdered(byChild: "timestamp").observeSingleEvent(of: .value) { snapshot in
+        albumReviewsRef.queryOrdered(byChild: "reviewTimestamp").observeSingleEvent(of: .value) { snapshot in
             var albumReviews: [AlbumReview] = []
             
             for child in snapshot.children {
                 if let snapshot = child as? DataSnapshot,
                    let reviewData = snapshot.value as? [String: Any],
-                   let id = reviewData["id"] as? String,
+                   let albumReviewID = reviewData["albumReviewID"] as? String,
                    let userID = reviewData["userID"] as? String,
                    let albumKey = reviewData["albumKey"] as? String,
                    let rating = reviewData["rating"] as? Double,
                    let reviewText = reviewData["reviewText"] as? String,
-                   let timestamp = reviewData["timestamp"] as? String {
-                    let review = AlbumReview(id: id, userID: userID, albumKey: albumKey, rating: rating, reviewText: reviewText, timestamp: timestamp)
+                   let reviewTimestamp = reviewData["reviewTimestamp"] as? String {
+                    let review = AlbumReview(albumReviewID: albumReviewID, userID: userID, albumKey: albumKey, rating: rating, reviewText: reviewText, reviewTimestamp: reviewTimestamp)
                     albumReviews.append(review)
                 }
             }
             
             completion(albumReviews, nil)
+        }
+    }
+    
+    func fetchSpecificAlbumReview(albumKey: String, reviewID: String, completion: @escaping (AlbumReview?, Error?) -> Void) {
+        let reviewRef = databaseRef.child("AlbumReviews").child(albumKey).child("Reviews").child(reviewID)
+        reviewRef.observeSingleEvent(of: .value) { snapshot in
+            guard snapshot.exists(), let reviewData = snapshot.value as? [String: Any] else {
+                completion(nil, NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Album review not found in Firebase"]))
+                return
+            }
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: reviewData, options: [])
+                let review = try JSONDecoder().decode(AlbumReview.self, from: jsonData)
+                completion(review, nil)
+            } catch {
+                completion(nil, error)
+            }
         }
     }
     
@@ -424,6 +462,31 @@ extension Artist {
             "discogsID": discogsID,
             "imageURL": imageURL,
             "albums": albums
+        ]
+    }
+}
+
+extension AlbumReview {
+    init?(snapshot: DataSnapshot) {
+        guard let value = snapshot.value as? [String: Any] else {
+            return nil
+        }
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: value)
+            let albumReview = try JSONDecoder().decode(AlbumReview.self, from: jsonData)
+            self = albumReview
+        } catch {
+            return nil
+        }
+    }
+    
+    func toDictionary() -> [String: Any] {
+        return [
+            "userID": userID,
+            "albumKey": albumKey,
+            "rating": rating,
+            "reviewText": reviewText,
+            "reviewTimestamp": reviewTimestamp
         ]
     }
 }
