@@ -1,22 +1,24 @@
 //
-//  PlaceholderArtistImage.swift
+//  PlaceholderUserImage.swift
 //  Chorded
 //
-//  Created by Janice Wong on 6/14/24.
+//  Created by Janice Wong on 8/4/24.
 //
 
 import Foundation
 import SwiftUI
 
-struct PlaceholderArtistImage: View {
+struct PlaceholderUserImage: View {
     var width: CGFloat
     var height: CGFloat
     
     var body: some View {
-        Image(systemName: "person.crop.circle.fill")
+        Image("profilePic")
             .resizable()
             .aspectRatio(contentMode: .fill)
             .frame(width: width, height: height)
             .clipShape(Circle())
     }
 }
+
+

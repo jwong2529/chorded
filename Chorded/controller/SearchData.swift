@@ -58,6 +58,32 @@ class SearchData {
             }
             completion(newArtists)
         }
+    }
+    
+    func searchUsers(with query: String, completion: @escaping ([User]) -> Void) {
+        let fixedQuery = FixStrings().normalizeString(query)
+        guard !fixedQuery.isEmpty else {
+            completion([])
+            return
+        }
         
+        databaseRef.child("Users").queryOrdered(byChild: "normalizedUsername").queryStarting(atValue: fixedQuery).queryEnding(atValue: fixedQuery + "\u{f8ff}").observeSingleEvent(of: .value) { snapshot in
+            var newUsers = [User]()
+            for child in snapshot.children {
+                if let snapshot = child as? DataSnapshot,
+                   let userDict = snapshot.value as? [String: Any],
+                   let username = userDict["username"] as? String,
+                   let normalizedUsername = userDict["normalizedUsername"] as? String,
+                   let email = userDict["email"] as? String,
+                   let userProfilePictureURL = userDict["userProfilePictureURL"] as? String,
+                   let userBio = userDict["userBio"] as? String {
+                    let userID = snapshot.key
+                    let user = User(userID: userID, username: username, normalizedUsername: normalizedUsername, email: email, userProfilePictureURL: userProfilePictureURL, userBio: userBio)
+                    newUsers.append(user)
+                }
+                    
+            }
+            completion(newUsers)
+        }
     }
 }

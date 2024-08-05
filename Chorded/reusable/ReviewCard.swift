@@ -7,24 +7,36 @@
 
 import Foundation
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct ReviewCard: View {
     var review: AlbumReview
-    @State private var user: User?
+    @State private var user: User = User(userID: "", username: "", normalizedUsername: "", email: "", userProfilePictureURL: "", userBio: "")
         
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Image("profilePic")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 20, height: 20)
-                    .clipShape(Circle())
-                
-                VStack(alignment: .leading) {
-                    Text(user?.username ?? "User")
-                        .font(.subheadline)
+                NavigationLink(destination: ViewProfilePage(userID: user.userID)) {
+                    HStack {
+                        if let url = URL(string: user.userProfilePictureURL) {
+                            WebImage(url: url)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 20, height: 20)
+                                .clipShape(Circle())
+                        } else {
+                            PlaceholderUserImage(width: 20, height: 20)
+                        }
+                        
+                        VStack(alignment: .leading) {
+                            Text(user.username)
+                                .font(.subheadline)
+                        }
+                        
+                    }
                 }
+                .buttonStyle(PlainButtonStyle())
+                
                 Spacer()
                 let reviewDate = ISO8601DateFormatter().date(from: review.reviewTimestamp) ?? Date()
                 Text(FixStrings().timeAgoSinceDate(reviewDate))

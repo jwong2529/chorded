@@ -67,7 +67,7 @@ struct ViewHomePage: View {
                     }
                     
                     
-                    NavigationLink(destination: ViewRecentFriendsActivityPage()) {
+                    NavigationLink(destination: ViewActivitiesPage()) {
                         HStack {
                             Text("Recent from friends")
                                 .font(.system(size: 20, weight: .medium, design: .default))

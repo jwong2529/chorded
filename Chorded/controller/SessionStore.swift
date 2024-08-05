@@ -40,52 +40,16 @@ class SessionStore: ObservableObject {
         }
     }
     
-    func signUp(email: String, password: String, username: String, completion: @escaping (Error?) -> Void) {
+    func signUp(email: String, password: String, username: String, normalizedUsername: String, completion: @escaping (Error?) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let user = authResult?.user {
-                self.createUserInDatabase(uid: user.uid, email: email, username: username)
+//                self.createUserInDatabase(uid: user.uid, email: email, username: username)
+                FirebaseUserData().createUser(uid: user.uid, email: email, username: username, normalizedUsername: normalizedUsername)
             }
             completion(error)
         }
     }
     
-    private func createUserInDatabase(uid: String, email: String, username: String) {
-        let userRef = Database.database().reference().child("Users").child(uid)
-        let user = User(userID: uid, username: username, email: email, userProfilePictureURL: "")
-        
-        userRef.setValue(user.toDictionary()) { error, _ in
-            if let error = error {
-                print("Error saving user to database: \(error.localizedDescription)")
-            }
-        }
-                      
-        let connectionsRef = Database.database().reference().child("UserConnections").child(uid)
-        let connections = UserConnections(userID: uid)
-        
-        connectionsRef.setValue(connections.toDictionary()) { error, _ in
-            if let error = error {
-                print("Error saving user connections to database: \(error.localizedDescription)")
-            }
-        }
-        
-        let reviewsRef = Database.database().reference().child("UserReviews").child(uid)
-        let reviews = UserReviews(userID: uid)
-        
-        reviewsRef.setValue(reviews.toDictionary()) { error, _ in
-            if let error = error {
-                print("Error saving user reviews to database: \(error.localizedDescription)")
-            }
-        }
-        
-        let listenListRef = Database.database().reference().child("UserListenList").child(uid)
-        let listenList = UserListenList(userID: uid)
-        
-        listenListRef.setValue(listenList.toDictionary()) { error, _ in
-            if let error = error {
-                print("Error saving user listen list to database: \(error.localizedDescription)")
-            }
-        }
-    }
     
     func signOut() {
         do {

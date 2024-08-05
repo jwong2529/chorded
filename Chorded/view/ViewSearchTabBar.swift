@@ -11,7 +11,7 @@ import SDWebImageSwiftUI
 
 struct ViewSearchTabBar: View {
     @Binding var selectedTab: Int
-    private let tabs = ["Albums", "Artists"]
+    private let tabs = ["Albums", "Artists","Users"]
 //    var artists: [Artist]
 //    var album: Album
     

@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 struct BottomTabView: View {
+    @EnvironmentObject var session: SessionStore
     @State private var selectedItem = 0
 //    @State private var oldSelectedItem = 0
     @State private var showRateReviewPage = false
@@ -42,7 +43,7 @@ struct BottomTabView: View {
                             Image(systemName: "bolt")
                         }
                         .tag(3)
-                    ViewProfilePage()
+                    ViewProfilePage(userID: session.currentUserID ?? "")
                         .tabItem {
                             Image(systemName: "person.fill")
                         }

@@ -14,6 +14,7 @@ class QuickTesting: ObservableObject {
     private var trendingAlbums = [Album]()
     
     init() {
+        
 //        DiscogsAPIManager().testingAPI()
         
 //        FirebaseDataManager().fetchArtist(discogsKey: 82730) { artist, error in
@@ -23,6 +24,22 @@ class QuickTesting: ObservableObject {
 //                print("Fetched artist: \(artist)")
 //            }
 //        }
+        
+//        FirebaseUserData().fetchUserConnections(uid: "vRvcmGHequhSAj4buOKQztBeRTs1") { followingList, followersList in
+//            print("Following list: \(followingList)")
+//            print("Followers list: \(followersList)")
+//        }
+//        FirebaseUserData().fetchUserConnections(uid: "vRvcmGHequhSAj4buOKQztBeRTs1")
+        
+//        FirebaseUserData().fetchFollowing(uid: "vRvcmGHequhSAj4buOKQztBeRTs1") { followingList in
+//            print("following list: \(followingList)")
+//        }
+//        
+//        FirebaseUserData().fetchFollowers(uid: "vRvcmGHequhSAj4buOKQztBeRTs1") { followersList in
+//            print("followers list: \(followersList)")
+//        }
+        
+//        FirebaseUserData().checkUserConnections(uid: "vRvcmGHequhSAj4buOKQztBeRTs1")
         
 //        AlbumLoadingManager().loadAlbumList(fileName: "trendingAlbums", listName: "TrendingAlbums")
 //        AlbumLoadingManager().loadAlbumList(fileName: "greatestAlbumsRS", listName: "GreatestAlbumsOfAllTimeRS")

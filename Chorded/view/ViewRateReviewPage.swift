@@ -10,6 +10,8 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct ViewRateReviewPage: View {
+    @EnvironmentObject var session: SessionStore
+    @State private var user: User = User(userID: "", username: "", normalizedUsername: "", email: "", userProfilePictureURL: "", userBio: "")
     @Binding var showRateReviewPage: Bool
     @State private var searchText = ""
     @State private var albums = [AlbumIndex]()
@@ -76,7 +78,7 @@ struct ViewRateReviewPage: View {
                 leading: Button("Cancel") {
                     showRateReviewPage = false
                 },
-                trailing: ProfilePicture()
+                trailing: ProfilePicture(user: user)
             )
             .navigationBarTitle("Review an album", displayMode: .inline)
             // do not delete, this makes sure the sheet is presented once the album is fully fetched, during the wait it shows a loading spinner
@@ -91,6 +93,9 @@ struct ViewRateReviewPage: View {
                     }
                 }
             )
+            .onAppear {
+                fetchUser(userID: session.currentUserID ?? "")
+            }
         }
     }
 
@@ -108,15 +113,30 @@ struct ViewRateReviewPage: View {
             }
         }
     }
+    
+    private func fetchUser(userID: String) {
+        FirebaseUserData().fetchUserData(uid: userID) { fetchedUser, error in
+            if let error = error {
+                print("Failed to fetch user: \(error.localizedDescription)")
+            } else if let fetchedUser = fetchedUser {
+                self.user = fetchedUser
+            }
+        }
+    }
 }
 
 struct ProfilePicture: View {
+    var user: User
+    
     var body: some View {
-        // replace with actual user's profile pic later
-        Image("profilePic")
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: 20, height: 20)
-            .clipShape(Circle())
+        if let url = URL(string: user.userProfilePictureURL) {
+            WebImage(url: url)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 20, height: 20)
+                .clipShape(Circle())
+        } else {
+            PlaceholderUserImage(width: 20, height: 20)
+        }
     }
 }

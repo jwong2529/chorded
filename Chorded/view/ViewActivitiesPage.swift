@@ -79,7 +79,7 @@ struct ViewActivitiesPage: View {
 struct AlbumReviewActivityView: View {
     let activity: Activity
     
-    @State private var user: User = User(userID: "", username: "", email: "", userProfilePictureURL: "")
+    @State private var user: User = User(userID: "", username: "", normalizedUsername: "", email: "", userProfilePictureURL: "", userBio: "")
     @State private var album: Album = Album(title: "", artistID: [0], artistNames: [""], genres: [""], styles: [""], year: 0, albumTracks: [""], coverImageURL: "")
     @State private var review: AlbumReview = AlbumReview(albumReviewID: "", userID: "", albumKey: "", rating: 0.0, reviewText: "", reviewTimestamp: "")
     @State private var imageSize: CGSize = .zero
@@ -89,14 +89,19 @@ struct AlbumReviewActivityView: View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 //profile pic
-                Image("profilePic")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .clipShape(Circle())
-                    .frame(width: 25, height: 25)
-                    .onTapGesture {
-                        //navigate to user profile
+                NavigationLink(destination: ViewProfilePage(userID: user.userID)) {
+                    HStack {
+                        if let url = URL(string: user.userProfilePictureURL) {
+                            WebImage(url: url)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 25, height: 25)
+                                .clipShape(Circle())
+                        } else {
+                            PlaceholderUserImage(width: 25, height: 25)
+                        }
                     }
+                }
                 VStack(alignment: .leading) {
                     if (!review.reviewText.isEmpty) {
                         VStack(alignment: .leading) {
@@ -196,21 +201,26 @@ struct AlbumReviewActivityView: View {
 struct ListenListFavoritesActivityView: View {
     var activity: Activity
     
-    @State private var user: User = User(userID: "", username: "", email: "", userProfilePictureURL: "")
+    @State private var user: User = User(userID: "", username: "", normalizedUsername: "", email: "", userProfilePictureURL: "", userBio: "")
     @State private var album: Album = Album(title: "", artistID: [0], artistNames: [""], genres: [""], styles: [""], year: 0, albumTracks: [""], coverImageURL: "")
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 //profile pic
-                Image("profilePic")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .clipShape(Circle())
-                    .frame(width: 25, height: 25)
-                    .onTapGesture {
-                        //navigate to user profile
+                NavigationLink(destination: ViewProfilePage(userID: user.userID)) {
+                    HStack {
+                        if let url = URL(string: user.userProfilePictureURL) {
+                            WebImage(url: url)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 25, height: 25)
+                                .clipShape(Circle())
+                        } else {
+                            PlaceholderUserImage(width: 25, height: 25)
+                        }
                     }
+                }
                 
                 if (activity.activityType == .listenList) {
                     Text("\(user.username) added ")

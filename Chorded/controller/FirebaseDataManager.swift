@@ -304,6 +304,8 @@ class FirebaseDataManager {
         }
     }
     
+    // Album Reviews
+    
     func postAlbumReview(albumID: String, review: AlbumReview, completion: @escaping (Error?) -> Void) {
         let reviewData: [String: Any] = [
             "albumReviewID": review.albumReviewID,
