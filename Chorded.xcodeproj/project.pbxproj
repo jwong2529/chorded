@@ -67,6 +67,7 @@
 		2987B2B82C5EF8A6000F7B6D /* ViewActivitiesPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2987B2B72C5EF8A6000F7B6D /* ViewActivitiesPage.swift */; };
 		2987B2BA2C6041F6000F7B6D /* PlaceholderUserImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2987B2B92C6041F6000F7B6D /* PlaceholderUserImage.swift */; };
 		2987B2BC2C604F04000F7B6D /* ViewEditProfilePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2987B2BB2C604F04000F7B6D /* ViewEditProfilePage.swift */; };
+		2987B2BE2C61BA1A000F7B6D /* ViewSpecificReviewPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2987B2BD2C61BA1A000F7B6D /* ViewSpecificReviewPage.swift */; };
 		29CA161D2C56D854006C5805 /* FirebaseUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CA161C2C56D854006C5805 /* FirebaseUserData.swift */; };
 		29CA161F2C571BDF006C5805 /* PostReviewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CA161E2C571BDF006C5805 /* PostReviewModal.swift */; };
 		29FBF4312C51B26E0068E64F /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FBF4302C51B26D0068E64F /* SessionStore.swift */; };
@@ -156,6 +157,7 @@
 		2987B2B72C5EF8A6000F7B6D /* ViewActivitiesPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewActivitiesPage.swift; sourceTree = "<group>"; };
 		2987B2B92C6041F6000F7B6D /* PlaceholderUserImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderUserImage.swift; sourceTree = "<group>"; };
 		2987B2BB2C604F04000F7B6D /* ViewEditProfilePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewEditProfilePage.swift; sourceTree = "<group>"; };
+		2987B2BD2C61BA1A000F7B6D /* ViewSpecificReviewPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSpecificReviewPage.swift; sourceTree = "<group>"; };
 		29CA161C2C56D854006C5805 /* FirebaseUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserData.swift; sourceTree = "<group>"; };
 		29CA161E2C571BDF006C5805 /* PostReviewModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReviewModal.swift; sourceTree = "<group>"; };
 		29FBF4302C51B26D0068E64F /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 				291FFE9D2C3131B10066AC79 /* ViewSearchTabBar.swift */,
 				2987B2B72C5EF8A6000F7B6D /* ViewActivitiesPage.swift */,
 				2987B2BB2C604F04000F7B6D /* ViewEditProfilePage.swift */,
+				2987B2BD2C61BA1A000F7B6D /* ViewSpecificReviewPage.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -625,6 +628,7 @@
 				294AA1A92C1F9D0F0097F16C /* FannedAlbums.swift in Sources */,
 				293C7C332C099541002605B1 /* Artist.swift in Sources */,
 				2948E9432C02F97200EC4726 /* ViewSearchPage.swift in Sources */,
+				2987B2BE2C61BA1A000F7B6D /* ViewSpecificReviewPage.swift in Sources */,
 				29CA161D2C56D854006C5805 /* FirebaseUserData.swift in Sources */,
 				2948E9302C01C03E00EC4726 /* AlbumReview.swift in Sources */,
 				294AA1972C1AE5F90097F16C /* ViewGenresSectionTabBar.swift in Sources */,

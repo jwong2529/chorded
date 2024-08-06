@@ -306,7 +306,7 @@ class FirebaseDataManager {
     
     // Album Reviews
     
-    func postAlbumReview(albumID: String, review: AlbumReview, completion: @escaping (Error?) -> Void) {
+    func postAlbumReview(albumID: String, review: AlbumReview, ratingSumIncrement: Double, activityID: String, completion: @escaping (Error?) -> Void) {
         let reviewData: [String: Any] = [
             "albumReviewID": review.albumReviewID,
             "userID": review.userID,
@@ -337,10 +337,10 @@ class FirebaseDataManager {
                 //update TotalRatingSum
                 totalRatingSumRef.runTransactionBlock { currentData -> TransactionResult in
                     if var totalRatingSum = currentData.value as? Double {
-                        totalRatingSum += review.rating
+                        totalRatingSum += ratingSumIncrement
                         currentData.value = totalRatingSum
                     } else {
-                        currentData.value = review.rating
+                        currentData.value = ratingSumIncrement
                     }
                     return TransactionResult.success(withValue: currentData)
                 } andCompletionBlock: { error, _, _ in
@@ -349,8 +349,10 @@ class FirebaseDataManager {
                         return
                     }
                     
+                    // if activity of same review id exists, update that same activity with new review info and timestamp
+                    let newActivityID = activityID == "" ? UUID().uuidString: activityID
                     let activity = Activity(
-                        activityID: UUID().uuidString,
+                        activityID: newActivityID,
                         userID: review.userID,
                         activityTimestamp: review.reviewTimestamp,
                         activityType: .albumReview,
@@ -369,6 +371,139 @@ class FirebaseDataManager {
             }
         }
     }
+    
+    func deleteAlbumReview(userID: String, albumID: String, reviewID: String, completion: @escaping (Error?) -> Void) {
+        let databaseRef = Database.database().reference()
+        
+        // Create references to the nodes we need to delete from
+        let albumReviewRef = databaseRef.child("AlbumReviews").child(albumID).child("Reviews").child(reviewID)
+        let userReviewRef = databaseRef.child("UserReviews").child(userID).child(reviewID)
+        let activityLogRef = databaseRef.child("ActivityLog")
+        let userActivitiesRef = databaseRef.child("UserActivities").child(userID)
+        
+        var errors: [Error] = []
+        
+        let dispatchGroup = DispatchGroup()
+        
+        // Fetch review data before deletion
+        dispatchGroup.enter()
+        fetchSpecificAlbumReview(albumKey: albumID, reviewID: reviewID) { fetchedAlbum, error in
+            if let error = error {
+                errors.append(error)
+                dispatchGroup.leave()
+                return
+            }
+            
+            guard let fetchedAlbum = fetchedAlbum else {
+                errors.append(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch album review"]))
+                dispatchGroup.leave()
+                return
+            }
+            
+            // Update total rating sum
+            dispatchGroup.enter()
+            self.updateTotalRatingSumAfterDeletion(albumID: albumID, rating: fetchedAlbum.rating) { error in
+                if let error = error {
+                    errors.append(error)
+                }
+                dispatchGroup.leave()
+            }
+            
+            // Delete from AlbumReviews
+            dispatchGroup.enter()
+            albumReviewRef.removeValue { error, _ in
+                if let error = error {
+                    errors.append(error)
+                }
+                dispatchGroup.leave()
+            }
+            
+            // Delete from UserReviews
+            dispatchGroup.enter()
+            userReviewRef.removeValue { error, _ in
+                if let error = error {
+                    errors.append(error)
+                }
+                dispatchGroup.leave()
+            }
+            
+            // Delete from ActivityLog
+            dispatchGroup.enter()
+            activityLogRef.observeSingleEvent(of: .value) { snapshot in
+                for child in snapshot.children.allObjects as! [DataSnapshot] {
+                    if let activityData = child.value as? [String: Any],
+                       let activityID = activityData["activityID"] as? String,
+                       let activityReviewID = activityData["albumReviewID"] as? String,
+                       let activityAlbumID = activityData["albumID"] as? String,
+                       let activityType = activityData["activityType"] as? String,
+                       activityReviewID == reviewID && activityAlbumID == albumID && activityType == ActivityType.albumReview.rawValue {
+                        activityLogRef.child(activityID).removeValue { error, _ in
+                            if let error = error {
+                                errors.append(error)
+                            }
+                            dispatchGroup.leave()
+                        }
+                        return
+                    }
+                }
+                dispatchGroup.leave()
+            }
+            
+            // Delete from UserActivities
+            dispatchGroup.enter()
+            userActivitiesRef.observeSingleEvent(of: .value) { snapshot in
+                for child in snapshot.children.allObjects as! [DataSnapshot] {
+                    if let activityData = child.value as? [String: Any],
+                       let activityID = activityData["activityID"] as? String,
+                       let activityReviewID = activityData["albumReviewID"] as? String,
+                       let activityAlbumID = activityData["albumID"] as? String,
+                       activityReviewID == reviewID && activityAlbumID == albumID {
+                        userActivitiesRef.child(activityID).removeValue { error, _ in
+                            if let error = error {
+                                errors.append(error)
+                            }
+                            dispatchGroup.leave()
+                        }
+                        return
+                    }
+                }
+                dispatchGroup.leave()
+            }
+            
+            // Completion handler
+            dispatchGroup.notify(queue: .main) {
+                if errors.isEmpty {
+                    completion(nil)
+                } else {
+                    completion(errors.first)
+                }
+            }
+        }
+    }
+    
+    func updateTotalRatingSumAfterDeletion(albumID: String, rating: Double, completion: @escaping (Error?) -> Void) {
+        let totalRatingSumRef = Database.database().reference().child("AlbumReviews").child(albumID).child("TotalRatingSum")
+        
+        totalRatingSumRef.runTransactionBlock { (currentData: MutableData) -> TransactionResult in
+            if var totalRatingSum = currentData.value as? Double {
+                totalRatingSum -= rating
+                currentData.value = totalRatingSum
+            } else {
+                currentData.value = 0
+            }
+            return TransactionResult.success(withValue: currentData)
+        } andCompletionBlock: { error, committed, snapshot in
+            if let error = error {
+                completion(error)
+            } else if !committed {
+                // Handle case where the transaction was not committed (conflict)
+                completion(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Transaction not committed"]))
+            } else {
+                completion(nil)
+            }
+        }
+    }
+
     
     func fetchAlbumReviews(albumID: String, completion: @escaping ([AlbumReview]?, Error?) -> Void) {
         let albumReviewsRef = databaseRef.child("AlbumReviews").child(albumID).child("Reviews")

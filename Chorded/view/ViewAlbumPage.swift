@@ -257,7 +257,7 @@ struct ViewAlbumPage: View {
         albumReviewsRef.observeSingleEvent(of: .value) { snapshot in
             guard let albumData = snapshot.value as? [String: Any],
                   let totalRatingSum = albumData["TotalRatingSum"] as? Double else {
-                print("Failed to fetch album's total rating sum")
+                print("No total rating sum to fetch")
                 return
             }
             

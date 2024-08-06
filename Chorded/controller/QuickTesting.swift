@@ -95,6 +95,13 @@ class QuickTesting: ObservableObject {
 //        let testString = "Travis Scott (2)"
 //        print(FixStrings().deleteDistinctArtistNum(testString))
         
+//        FirebaseDataManager().deleteAlbumReview(userID: "vRvcmGHequhSAj4buOKQztBeRTs1", albumID: "-O0beOq2J7OO7IYxLXQY", reviewID: "00C2B95E-7F8C-456E-B90C-C782538D3E3D") { error in
+//            if let error = error {
+//                print("error deleting review: \(error)")
+//            } else {
+//                print("review successfully deleted")
+//            }
+//        }
         
         
     }

@@ -38,14 +38,6 @@ struct ViewProfilePage: View {
                     VStack {
                         
                         VStack {
-//                            Image("profilePic")
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fill)
-//                                .shadow(color: .blue, radius: 5)
-//                                .frame(width: 120, height: 120)
-//                                .clipShape(Circle())
-//                                .padding(.top)
-//                                .padding(.top, -20)
                             if let url = URL(string: user.userProfilePictureURL) {
                                 WebImage(url: url)
                                     .resizable()

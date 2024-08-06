@@ -12,9 +12,12 @@ import SDWebImageSwiftUI
 struct PostReviewModal: View {
     @Binding var showModal: Bool
     @State private var reviewText: String = ""
+    @State private var originalReviewText: String = ""
     @State private var placeholderText: String = "Write your review here..."
     @State private var rating: Double = 0.0
-    @State private var addToListenList: Bool = false
+    @State private var originalRating: Double = 0.0
+    @State private var reviewID: String = ""
+    @State private var listenList: Bool = false
     @State private var starStates: [StarState] = Array(repeating: .empty, count: 5)
     var starSize: CGFloat = 25
     @EnvironmentObject var session: SessionStore
@@ -34,7 +37,7 @@ struct PostReviewModal: View {
                         
                         //Album details
                         VStack(alignment: .leading, spacing: 8) {
-                            HStack {
+                            HStack() {
                                 if album.coverImageURL != "", let url = URL(string: album.coverImageURL) {
                                     WebImage(url: url)
                                         .resizable()
@@ -42,7 +45,7 @@ struct PostReviewModal: View {
                                         .frame(width: 40, height: 40)
                                         .clipped()
                                         .cornerRadius(10)
-                                        .shadow(color: .blue, radius: 5)
+//                                        .shadow(color: .blue, radius: 5)
                                 } else {
                                     PlaceholderAlbumCover(width: 40, height: 40)
                                 }
@@ -52,16 +55,28 @@ struct PostReviewModal: View {
                                     Text(String(album.year))
                                         .foregroundColor(.gray)
                                 }
+                                Spacer()
                             }
-                            Divider().overlay(Color.white)
+                            .frame(maxWidth: .infinity)
+
                             
-                            Toggle("Add to listen list", isOn: $addToListenList)
-                                .padding(.top, 8)
+                            //only allow people to add to listen list if it hasn't been rated yet
+                            if self.rating == 0.0 {
+                                Divider().overlay(Color.white)
+                                
+                                Toggle("Add to listen list", isOn: $listenList)
+                                    .padding(.top, 8)
+                            }
+//                            Divider().overlay(Color.white)
+//                            
+//                            Toggle("Add to listen list", isOn: $listenList)
+//                                .padding(.top, 8)
                         }
                         .padding()
                         .background(.gray.opacity(0.2))
                         .cornerRadius(10)
                         .padding(.horizontal)
+//                        .frame(maxWidth: .infinity)
                                             
                         //Review date
                         VStack(alignment: .leading, spacing: 8) {
@@ -126,7 +141,7 @@ struct PostReviewModal: View {
                         
                             
                     }
-                    .navigationBarTitle("Post a Review", displayMode: .inline)
+                    .navigationBarTitle("\(album.title)", displayMode: .inline)
                     .navigationBarItems(leading: Button(action: {
                         self.showModal = false
                     }) {
@@ -140,7 +155,9 @@ struct PostReviewModal: View {
                             .foregroundColor(Color.green)
                     })
                     .onAppear {
-                        self.updateRating()
+                        self.checkForListenList()
+                        self.fetchExistingReview()
+//                        self.updateRating()
                     }
                     .alert(isPresented: $showAlert) {
                         Alert(title: Text(""), message: Text(alertMessage), dismissButton: .default(Text("OK")))
@@ -153,31 +170,45 @@ struct PostReviewModal: View {
         }
     }
     
+    private func fetchExistingReview() {
+        guard let userID = session.currentUserID else {
+            print("No current user ID found")
+            return
+        }
+        
+        FirebaseUserData().fetchUserReview(currentUserID: userID, albumID: album.firebaseKey) { fetchedUserReview, error in
+            if let error = error {
+                print("Failed to fetch user review: \(error.localizedDescription)")
+            } else if let fetchedUserReview = fetchedUserReview {
+                self.originalReviewText = fetchedUserReview.reviewText
+                self.originalRating = fetchedUserReview.rating
+                self.reviewID = fetchedUserReview.albumReviewID
+                self.updateStarStates(rating: fetchedUserReview.rating)
+                
+                self.reviewText = self.originalReviewText
+                self.rating = self.originalRating
+            }
+        }
+    }
+    
     private func saveReview() {
         guard let userID = session.currentUserID else {
             print("No current user ID found")
             return
         }
         
-        // user must submit a rating if they've written a review
-        if reviewText != "" && rating <= 0 {
-            alertMessage = "Rating is required to submit the review"
+        if let validationError = validateReview() {
+            alertMessage = validationError
             showAlert = true
             return
         }
         
-        // ensure review text does not exceed 1000 characters
-        if reviewText.count > 1000 {
-            alertMessage = "Review must not exceed 1000 characters"
-            showAlert = true
-            return
-        }
-        
-        let reviewID = UUID().uuidString
+        let albumReviewID = self.reviewID.isEmpty ? UUID().uuidString: self.reviewID
         let timestamp = ISO8601DateFormatter().string(from: Date())
+        let newRating = self.rating - self.originalRating
         
         let review = AlbumReview(
-            albumReviewID: reviewID,
+            albumReviewID: albumReviewID,
             userID: userID,
             albumKey: album.firebaseKey,
             rating: rating,
@@ -185,19 +216,88 @@ struct PostReviewModal: View {
             reviewTimestamp: timestamp
         )
         
-        // post review if rating is non empty
-         if review.rating != 0 {
-            FirebaseDataManager().postAlbumReview(albumID: album.firebaseKey, review: review) { error in
+        if hasReviewChanged() {
+            handleReviewChange(review: review, newRating: newRating)
+        } else {
+            evaluateListenList()
+            self.showModal = false
+        }
+    }
+    
+    private func validateReview() -> String? {
+        // user must submit a rating if they've written a review
+        if !reviewText.isEmpty && rating <= 0 {
+            return "Rating is required to submit the review"
+        }
+        
+        // ensure review text does not exceed 1000 characters
+        if reviewText.count > 1000 {
+            return "Review must not exceed 1000 characters"
+        }
+        
+        return nil
+    }
+    
+    private func hasReviewChanged() -> Bool {
+        return self.originalRating != self.rating || self.originalReviewText != self.reviewText
+    }
+    
+    private func handleReviewChange(review: AlbumReview, newRating: Double) {
+        if review.rating > 0 {
+            postReview(review: review, ratingSumIncrement: newRating)
+        } else {
+            deleteReview()
+        }
+    }
+    
+    private func postReview(review: AlbumReview, ratingSumIncrement: Double) {
+        guard let userID = session.currentUserID else {
+            print("No current user ID found")
+            return
+        }
+        
+        // Fetch the activity ID
+        FirebaseUserData().checkActivityExists(userID: userID, albumReviewID: review.albumReviewID) { activityID in
+            // Post the album review
+            FirebaseDataManager().postAlbumReview(albumID: album.firebaseKey, review: review, ratingSumIncrement: ratingSumIncrement, activityID: activityID) { error in
                 if let error = error {
                     print("Error posting review: \(error.localizedDescription)")
                 } else {
+                    FirebaseUserData().removeFromListenList(currentUserID: userID, albumID: album.firebaseKey)
                     alertMessage = "Saved review!"
                     showAlert = true
                     self.showModal = false
                 }
             }
+        }
+    }
+    
+    private func deleteReview() {
+        FirebaseDataManager().deleteAlbumReview(userID: session.currentUserID ?? "", albumID: album.firebaseKey, reviewID: self.reviewID) { error in
+            if let error = error {
+                print("Error deleting review: \(error.localizedDescription)")
+            } else {
+                evaluateListenList()
+                self.showModal = false
+            }
+        }
+    }
+    
+    private func checkForListenList() {
+        FirebaseUserData().isInListenList(uid: session.currentUserID ?? "", albumID: album.firebaseKey) { inListenList in
+            if inListenList {
+                self.listenList = true
+            } else {
+                self.listenList = false
+            }
+        }
+    }
+    
+    private func evaluateListenList() {
+        if self.listenList {
+            FirebaseUserData().addToListenList(currentUserID: session.currentUserID ?? "", albumID: album.firebaseKey)
         } else {
-            self.showModal = false
+            FirebaseUserData().removeFromListenList(currentUserID: session.currentUserID ?? "", albumID: album.firebaseKey)
         }
     }
     
@@ -226,6 +326,27 @@ struct PostReviewModal: View {
     
     private func updateRating() {
         rating = starStates.reduce(0.0) { $0 + $1.rawValue }
+    }
+    
+    private func updateStarStates(rating: Double) {
+        let totalStars = 5  // Assuming you have 5 stars
+        let roundedRating = Int(rating.rounded(.towardZero)) // Number of full stars
+        let hasHalfStar = rating - Double(roundedRating) >= 0.5
+        
+        // Reset all stars to empty
+        starStates = Array(repeating: .empty, count: totalStars)
+        
+        // Fill full stars
+        for i in 0..<roundedRating {
+            if i < totalStars {
+                starStates[i] = .full
+            }
+        }
+        
+        // Handle half star if needed
+        if roundedRating < totalStars && hasHalfStar {
+            starStates[roundedRating] = .half
+        }
     }
     
     private func hideKeyboard() {
