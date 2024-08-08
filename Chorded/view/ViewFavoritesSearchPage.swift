@@ -1,35 +1,32 @@
 //
-//  ViewRateReviewPage.swift
-//  MusicReviewApp
+//  ViewFavoritesSearchPage.swift
+//  Chorded
 //
-//  Created by Janice Wong on 5/25/24.
+//  Created by Janice Wong on 8/7/24.
 //
 
 import Foundation
 import SwiftUI
 import SDWebImageSwiftUI
 
-struct ViewRateReviewPage: View {
-    @EnvironmentObject var session: SessionStore
-    @State private var user: User = User(userID: "", username: "", normalizedUsername: "", email: "", userProfilePictureURL: "", userBio: "")
-    @Binding var showRateReviewPage: Bool
+struct ViewFavoritesSearchPage: View {
+    var user: User
+    @Binding var showModal: Bool
     @State private var searchText = ""
     @State private var albums = [AlbumIndex]()
-    @State private var selectedAlbumObj: Album?
-    @State private var showReviewModal = false
-    // need this state to make sure album is fetched before showing review modal
+    @Binding var selectedAlbum: Album?
     @State private var isFetchingAlbum = false
-
+    
     var body: some View {
         NavigationStack {
             ZStack {
                 AppBackground()
-                VStack (spacing: 5) {
+                //select an album
+                VStack(spacing: 5) {
                     if !albums.isEmpty {
                         List(albums.prefix(5)) { album in
                             Button(action: {
                                 fetchAlbumObj(albumIndex: album)
-
                             }) {
                                 HStack {
                                     if let url = URL(string: album.coverImageURL) {
@@ -65,38 +62,27 @@ struct ViewRateReviewPage: View {
                     }
                 }
             }
-            .sheet(isPresented: $showReviewModal, onDismiss: {
-                // reset states when modal is dismissed
-                self.selectedAlbumObj = nil
-            }) {
-                if let album = selectedAlbumObj {
-                    PostReviewModal(showModal: self.$showReviewModal, album: album)
-                }
-            }
+            .navigationBarTitle("Select an Album", displayMode: .inline)
             .navigationBarItems(
                 leading: Button("Cancel") {
-                    showRateReviewPage = false
+                    showModal = false
                 },
                 trailing: ProfilePicture(user: user)
             )
-            .navigationBarTitle("Review an album", displayMode: .inline)
-            // do not delete, this makes sure the sheet is presented once the album is fully fetched, during the wait it shows a loading spinner
             .overlay(
                 Group {
                     if isFetchingAlbum {
                         ProgressView("Loading...")
                             .progressViewStyle(CircularProgressViewStyle())
                             .padding()
+    //                            .background(Color.white.opacity(0.8))
                             .cornerRadius(10)
                     }
                 }
             )
-            .onAppear {
-                fetchUser(userID: session.currentUserID ?? "")
-            }
         }
     }
-
+    
     private func fetchAlbumObj(albumIndex: AlbumIndex) {
         isFetchingAlbum = true
         FirebaseDataManager().fetchAlbum(firebaseKey: albumIndex.id) { album, error in
@@ -104,37 +90,11 @@ struct ViewRateReviewPage: View {
                 print("Failed to fetch album: \(error.localizedDescription)")
             } else if let album = album {
                 DispatchQueue.main.async {
-                    self.selectedAlbumObj = album
-                    self.showReviewModal = true
+                    self.selectedAlbum = album
+                    self.showModal = false
                     self.isFetchingAlbum = false
                 }
             }
-        }
-    }
-    
-    private func fetchUser(userID: String) {
-        FirebaseUserData().fetchUserData(uid: userID) { fetchedUser, error in
-            if let error = error {
-                print("Failed to fetch user: \(error.localizedDescription)")
-            } else if let fetchedUser = fetchedUser {
-                self.user = fetchedUser
-            }
-        }
-    }
-}
-
-struct ProfilePicture: View {
-    var user: User
-    
-    var body: some View {
-        if let url = URL(string: user.userProfilePictureURL) {
-            WebImage(url: url)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 20, height: 20)
-                .clipShape(Circle())
-        } else {
-            PlaceholderUserImage(width: 20, height: 20)
         }
     }
 }

@@ -35,7 +35,7 @@ struct PostReviewModal: View {
                 ScrollView {
                     VStack (spacing: 16) {
                         
-                        //Album details
+                        // album details
                         VStack(alignment: .leading, spacing: 8) {
                             HStack() {
                                 if album.coverImageURL != "", let url = URL(string: album.coverImageURL) {
@@ -45,7 +45,6 @@ struct PostReviewModal: View {
                                         .frame(width: 40, height: 40)
                                         .clipped()
                                         .cornerRadius(10)
-//                                        .shadow(color: .blue, radius: 5)
                                 } else {
                                     PlaceholderAlbumCover(width: 40, height: 40)
                                 }
@@ -60,25 +59,20 @@ struct PostReviewModal: View {
                             .frame(maxWidth: .infinity)
 
                             
-                            //only allow people to add to listen list if it hasn't been rated yet
+                            // only allow people to add to listen list if it hasn't been rated yet
                             if self.rating == 0.0 {
                                 Divider().overlay(Color.white)
                                 
                                 Toggle("Add to listen list", isOn: $listenList)
                                     .padding(.top, 8)
                             }
-//                            Divider().overlay(Color.white)
-//                            
-//                            Toggle("Add to listen list", isOn: $listenList)
-//                                .padding(.top, 8)
                         }
                         .padding()
                         .background(.gray.opacity(0.2))
                         .cornerRadius(10)
                         .padding(.horizontal)
-//                        .frame(maxWidth: .infinity)
                                             
-                        //Review date
+                        // review date
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Date")
                                 .font(.headline)
@@ -89,7 +83,7 @@ struct PostReviewModal: View {
                         }
                         .padding(.horizontal)
                         
-                        //Rating section
+                        // rating section
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Rate")
                                 .font(.headline)
@@ -105,7 +99,7 @@ struct PostReviewModal: View {
                         }
                         .padding(.horizontal)
                         
-                        //Review text section
+                        // review text section
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Review")
                                 .font(.headline)
@@ -117,7 +111,6 @@ struct PostReviewModal: View {
                                         .scrollContentBackground(.hidden)
                                         .foregroundColor(.white)
                                         .padding()
-//                                        .background(Color.gray.opacity(0.2))
                                         .cornerRadius(8)
                                         .lineSpacing(5)
                                         .multilineTextAlignment(.leading)
@@ -157,7 +150,6 @@ struct PostReviewModal: View {
                     .onAppear {
                         self.checkForListenList()
                         self.fetchExistingReview()
-//                        self.updateRating()
                     }
                     .alert(isPresented: $showAlert) {
                         Alert(title: Text(""), message: Text(alertMessage), dismissButton: .default(Text("OK")))
@@ -256,9 +248,9 @@ struct PostReviewModal: View {
             return
         }
         
-        // Fetch the activity ID
+        // fetch the activity ID
         FirebaseUserData().checkActivityExists(userID: userID, albumReviewID: review.albumReviewID) { activityID in
-            // Post the album review
+            // post the album review
             FirebaseDataManager().postAlbumReview(albumID: album.firebaseKey, review: review, ratingSumIncrement: ratingSumIncrement, activityID: activityID) { error in
                 if let error = error {
                     print("Error posting review: \(error.localizedDescription)")
@@ -312,11 +304,11 @@ struct PostReviewModal: View {
             starStates[index] = .half
         }
         
-        // Fill stars up to the clicked index
+        // fill stars up to the clicked index
         for i in 0..<index {
             starStates[i] = .full
         }
-        // Empty stars after the clicked index
+        // empty stars after the clicked index
         for i in (index + 1)..<starStates.count {
             starStates[i] = .empty
         }
@@ -333,25 +325,22 @@ struct PostReviewModal: View {
         let roundedRating = Int(rating.rounded(.towardZero)) // Number of full stars
         let hasHalfStar = rating - Double(roundedRating) >= 0.5
         
-        // Reset all stars to empty
+        // reset all stars to empty
         starStates = Array(repeating: .empty, count: totalStars)
         
-        // Fill full stars
+        // fill full stars
         for i in 0..<roundedRating {
             if i < totalStars {
                 starStates[i] = .full
             }
         }
         
-        // Handle half star if needed
+        // handle half star if needed
         if roundedRating < totalStars && hasHalfStar {
             starStates[roundedRating] = .half
         }
     }
     
-    private func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
 }
 
 private let dateFormatter: DateFormatter = {

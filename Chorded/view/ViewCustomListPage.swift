@@ -24,7 +24,7 @@ struct ViewCustomListPage: View {
                 AppBackground()
                 
                 AlbumGrid(albums: albums, albumCount: self.albums.count)
-                    .padding(.bottom)
+                    .padding(.vertical)
             }
             .navigationTitle(self.listName)
         }

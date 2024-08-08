@@ -63,13 +63,18 @@ struct ViewArtistPage: View {
                                 .padding(.horizontal)
                             
                             AlbumGrid(albums: albums, albumCount: albums.count)
+                                .padding(.horizontal, -10)
                         }
                     }
+                    .padding(.horizontal)
                     .padding(.bottom, 16)
                 }
             }
             
             .onAppear {
+                fetchData()
+            }
+            .refreshable() {
                 fetchData()
             }
         }

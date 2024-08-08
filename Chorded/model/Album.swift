@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Album: Decodable {
+struct Album: Decodable, Equatable {
 //    let discogsID: Int
     var firebaseKey: String
     let title: String

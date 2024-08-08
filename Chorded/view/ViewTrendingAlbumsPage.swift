@@ -24,7 +24,7 @@ struct ViewTrendingAlbumsPage: View {
                 AppBackground()
                 
                 AlbumGrid(albums: trendingAlbums, albumCount: self.trendingAlbums.count)
-                    .padding(.bottom)
+                    .padding(.vertical)
             }
             .navigationTitle("Trending Albums")
             

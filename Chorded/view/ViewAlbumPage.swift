@@ -14,6 +14,7 @@ struct ViewAlbumPage: View {
 //    @State private var album: Album
     let albumKey: String
 
+    @EnvironmentObject var session: SessionStore
     @State private var showTracklist = false
     @State private var ratingProgress: CGFloat = 0.0
     @State var selection1: String? = "Tracklist"
@@ -21,6 +22,8 @@ struct ViewAlbumPage: View {
     @State private var artists = [Artist]()
     @State private var unfilteredReviews: [AlbumReview] = [] //used to consider ratings from reviews without any reviewText
     @State private var reviews: [AlbumReview] = []
+    @State private var listenedByUsers: [User] = []
+    @State private var wantsToListenUsers: [User] = []
     
     @State private var showReviewModal = false
 
@@ -29,19 +32,23 @@ struct ViewAlbumPage: View {
             ZStack {
                 AppBackground()
                 ScrollView {
-                    VStack(spacing: 20) {
-                        if album.coverImageURL != "", let url = URL(string: album.coverImageURL) {
-                            WebImage(url: url)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 200, height: 200)
-                                .clipped()
-                                .cornerRadius(10)
-                                .shadow(color: .blue, radius: 5)
-                                .padding(.top, 20)
-                        } else {
-                            PlaceholderAlbumCover(width: 200, height: 200)
-                                .padding(.top, 20)
+                    VStack(alignment: .leading, spacing: 20) {
+                        HStack {
+                            Spacer()
+                            if album.coverImageURL != "", let url = URL(string: album.coverImageURL) {
+                                WebImage(url: url)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 200, height: 200)
+                                    .clipped()
+                                    .cornerRadius(10)
+                                    .shadow(color: .blue, radius: 5)
+                                    .padding(.top, 20)
+                            } else {
+                                PlaceholderAlbumCover(width: 200, height: 200)
+                                    .padding(.top, 20)
+                            }
+                            Spacer()
                         }
                         
                         HStack(alignment: .top) {
@@ -72,11 +79,15 @@ struct ViewAlbumPage: View {
                         }
                         .padding(.horizontal)
                         
+                        Divider().overlay(Color.white).padding(.horizontal)
+                        
                         DropdownList(
                             selection: $selection1,
                             options: album.albumTracks
                         )
                         .padding(.horizontal)
+                        
+                        Divider().overlay(Color.white).padding(.horizontal)
                         
                         HStack {
                             Text("Rate, review, add to listen list")
@@ -93,64 +104,15 @@ struct ViewAlbumPage: View {
                             self.showReviewModal = true
                         }
                         
+                        Divider().overlay(Color.white).padding(.horizontal)
                         
-                        // later, group the listened by and wants to listen parts and put in another class and only display if users have friends that have this album in their list
-                        NavigationLink(destination: ViewReviewPage(reviews: reviews)) {
-                            HStack {
-                                Text("LISTENED BY")
-//                                    .font(.system(size: 20, weight: .medium, design: .default))
-                                    .font(.subheadline)
-                                    .foregroundColor(.white)
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.blue)
-                            }
-                            .contentShape(Rectangle())
-                            .padding(.horizontal)
+                        if !listenedByUsers.isEmpty {
+                            AlbumPageOtherUsersView(users: listenedByUsers, text: "LISTENED BY")
+                            Divider().overlay(Color.white).padding(.horizontal)
                         }
-                        .buttonStyle(HighlightButtonStyle())
-                        HStack(alignment: .top) {
-                            HStack(spacing: 15) {
-                                ForEach(0..<4) { _ in
-                                    Image(systemName: "person.circle.fill")
-                                        .resizable()
-                                        .foregroundColor(.gray)
-                                        .frame(width: 50, height: 50)
-                                        .clipShape(Circle())
-                                        .padding(.trailing, 10)
-                                }
-                            }
-                            .padding(.horizontal)
-                            Spacer()
-                        }
-                        
-                        NavigationLink(destination: ViewReviewPage(reviews: reviews)) {
-                            HStack {
-                                Text("WANTS TO LISTEN")
-//                                    .font(.system(size: 20, weight: .medium, design: .default))
-                                    .font(.subheadline)
-                                    .foregroundColor(.white)
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.blue)
-                            }
-                            .contentShape(Rectangle())
-                            .padding(.horizontal)
-                        }
-                        .buttonStyle(HighlightButtonStyle())
-                        HStack(alignment: .top) {
-                            HStack(spacing: 15) {
-                                ForEach(0..<4) { _ in
-                                    Image(systemName: "person.circle.fill")
-                                        .resizable()
-                                        .foregroundColor(.gray)
-                                        .frame(width: 50, height: 50)
-                                        .clipShape(Circle())
-                                        .padding(.trailing, 10)
-                                }
-                            }
-                            .padding(.horizontal)
-                            Spacer()
+                        if !wantsToListenUsers.isEmpty {
+                            AlbumPageOtherUsersView(users: wantsToListenUsers, text: "WANTS TO LISTEN")
+                            Divider().overlay(Color.white).padding(.horizontal)
                         }
 
                         NavigationLink(destination: ViewReviewPage(reviews: reviews)) {
@@ -170,6 +132,8 @@ struct ViewAlbumPage: View {
                         .buttonStyle(HighlightButtonStyle())
                         .padding(.horizontal)
                         
+                        Divider().overlay(Color.white).padding(.horizontal)
+
                         ViewAlbumPageMiniBar(artists: artists, album: album)
                         
                     }
@@ -200,9 +164,10 @@ struct ViewAlbumPage: View {
         fetchAlbum(firebaseKey: albumKey)
         fetchReviews(firebaseKey: albumKey)
         calculateAverageRating(firebaseKey: albumKey)
+        fetchIfInFriendsList()
     }
     
-    func fetchArtists(discogsKeys: [Int]) {
+    private func fetchArtists(discogsKeys: [Int]) {
         let dispatchGroup = DispatchGroup()
         var fetchedArtists: [Artist] = []
         var fetchError: Error?
@@ -229,7 +194,7 @@ struct ViewAlbumPage: View {
         }
     }
     
-    func fetchAlbum(firebaseKey: String) {
+    private func fetchAlbum(firebaseKey: String) {
         FirebaseDataManager().fetchAlbum(firebaseKey: firebaseKey) { fetchedAlbum, error in
             if let error = error {
                 print("Error fetching album:", error)
@@ -252,12 +217,22 @@ struct ViewAlbumPage: View {
         }
     }
     
+    private func fetchIfInFriendsList() {
+        guard let currentUserID = session.currentUserID else { return }
+
+        fetchUsersWhoReviewedAlbum(currentUserID: currentUserID, albumID: albumKey) { usersWhoReviewedAlbumList in
+            self.listenedByUsers = usersWhoReviewedAlbumList
+        }
+        fetchUsersWithAlbumInListenList(currentUserID: currentUserID, albumID: albumKey) { usersWithAlbumInListenList in
+            self.wantsToListenUsers = usersWithAlbumInListenList
+        }
+    }
+    
     private func calculateAverageRating(firebaseKey: String) {
         let albumReviewsRef = Database.database().reference().child("AlbumReviews").child(firebaseKey)
         albumReviewsRef.observeSingleEvent(of: .value) { snapshot in
             guard let albumData = snapshot.value as? [String: Any],
                   let totalRatingSum = albumData["TotalRatingSum"] as? Double else {
-                print("No total rating sum to fetch")
                 return
             }
             
@@ -265,6 +240,116 @@ struct ViewAlbumPage: View {
             let averageRating = (totalRatingSum / numOfReviews).rounded(toPlaces: 1)
             self.ratingProgress = averageRating
         }
+    }
+    
+    private func fetchUsersWithAlbumInListenList(currentUserID: String, albumID: String, completion: @escaping ([User]) -> Void) {
+        FirebaseUserData().fetchFollowing(uid: currentUserID) { followingList in
+            var usersWithAlbumIDs: [String] = []
+            let dispatchGroup = DispatchGroup()
+            
+            for userID in followingList {
+                dispatchGroup.enter()
+                FirebaseUserData().isInListenList(uid: userID, albumID: albumID) { inListenList in
+                    if inListenList {
+                        usersWithAlbumIDs.append(userID)
+                    }
+                    dispatchGroup.leave()
+                }
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                // Fetch user details for the filtered IDs
+                var usersWithAlbum: [User] = []
+                let fetchGroup = DispatchGroup()
+                
+                for userID in usersWithAlbumIDs {
+                    fetchGroup.enter()
+                    FirebaseUserData().fetchUserData(uid: userID) { user, error in
+                        if let error = error {
+                            print("Failed to fetch user \(userID): \(error.localizedDescription)")
+                        } else if let user = user {
+                            usersWithAlbum.append(user)
+                        }
+                        fetchGroup.leave()
+                    }
+                }
+                
+                fetchGroup.notify(queue: .main) {
+                    completion(usersWithAlbum)
+                }
+            }
+        }
+    }
+
+    private func fetchUsersWhoReviewedAlbum(currentUserID: String, albumID: String, completion: @escaping ([User]) -> Void) {
+        FirebaseUserData().fetchFollowing(uid: currentUserID) { followingList in
+            var usersWhoReviewedIDs: [String] = []
+            let dispatchGroup = DispatchGroup()
+            
+            for userID in followingList {
+                dispatchGroup.enter()
+                FirebaseUserData().hasReviewedAlbum(uid: userID, albumID: albumID) { hasReviewed in
+                    if hasReviewed {
+                        usersWhoReviewedIDs.append(userID)
+                    }
+                    dispatchGroup.leave()
+                }
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                // Fetch user details for the filtered IDs
+                var usersWhoReviewed: [User] = []
+                let fetchGroup = DispatchGroup()
+                
+                for userID in usersWhoReviewedIDs {
+                    fetchGroup.enter()
+                    FirebaseUserData().fetchUserData(uid: userID) { user, error in
+                        if let error = error {
+                            print("Failed to fetch user \(userID): \(error.localizedDescription)")
+                        } else if let user = user {
+                            usersWhoReviewed.append(user)
+                        }
+                        fetchGroup.leave()
+                    }
+                }
+                
+                fetchGroup.notify(queue: .main) {
+                    completion(usersWhoReviewed)
+                }
+            }
+        }
+    }
+
+
+}
+
+struct AlbumPageOtherUsersView: View {
+    var users: [User]
+    var text: String
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("\(text)")
+                .font(.subheadline)
+                .foregroundColor(.white)
+            
+            HStack(spacing: 15) {
+                ForEach(users.prefix(5), id: \.userID) { user in
+                    NavigationLink(destination: ViewProfilePage(userID: user.userID)) {
+                        if let url = URL(string: user.userProfilePictureURL) {
+                            WebImage(url: url)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 50, height: 50)
+                                .clipShape(Circle())
+                        } else {
+                            PlaceholderUserImage(width: 50, height: 50)
+                        }
+                    }
+                }
+            }
+        }
+        .padding(.horizontal)
     }
 }
 

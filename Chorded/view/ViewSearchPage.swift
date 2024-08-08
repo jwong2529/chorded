@@ -43,7 +43,6 @@ struct ViewSearchPage: View {
                 .onChange(of: searchText) { newValue in
                     performSearch(with: newValue)
                 }
-                  
             }
             .navigationBarTitle("Search", displayMode: .inline)
         }

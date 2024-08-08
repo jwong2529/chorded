@@ -164,7 +164,6 @@ class FirebaseDataManager {
     
     // Artists
     
-    //this function still needs testing
     func addArtist(artist: Artist, completion: @escaping (Error?) -> Void) {
         
         let artistRef = Database.database().reference().child("Artists")
@@ -503,7 +502,6 @@ class FirebaseDataManager {
             }
         }
     }
-
     
     func fetchAlbumReviews(albumID: String, completion: @escaping ([AlbumReview]?, Error?) -> Void) {
         let albumReviewsRef = databaseRef.child("AlbumReviews").child(albumID).child("Reviews")

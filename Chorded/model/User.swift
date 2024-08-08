@@ -27,34 +27,4 @@ struct User: Decodable {
     }
 }
 
-struct UserConnections: Decodable {
-    var userID: String
-    var following: [String]?
-    var followers: [String]?
-    
-    init(userID: String) {
-        self.userID = userID
-        self.following = []
-        self.followers = []
-    }
-}
 
-struct UserReviews: Decodable {
-    var userID: String
-    var userAlbumReviews: [String]?
-    
-    init(userID: String) {
-        self.userID = userID
-        self.userAlbumReviews = []
-    }
-}
-
-struct UserListenList: Decodable {
-    var userID: String
-    var userListenList: [String]?
-    
-    init(userID: String) {
-        self.userID = userID
-        self.userListenList = []
-    }
-}

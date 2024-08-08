@@ -1,5 +1,6 @@
 import Foundation
 import FirebaseDatabase
+import FirebaseStorage
 
 class FirebaseUserData {
     private let databaseRef: DatabaseReference
@@ -159,6 +160,38 @@ class FirebaseUserData {
             completion(userReviews, nil)
         }
     }
+    
+    func hasReviewedAlbum(uid: String, albumID: String, completion: @escaping (Bool) -> Void) {
+        let userReviewsRef = databaseRef.child("UserReviews").child(uid)
+        
+        userReviewsRef.observeSingleEvent(of: .value) { snapshot in
+            guard snapshot.exists() else {
+                completion(false)
+                return
+            }
+            
+            var reviewed = false
+            let reviewSnapshot = snapshot.value as? [String: Any] ?? [:]
+            
+            let dispatchGroup = DispatchGroup()
+            
+            for (_, reviewData) in reviewSnapshot {
+                if let review = reviewData as? [String: Any], let reviewedAlbumID = review["albumKey"] as? String {
+                    if reviewedAlbumID == albumID {
+                        reviewed = true
+                        break
+                    }
+                }
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                completion(reviewed)
+            }
+        } withCancel: { error in
+            completion(false)
+        }
+    }
+
     
     func addToListenList(currentUserID: String, albumID: String) {
         // add to listen list
@@ -325,6 +358,25 @@ class FirebaseUserData {
         }
     }
     
+    func updateUserData(userID: String, newUsername: String, newNormalizedUsername: String, newBio: String, newAlbumFavorites: [String], completion: @escaping (Result<Void, Error>) -> Void) {
+        let ref = databaseRef.child("Users").child(userID)
+        
+        let updates: [String: Any] = [
+            "username": newUsername,
+            "normalizedUsername": newNormalizedUsername,
+            "userBio": newBio,
+            "userAlbumFavorites": newAlbumFavorites
+        ]
+        
+        ref.updateChildValues(updates) { error, _ in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(()))
+            }
+        }
+    }
+    
     func updateExistingUsers() {
         databaseRef.child("Users").observeSingleEvent(of: .value) { snapshot in
             for child in snapshot.children {
@@ -372,69 +424,4 @@ extension User {
     }
 }
 
-extension UserConnections {
-    init?(snapshot: DataSnapshot) {
-        guard let value = snapshot.value as? [String: Any] else {
-            return nil
-        }
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: value)
-            let userConnections = try JSONDecoder().decode(UserConnections.self, from: jsonData)
-            self = userConnections
-        } catch {
-            return nil
-        }
-    }
-    
-    func toDictionary() -> [String: Any] {
-        return [
-            "userID": userID,
-            "following": following ?? [],
-            "followers": followers ?? []
-        ]
-    }
-}
 
-extension UserReviews {
-    init?(snapshot: DataSnapshot) {
-        guard let value = snapshot.value as? [String: Any] else {
-            return nil
-        }
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: value)
-            let userReviews = try JSONDecoder().decode(UserReviews.self, from: jsonData)
-            self = userReviews
-        } catch {
-            return nil
-        }
-    }
-    
-    func toDictionary() -> [String: Any] {
-        return [
-            "userID": userID,
-            "userAlbumReviews": userAlbumReviews ?? []
-        ]
-    }
-}
-
-extension UserListenList {
-    init?(snapshot: DataSnapshot) {
-        guard let value = snapshot.value as? [String: Any] else {
-            return nil
-        }
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: value)
-            let userListenList = try JSONDecoder().decode(UserListenList.self, from: jsonData)
-            self = userListenList
-        } catch {
-            return nil
-        }
-    }
-    
-    func toDictionary() -> [String: Any] {
-        return [
-            "userID": userID,
-            "userListenList": userListenList ?? []
-        ]
-    }
-}

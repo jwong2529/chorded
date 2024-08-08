@@ -14,9 +14,9 @@ struct ViewActivitiesPage: View {
     @State private var userConnections: [String] = []
     @EnvironmentObject var session: SessionStore
     
-    init() {
-        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-    }
+//    init() {
+//        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+//    }
     
     var body: some View {
         NavigationStack {
@@ -142,7 +142,7 @@ struct AlbumReviewActivityView: View {
                             Text("\(album.title)")
                                 .font(.headline)
                                 .foregroundColor(.white)
-                            + Text("\(String(album.year))")
+                            + Text(" \(String(album.year))")
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                             StarRatingView(rating: review.rating)
@@ -174,13 +174,18 @@ struct AlbumReviewActivityView: View {
                             Text("\(username) rated ")
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
+//                                .multilineTextAlignment(.leading)
                             + Text(album.title)
                                 .font(.subheadline)
                                 .foregroundColor(.white)
                                 .fontWeight(.bold)
+//                                .multilineTextAlignment(.leading)
+
                             StarRatingView(rating: review.rating)
                         }
+                        .multilineTextAlignment(.leading)
                     }
+
                     
                     Spacer()
                     //show review date
@@ -263,25 +268,32 @@ struct ListenListFavoritesActivityView: View {
                 }
                 NavigationLink(destination: ViewAlbumPage(albumKey: album.firebaseKey)) {
                     if (activity.activityType == .listenList) {
-                        Text("\(username) added ")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                        + Text(album.title)
-                            .font(.subheadline)
-                            .foregroundColor(.white)
-                            .fontWeight(.bold)
-                        + Text(" to listen list")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
+                        VStack(alignment: .leading) {
+                            Text("\(username) added ")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                            + Text(album.title)
+                                .font(.subheadline)
+                                .foregroundColor(.white)
+                                .fontWeight(.bold)
+                            + Text(" to listen list")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                        .multilineTextAlignment(.leading)
+                        
                     }
                     if (activity.activityType == .favorites) {
-                        Text("\(username) favorited ")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                        + Text(album.title)
-                            .font(.subheadline)
-                            .foregroundColor(.white)
-                            .fontWeight(.bold)
+                        VStack(alignment: .leading) {
+                            Text("\(username) favorited ")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                            + Text(album.title)
+                                .font(.subheadline)
+                                .foregroundColor(.white)
+                                .fontWeight(.bold)
+                        }
+                        .multilineTextAlignment(.leading)
                     }
                     Spacer()
                     // get the timestamp

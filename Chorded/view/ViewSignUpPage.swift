@@ -144,9 +144,17 @@ struct ViewSignUpPage: View {
     
     func validateUsername(_ username: String) -> Bool {
         let invalidCharacters = CharacterSet(charactersIn: ".$#[]/")
+        let whitespaceCharacters = CharacterSet.whitespaces
+
         if username.rangeOfCharacter(from: invalidCharacters) != nil {
             return false
-        } else {
+        } 
+        
+        if username.rangeOfCharacter(from: whitespaceCharacters) != nil {
+            return false
+        }
+        
+        else {
             return username.count >= 3 && username.count <= 30
         }
     }
