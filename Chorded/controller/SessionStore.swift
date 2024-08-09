@@ -14,6 +14,7 @@ import FirebaseDatabase
 class SessionStore: ObservableObject {
     @Published var isLoggedIn: Bool = false
     @Published var currentUserID: String? = nil
+    @Published var isCheckingLogin: Bool = true // Add this line
     private var handle: AuthStateDidChangeListenerHandle?
     
     init() {
@@ -31,6 +32,7 @@ class SessionStore: ObservableObject {
                 self.currentUserID = nil
                 print("User is not logged in")
             }
+            self.isCheckingLogin = false 
         }
     }
     
@@ -44,7 +46,7 @@ class SessionStore: ObservableObject {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let user = authResult?.user {
 //                self.createUserInDatabase(uid: user.uid, email: email, username: username)
-                FirebaseUserData().createUser(uid: user.uid, email: email, username: username, normalizedUsername: normalizedUsername)
+                FirebaseUserDataManager().createUser(uid: user.uid, email: email, username: username, normalizedUsername: normalizedUsername)
             }
             completion(error)
         }

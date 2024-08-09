@@ -55,7 +55,7 @@ struct ReviewCard: View {
     
     
     private func fetchUserData(userID: String) {
-        FirebaseUserData().fetchUserData(uid: userID) { fetchedUser, error in
+        FirebaseUserDataManager().fetchUserData(uid: userID) { fetchedUser, error in
             if let error = error {
                 print("Failed to fetch user data: \(error.localizedDescription)")
             } else if let fetchedUser = fetchedUser {

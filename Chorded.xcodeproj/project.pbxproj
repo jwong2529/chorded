@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		291FFE9E2C3131B10066AC79 /* ViewSearchTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291FFE9D2C3131B10066AC79 /* ViewSearchTabBar.swift */; };
+		2931D9C32C6572A8002D3D6A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 2931D9C22C6572A8002D3D6A /* GoogleSignIn */; };
+		2931D9C52C6572A8002D3D6A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2931D9C42C6572A8002D3D6A /* GoogleSignInSwift */; };
 		293C7C2C2C06EB55002605B1 /* SampleDiscogsAPI.plist in Resources */ = {isa = PBXBuildFile; fileRef = 293C7C2B2C06EB55002605B1 /* SampleDiscogsAPI.plist */; };
 		293C7C332C099541002605B1 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293C7C322C099541002605B1 /* Artist.swift */; };
 		293C7C392C09AB1C002605B1 /* albumInfo in Resources */ = {isa = PBXBuildFile; fileRef = 293C7C382C09AB1C002605B1 /* albumInfo */; };
@@ -53,6 +55,7 @@
 		294AA1A72C1F9B710097F16C /* SpinningVinyl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA1A62C1F9B710097F16C /* SpinningVinyl.swift */; };
 		294AA1A92C1F9D0F0097F16C /* FannedAlbums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA1A82C1F9D0F0097F16C /* FannedAlbums.swift */; };
 		294AA1AB2C1FAAFC0097F16C /* ViewCustomListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294AA1AA2C1FAAFC0097F16C /* ViewCustomListPage.swift */; };
+		295DCBD42C6552F10015FA76 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 295DCBD32C6552F10015FA76 /* Launch Screen.storyboard */; };
 		298183E62C001FB300E5E32B /* ChordedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183E52C001FB300E5E32B /* ChordedApp.swift */; };
 		298183E82C001FB300E5E32B /* ViewHomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298183E72C001FB300E5E32B /* ViewHomePage.swift */; };
 		298183EA2C001FB500E5E32B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 298183E92C001FB500E5E32B /* Assets.xcassets */; };
@@ -77,7 +80,7 @@
 		2987B2CC2C6324A5000F7B6D /* ViewRecentFriendsActivityFromHomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2987B2CB2C6324A5000F7B6D /* ViewRecentFriendsActivityFromHomePage.swift */; };
 		2987B2CE2C6338FF000F7B6D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 2987B2CD2C6338FF000F7B6D /* FirebaseStorage */; };
 		2987B2D02C633A6D000F7B6D /* ProfileImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2987B2CF2C633A6D000F7B6D /* ProfileImageManager.swift */; };
-		29CA161D2C56D854006C5805 /* FirebaseUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CA161C2C56D854006C5805 /* FirebaseUserData.swift */; };
+		29CA161D2C56D854006C5805 /* FirebaseUserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CA161C2C56D854006C5805 /* FirebaseUserDataManager.swift */; };
 		29CA161F2C571BDF006C5805 /* PostReviewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CA161E2C571BDF006C5805 /* PostReviewModal.swift */; };
 		29E7BEC32C64780D0007612C /* ViewFavoritesSearchPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E7BEC22C64780D0007612C /* ViewFavoritesSearchPage.swift */; };
 		29FBF4312C51B26E0068E64F /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FBF4302C51B26D0068E64F /* SessionStore.swift */; };
@@ -150,6 +153,8 @@
 		294AA1A62C1F9B710097F16C /* SpinningVinyl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinningVinyl.swift; sourceTree = "<group>"; };
 		294AA1A82C1F9D0F0097F16C /* FannedAlbums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FannedAlbums.swift; sourceTree = "<group>"; };
 		294AA1AA2C1FAAFC0097F16C /* ViewCustomListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCustomListPage.swift; sourceTree = "<group>"; };
+		295DCBD02C6546B80015FA76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		295DCBD32C6552F10015FA76 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		298183E22C001FB300E5E32B /* Chorded.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chorded.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		298183E52C001FB300E5E32B /* ChordedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordedApp.swift; sourceTree = "<group>"; };
 		298183E72C001FB300E5E32B /* ViewHomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHomePage.swift; sourceTree = "<group>"; };
@@ -176,7 +181,7 @@
 		2987B2C92C63198A000F7B6D /* ViewUserListenListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewUserListenListPage.swift; sourceTree = "<group>"; };
 		2987B2CB2C6324A5000F7B6D /* ViewRecentFriendsActivityFromHomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRecentFriendsActivityFromHomePage.swift; sourceTree = "<group>"; };
 		2987B2CF2C633A6D000F7B6D /* ProfileImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageManager.swift; sourceTree = "<group>"; };
-		29CA161C2C56D854006C5805 /* FirebaseUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserData.swift; sourceTree = "<group>"; };
+		29CA161C2C56D854006C5805 /* FirebaseUserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserDataManager.swift; sourceTree = "<group>"; };
 		29CA161E2C571BDF006C5805 /* PostReviewModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReviewModal.swift; sourceTree = "<group>"; };
 		29E7BEC22C64780D0007612C /* ViewFavoritesSearchPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFavoritesSearchPage.swift; sourceTree = "<group>"; };
 		29FBF4302C51B26D0068E64F /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
@@ -195,7 +200,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2931D9C52C6572A8002D3D6A /* GoogleSignInSwift in Frameworks */,
 				294AA1832C0F00CE0097F16C /* SDWebImageSwiftUI in Frameworks */,
+				2931D9C32C6572A8002D3D6A /* GoogleSignIn in Frameworks */,
 				29FBF4332C51B6660068E64F /* FirebaseAuth in Frameworks */,
 				294AA17C2C0EE53D0097F16C /* SDWebImage in Frameworks */,
 				294AA1772C0D2D450097F16C /* FirebaseDatabase in Frameworks */,
@@ -273,6 +280,7 @@
 		298183E42C001FB300E5E32B /* Chorded */ = {
 			isa = PBXGroup;
 			children = (
+				295DCBD02C6546B80015FA76 /* Info.plist */,
 				294AA16F2C0C63F10097F16C /* GoogleService-Info.plist */,
 				293C7C382C09AB1C002605B1 /* albumInfo */,
 				2948E9362C02BB6600EC4726 /* reusable */,
@@ -284,6 +292,7 @@
 				298183EB2C001FB500E5E32B /* Preview Content */,
 				2948E9532C066E0A00EC4726 /* DiscogsAPI.plist */,
 				293C7C2B2C06EB55002605B1 /* SampleDiscogsAPI.plist */,
+				295DCBD32C6552F10015FA76 /* Launch Screen.storyboard */,
 			);
 			path = Chorded;
 			sourceTree = "<group>";
@@ -365,7 +374,7 @@
 				2948E94A2C04576F00EC4726 /* DiscogsAPIManager.swift */,
 				2948E9552C066EA700EC4726 /* DiscogsCreds.swift */,
 				294AA16D2C0C63310097F16C /* FirebaseDataManager.swift */,
-				29CA161C2C56D854006C5805 /* FirebaseUserData.swift */,
+				29CA161C2C56D854006C5805 /* FirebaseUserDataManager.swift */,
 				2987B2CF2C633A6D000F7B6D /* ProfileImageManager.swift */,
 				2987B2BF2C621ECB000F7B6D /* ProfilePageInfoRetrieval.swift */,
 				294AA1862C1035540097F16C /* QuickTesting.swift */,
@@ -423,6 +432,8 @@
 				294AA1822C0F00CE0097F16C /* SDWebImageSwiftUI */,
 				29FBF4322C51B6660068E64F /* FirebaseAuth */,
 				2987B2CD2C6338FF000F7B6D /* FirebaseStorage */,
+				2931D9C22C6572A8002D3D6A /* GoogleSignIn */,
+				2931D9C42C6572A8002D3D6A /* GoogleSignInSwift */,
 			);
 			productName = MusicReviewApp;
 			productReference = 298183E22C001FB300E5E32B /* Chorded.app */;
@@ -502,6 +513,7 @@
 				294AA1732C0C67170097F16C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				294AA17A2C0EE53D0097F16C /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				294AA1812C0F00CE0097F16C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				2931D9C12C6572A8002D3D6A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = 298183E32C001FB300E5E32B /* Products */;
 			projectDirPath = "";
@@ -525,6 +537,7 @@
 				2948E9542C066E0A00EC4726 /* DiscogsAPI.plist in Resources */,
 				293C7C392C09AB1C002605B1 /* albumInfo in Resources */,
 				294AA1702C0C63F10097F16C /* GoogleService-Info.plist in Resources */,
+				295DCBD42C6552F10015FA76 /* Launch Screen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,7 +679,7 @@
 				293C7C332C099541002605B1 /* Artist.swift in Sources */,
 				2948E9432C02F97200EC4726 /* ViewSearchPage.swift in Sources */,
 				2987B2BE2C61BA1A000F7B6D /* ViewSpecificReviewPage.swift in Sources */,
-				29CA161D2C56D854006C5805 /* FirebaseUserData.swift in Sources */,
+				29CA161D2C56D854006C5805 /* FirebaseUserDataManager.swift in Sources */,
 				2948E9302C01C03E00EC4726 /* AlbumReview.swift in Sources */,
 				294AA1972C1AE5F90097F16C /* ViewGenresSectionTabBar.swift in Sources */,
 				29CA161F2C571BDF006C5805 /* PostReviewModal.swift in Sources */,
@@ -847,9 +860,10 @@
 				DEVELOPMENT_TEAM = KV4D48PA65;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Chorded/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
@@ -879,9 +893,10 @@
 				DEVELOPMENT_TEAM = KV4D48PA65;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Chorded/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
@@ -1017,6 +1032,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2931D9C12C6572A8002D3D6A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
+			};
+		};
 		294AA1732C0C67170097F16C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1044,6 +1067,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2931D9C22C6572A8002D3D6A /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2931D9C12C6572A8002D3D6A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		2931D9C42C6572A8002D3D6A /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2931D9C12C6572A8002D3D6A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
 		294AA1742C0C67170097F16C /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 294AA1732C0C67170097F16C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

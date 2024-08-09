@@ -10,7 +10,8 @@ import SwiftUI
 
 struct ViewUserMoreActivityPage: View {
     var user: User
-    var activities: [Activity] = []
+    @State private var activities: [Activity] = []
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -21,7 +22,7 @@ struct ViewUserMoreActivityPage: View {
                             Text("No recent activity")
                                 .foregroundColor(.gray)
                         } else {
-                            ForEach(activities, id: \.activityID) { activity in
+                            ForEach(activities.reversed(), id: \.activityID) { activity in
                                 if activity.activityType == .albumReview {
                                     AlbumReviewActivityView(activity: activity)
                                 } else {
@@ -36,7 +37,20 @@ struct ViewUserMoreActivityPage: View {
                     .background(Color.clear)
                 }
             }
+            .navigationBarTitle("Activity", displayMode: .inline)
+            .onAppear {
+                fetchUserActivities(userID: user.userID)
+            }
         }
-        .navigationBarTitle("Activity", displayMode: .inline)
+    }
+    
+    private func fetchUserActivities(userID: String) {
+        FirebaseUserDataManager().fetchUserActivities(userID: userID) { fetchedUserActivities, error in
+            if let error = error {
+                print("Failed to fetch user activities: \(error.localizedDescription)")
+            } else if let fetchedUserActivities = fetchedUserActivities {
+                self.activities = fetchedUserActivities
+            }
+        }
     }
 }

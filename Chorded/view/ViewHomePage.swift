@@ -5,13 +5,15 @@ struct ViewHomePage: View {
     @EnvironmentObject var session: SessionStore
     
     @State private var searchText = ""
-    @State private var trendingAlbums = [Album]()
-    @State private var topAlbumsLast25Yrs = [Album]()
-    @State private var greatestAlbumsOfAllTime = [Album]()
+//    @State private var trendingAlbumKeys: [String] = []
+//    @State private var topAlbumsLast25YrsKeys: [String] = []
+//    @State private var greatestAlbumsOfAllTimeKeys: [String] = []
+    @StateObject private var albumListModel = HomePageAlbumListModel()
     
     @State private var recentActivities: [Activity] = []
     
     @StateObject private var quickTesting = QuickTesting()
+    @State private var isLoading = true
     
     @State private var currentIndex = 0
     private let timer = Timer.publish(every: 6, on: .main, in: .common).autoconnect()
@@ -19,55 +21,51 @@ struct ViewHomePage: View {
         ("Top Albums of the Last 25 Years", [Color.green, Color.teal], "fanned"),
         ("Greatest Albums Of All Time", [Color.red, Color.brown], "vinyl")
     ]
-    
-    init() {
-//        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-//        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont(name: "Georgia-Bold", size: 26)!]
-        
-//        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .systemGray4
-//        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = .black
-//        UISearchBar.appearance().barTintColor = UIColor.white
-    }
 
     var body: some View {
         NavigationStack {
             ZStack {
                 AppBackground()
                 ScrollView {
+//                    if !isLoading {
                     VStack {
-                        NavigationLink(destination: ViewTrendingAlbumsPage(trendingAlbums: trendingAlbums)) {
-                            HStack {
-                                Text("Trending")
-                                    .font(.system(size: 20, weight: .medium, design: .default))
-                                    .foregroundColor(.white)
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.blue)
-                            }
-                            .contentShape(Rectangle())
-                            .padding()
-                        }
-                        .buttonStyle(HighlightButtonStyle())
-                        
-                        AlbumCarousel(albums: trendingAlbums, albumCount: 10)
-                            .padding(.bottom, 5)
-                        
-                        TabView(selection: $currentIndex) {
-                            ForEach(0..<albumList.count) { index in
-                                let albumsToPass = determineAlbumsToPass(index: index)
-                                NavigationLink(destination: ViewCustomListPage(albums: albumsToPass, listName: albumList[index].title)) {
-                                    AlbumListCard(title: albumList[index].title, gradientColors: albumList[index].gradientColors, design: albumList[index].design, albums: albumsToPass)
-                                    
+                        if !albumListModel.trendingAlbumKeys.isEmpty {
+                            NavigationLink(destination: ViewTrendingAlbumsPage(trendingAlbumKeys: albumListModel.trendingAlbumKeys)) {
+                                HStack {
+                                    Text("Trending")
+                                        .font(.system(size: 20, weight: .medium, design: .default))
+                                        .foregroundColor(.white)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.blue)
                                 }
-                                .buttonStyle(HighlightButtonStyle())
-                                .tag(index)
+                                .contentShape(Rectangle())
+                                .padding()
                             }
+                            .buttonStyle(HighlightButtonStyle())
+                            
+                            AlbumCarousel(albumKeys: albumListModel.trendingAlbumKeys, albumCount: 10)
+                                .padding(.bottom, 5)
                         }
-                        .tabViewStyle(PageTabViewStyle())
-                        .frame(height: 220)
-                        .onReceive(timer) { _ in
-                            withAnimation(.spring) {
-                                currentIndex = (currentIndex + 1) % albumList.count
+                        
+                        if !albumListModel.greatestAlbumsOfAllTimeKeys.isEmpty && !albumListModel.topAlbumsLast25YrsKeys.isEmpty {
+                            TabView(selection: $currentIndex) {
+                                ForEach(0..<albumList.count) { index in
+                                    let albumKeysToPass = determineAlbumKeysToPass(index: index)
+                                    NavigationLink(destination: ViewCustomListPage(albumKeys: albumKeysToPass, listName: albumList[index].title)) {
+                                        AlbumListCard(title: albumList[index].title, gradientColors: albumList[index].gradientColors, design: albumList[index].design, albumKeys: albumKeysToPass)
+                                        
+                                    }
+                                    .buttonStyle(HighlightButtonStyle())
+                                    .tag(index)
+                                }
+                            }
+                            .tabViewStyle(PageTabViewStyle())
+                            .frame(height: 220)
+                            .onReceive(timer) { _ in
+                                withAnimation(.spring) {
+                                    currentIndex = (currentIndex + 1) % albumList.count
+                                }
                             }
                         }
                         
@@ -77,6 +75,11 @@ struct ViewHomePage: View {
                         
                         Spacer()
                     }
+//                    } else {
+//                        ProgressView("Loading...")
+//                            .progressViewStyle(CircularProgressViewStyle())
+//                            .padding()
+//                    }
                 }
             }
             
@@ -91,58 +94,32 @@ struct ViewHomePage: View {
                 }
             }
 //            .searchable(text: $searchText)
-            .onAppear {
+            .onAppear() {
+                fetchData()
+            }
+            .refreshable() {
                 fetchData()
             }
         }
     
     }
     
-    func determineAlbumsToPass(index: Int) -> [Album] {
+    func determineAlbumKeysToPass(index: Int) -> [String] {
         switch index {
         case 0:
-            return topAlbumsLast25Yrs
+            return albumListModel.topAlbumsLast25YrsKeys
         case 1:
-            return greatestAlbumsOfAllTime
+            return albumListModel.greatestAlbumsOfAllTimeKeys
         default:
             return []
         }
     }
     
     private func fetchData() {
-        fetchAlbums()
+//        fetchAlbums()
+        albumListModel.fetchData()
         fetchConnectionsRecentActivities()
-    }
-    
-    
-    private func fetchAlbums() {
-        FirebaseDataManager().fetchAlbumListAndDetails(listName: "TrendingAlbums") { albums, error in
-            if let error = error {
-                print("Failed to fetch trending albums: \(error.localizedDescription)")
-            } else if let albums = albums {
-                self.trendingAlbums = albums
-                print("Fetched trending albums")
-            }
-        }
-        
-        FirebaseDataManager().fetchAlbumListAndDetails(listName: "TopAlbumsLast25Yrs") { albums, error in
-            if let error = error {
-                print("Failed to fetch TopAlbumsLast25Yrs: \(error.localizedDescription)")
-            } else if let albums = albums {
-                self.topAlbumsLast25Yrs = albums
-                print("Fetched TopAlbumsLast25Yrs")
-            }
-        }
-        
-        FirebaseDataManager().fetchAlbumListAndDetails(listName: "GreatestAlbumsOfAllTimeRS") { albums, error in
-            if let error = error {
-                print("Failed to fetch GreatestAlbumsOfAllTimeRS: \(error.localizedDescription)")
-            } else if let albums = albums {
-                self.greatestAlbumsOfAllTime = albums
-                print("Fetched GreatestAlbumsOfAllTimeRS")
-            }
-        }
-        
+//        self.isLoading = false
     }
     
     private func fetchConnectionsRecentActivities() {
@@ -152,7 +129,7 @@ struct ViewHomePage: View {
         }
 
         // Fetch the following list
-        FirebaseUserData().fetchFollowing(uid: userID) { followingList in
+        FirebaseUserDataManager().fetchFollowing(uid: userID) { followingList in
 
             var allActivities: [Activity] = []
             let dispatchGroup = DispatchGroup()
@@ -162,7 +139,7 @@ struct ViewHomePage: View {
 
             for user in followingList {
                 dispatchGroup.enter()
-                FirebaseUserData().fetchUserActivities(userID: user) { fetchedUserActivities, error in
+                FirebaseUserDataManager().fetchUserActivities(userID: user) { fetchedUserActivities, error in
                     if let error = error {
                         print("Failed to fetch activities for user \(user): \(error.localizedDescription)")
                     } else if let fetchedUserActivities = fetchedUserActivities {
@@ -289,7 +266,7 @@ struct HomePageRecentActivityAlbumsView: View {
     }
     
     private func fetchUser(userID: String) {
-        FirebaseUserData().fetchUserData(uid: userID) { fetchedUser, error in
+        FirebaseUserDataManager().fetchUserData(uid: userID) { fetchedUser, error in
             if let error = error {
                 print("Failed to fetch user data: \(error.localizedDescription)")
             } else if let fetchedUser = fetchedUser {
@@ -319,3 +296,52 @@ struct HomePageRecentActivityAlbumsView: View {
     }
     
 }
+
+
+import Combine
+
+class HomePageAlbumListModel: ObservableObject {
+    @Published var trendingAlbumKeys: [String] = []
+    @Published var topAlbumsLast25YrsKeys: [String] = []
+    @Published var greatestAlbumsOfAllTimeKeys: [String] = []
+    @Published var isLoading = true
+
+    init() {
+        fetchData()
+    }
+
+    func fetchData() {
+        fetchAlbums()
+        self.isLoading = false
+    }
+
+    private func fetchAlbums() {
+        FirebaseDataManager().fetchAlbumList(listName: "TrendingAlbums") { albumKeys, error in
+            if let error = error {
+                print("Failed to fetch trending albums: \(error.localizedDescription)")
+            } else if let albumKeys = albumKeys {
+                self.trendingAlbumKeys = albumKeys
+                print("Fetched TrendingAlbums")
+            }
+        }
+
+        FirebaseDataManager().fetchAlbumList(listName: "TopAlbumsLast25Yrs") { albumKeys, error in
+            if let error = error {
+                print("Failed to fetch TopAlbumsLast25Yrs: \(error.localizedDescription)")
+            } else if let albumKeys = albumKeys {
+                self.topAlbumsLast25YrsKeys = albumKeys
+                print("Fetched TopAlbumsLast25Yrs")
+            }
+        }
+
+        FirebaseDataManager().fetchAlbumList(listName: "GreatestAlbumsOfAllTimeRS") { albumKeys, error in
+            if let error = error {
+                print("Failed to fetch GreatestAlbumsOfAllTimeRS: \(error.localizedDescription)")
+            } else if let albumKeys = albumKeys {
+                self.greatestAlbumsOfAllTimeKeys = albumKeys
+                print("Fetched GreatestAlbumsOfAllTimeRS")
+            }
+        }
+    }
+}
+

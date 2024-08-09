@@ -26,116 +26,124 @@ struct ViewAlbumPage: View {
     @State private var wantsToListenUsers: [User] = []
     
     @State private var showReviewModal = false
+    
+    @State private var isLoading = true
 
     var body: some View {
         NavigationStack {
             ZStack {
                 AppBackground()
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
-                        HStack {
-                            Spacer()
-                            if album.coverImageURL != "", let url = URL(string: album.coverImageURL) {
-                                WebImage(url: url)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 200, height: 200)
-                                    .clipped()
-                                    .cornerRadius(10)
-                                    .shadow(color: .blue, radius: 5)
-                                    .padding(.top, 20)
-                            } else {
-                                PlaceholderAlbumCover(width: 200, height: 200)
-                                    .padding(.top, 20)
-                            }
-                            Spacer()
-                        }
-                        
-                        HStack(alignment: .top) {
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text(album.title)
-                                    .font(.system(size: 27, weight: .bold, design: .default))
-                                    .foregroundColor(.white)
-                                HStack(spacing: 10) {
-//                                    Text(album.artistNames.joined(separator: ", "))
-//                                        .foregroundColor(.white)
-                                    ClickableArtistsView(artists: artists)
-                                    Circle()
-                                        .fill(Color.gray)
-                                        .frame(width: 5, height: 5)
-                                    Text(String(album.year))
-                                        .foregroundColor(.gray)
-                                }
-                            }
-                            Spacer()
-                            if unfilteredReviews.count > 0 {
-                                ZStack {
-                                    RatingRing(rating: $ratingProgress)
-                                        .frame(width: 50, height: 50)
-                                }
-                                .padding(.leading)
-                            }
-                                
-                        }
-                        .padding(.horizontal)
-                        
-                        Divider().overlay(Color.white).padding(.horizontal)
-                        
-                        DropdownList(
-                            selection: $selection1,
-                            options: album.albumTracks
-                        )
-                        .padding(.horizontal)
-                        
-                        Divider().overlay(Color.white).padding(.horizontal)
-                        
-                        HStack {
-                            Text("Rate, review, add to listen list")
-                            Spacer()
-                            Image(systemName: "ellipsis")
-                                .foregroundColor(.blue)
-                        }
-                        .padding()
-                        .contentShape(Rectangle())
-                        .background(.gray.opacity(0.4))
-                        .cornerRadius(20)
-                        .padding(.horizontal)
-                        .onTapGesture {
-                            self.showReviewModal = true
-                        }
-                        
-                        Divider().overlay(Color.white).padding(.horizontal)
-                        
-                        if !listenedByUsers.isEmpty {
-                            AlbumPageOtherUsersView(users: listenedByUsers, text: "LISTENED BY")
-                            Divider().overlay(Color.white).padding(.horizontal)
-                        }
-                        if !wantsToListenUsers.isEmpty {
-                            AlbumPageOtherUsersView(users: wantsToListenUsers, text: "WANTS TO LISTEN")
-                            Divider().overlay(Color.white).padding(.horizontal)
-                        }
-
-                        NavigationLink(destination: ViewReviewPage(reviews: reviews)) {
+                    if !isLoading {
+                        VStack(alignment: .leading, spacing: 20) {
                             HStack {
-                                Text("Reviews - \(reviews.count)")
-//                                    .font(.system(size: 20, weight: .medium, design: .default))
-                                    .foregroundColor(.white)
                                 Spacer()
-                                Image(systemName: "chevron.right")
+                                if album.coverImageURL != "", let url = URL(string: album.coverImageURL) {
+                                    WebImage(url: url)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 200, height: 200)
+                                        .clipped()
+                                        .cornerRadius(10)
+                                        .shadow(color: .blue, radius: 5)
+                                        .padding(.top, 20)
+                                } else {
+                                    PlaceholderAlbumCover(width: 200, height: 200)
+                                        .padding(.top, 20)
+                                }
+                                Spacer()
+                            }
+                            
+                            HStack(alignment: .top) {
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text(album.title)
+                                        .font(.system(size: 27, weight: .bold, design: .default))
+                                        .foregroundColor(.white)
+                                    HStack(spacing: 10) {
+    //                                    Text(album.artistNames.joined(separator: ", "))
+    //                                        .foregroundColor(.white)
+                                        ClickableArtistsView(artists: artists)
+                                        Circle()
+                                            .fill(Color.gray)
+                                            .frame(width: 5, height: 5)
+                                        Text(String(album.year))
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                                Spacer()
+                                if unfilteredReviews.count > 0 {
+                                    ZStack {
+                                        RatingRing(rating: $ratingProgress)
+                                            .frame(width: 50, height: 50)
+                                    }
+                                    .padding(.leading)
+                                }
+                                    
+                            }
+                            .padding(.horizontal)
+                            
+                            Divider().overlay(Color.white).padding(.horizontal)
+                            
+                            DropdownList(
+                                selection: $selection1,
+                                options: album.albumTracks
+                            )
+                            .padding(.horizontal)
+                            
+                            Divider().overlay(Color.white).padding(.horizontal)
+                            
+                            HStack {
+                                Text("Rate, review, add to listen list")
+                                Spacer()
+                                Image(systemName: "ellipsis")
                                     .foregroundColor(.blue)
                             }
-                            .contentShape(Rectangle())
                             .padding()
-                            .background(.purple.opacity(0.7))
-                            .cornerRadius(25)
-                        }
-                        .buttonStyle(HighlightButtonStyle())
-                        .padding(.horizontal)
-                        
-                        Divider().overlay(Color.white).padding(.horizontal)
+                            .contentShape(Rectangle())
+                            .background(.gray.opacity(0.4))
+                            .cornerRadius(20)
+                            .padding(.horizontal)
+                            .onTapGesture {
+                                self.showReviewModal = true
+                            }
+                            
+                            Divider().overlay(Color.white).padding(.horizontal)
+                            
+                            if !listenedByUsers.isEmpty {
+                                AlbumPageOtherUsersView(users: listenedByUsers, text: "LISTENED BY")
+                                Divider().overlay(Color.white).padding(.horizontal)
+                            }
+                            if !wantsToListenUsers.isEmpty {
+                                AlbumPageOtherUsersView(users: wantsToListenUsers, text: "WANTS TO LISTEN")
+                                Divider().overlay(Color.white).padding(.horizontal)
+                            }
 
-                        ViewAlbumPageMiniBar(artists: artists, album: album)
-                        
+                            NavigationLink(destination: ViewReviewPage(reviews: reviews)) {
+                                HStack {
+                                    Text("Reviews - \(reviews.count)")
+    //                                    .font(.system(size: 20, weight: .medium, design: .default))
+                                        .foregroundColor(.white)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.blue)
+                                }
+                                .contentShape(Rectangle())
+                                .padding()
+                                .background(.purple.opacity(0.7))
+                                .cornerRadius(25)
+                            }
+                            .buttonStyle(HighlightButtonStyle())
+                            .padding(.horizontal)
+                            
+                            Divider().overlay(Color.white).padding(.horizontal)
+
+                            ViewAlbumPageMiniBar(artists: artists, album: album)
+                            
+                        }
+                    } else {
+                        ProgressView("Loading...")
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .padding()
                     }
                 }
             }
@@ -165,6 +173,7 @@ struct ViewAlbumPage: View {
         fetchReviews(firebaseKey: albumKey)
         calculateAverageRating(firebaseKey: albumKey)
         fetchIfInFriendsList()
+        self.isLoading = false
     }
     
     private func fetchArtists(discogsKeys: [Int]) {
@@ -243,13 +252,13 @@ struct ViewAlbumPage: View {
     }
     
     private func fetchUsersWithAlbumInListenList(currentUserID: String, albumID: String, completion: @escaping ([User]) -> Void) {
-        FirebaseUserData().fetchFollowing(uid: currentUserID) { followingList in
+        FirebaseUserDataManager().fetchFollowing(uid: currentUserID) { followingList in
             var usersWithAlbumIDs: [String] = []
             let dispatchGroup = DispatchGroup()
             
             for userID in followingList {
                 dispatchGroup.enter()
-                FirebaseUserData().isInListenList(uid: userID, albumID: albumID) { inListenList in
+                FirebaseUserDataManager().isInListenList(uid: userID, albumID: albumID) { inListenList in
                     if inListenList {
                         usersWithAlbumIDs.append(userID)
                     }
@@ -264,7 +273,7 @@ struct ViewAlbumPage: View {
                 
                 for userID in usersWithAlbumIDs {
                     fetchGroup.enter()
-                    FirebaseUserData().fetchUserData(uid: userID) { user, error in
+                    FirebaseUserDataManager().fetchUserData(uid: userID) { user, error in
                         if let error = error {
                             print("Failed to fetch user \(userID): \(error.localizedDescription)")
                         } else if let user = user {
@@ -282,13 +291,13 @@ struct ViewAlbumPage: View {
     }
 
     private func fetchUsersWhoReviewedAlbum(currentUserID: String, albumID: String, completion: @escaping ([User]) -> Void) {
-        FirebaseUserData().fetchFollowing(uid: currentUserID) { followingList in
+        FirebaseUserDataManager().fetchFollowing(uid: currentUserID) { followingList in
             var usersWhoReviewedIDs: [String] = []
             let dispatchGroup = DispatchGroup()
             
             for userID in followingList {
                 dispatchGroup.enter()
-                FirebaseUserData().hasReviewedAlbum(uid: userID, albumID: albumID) { hasReviewed in
+                FirebaseUserDataManager().hasReviewedAlbum(uid: userID, albumID: albumID) { hasReviewed in
                     if hasReviewed {
                         usersWhoReviewedIDs.append(userID)
                     }
@@ -303,7 +312,7 @@ struct ViewAlbumPage: View {
                 
                 for userID in usersWhoReviewedIDs {
                     fetchGroup.enter()
-                    FirebaseUserData().fetchUserData(uid: userID) { user, error in
+                    FirebaseUserDataManager().fetchUserData(uid: userID) { user, error in
                         if let error = error {
                             print("Failed to fetch user \(userID): \(error.localizedDescription)")
                         } else if let user = user {

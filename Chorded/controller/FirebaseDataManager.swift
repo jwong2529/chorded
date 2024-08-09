@@ -248,15 +248,11 @@ class FirebaseDataManager {
     }
     
     func addAlbumList(_ albumKeys: [String], listName: String) {
-        
-        //preserves the order the albums are listed in the original txt file
-        var indexedAlbums: [String: Any] = [:]
-        for (index, key) in albumKeys.enumerated() {
-            indexedAlbums["\(index)"] = key
-        }
-        
-        let listRef = databaseRef.child("CustomAlbumLists").child(listName)
-        listRef.setValue(indexedAlbums) { error, _ in
+        let listRef = databaseRef.child("CustomAlbumLists")
+        let updates: [String: Any] = [
+            "\(listName)": albumKeys
+        ]
+        listRef.updateChildValues(updates) { error, _ in
             if let error = error {
                 print("Error adding \(listName) list: \(error.localizedDescription)")
             } else {
@@ -359,7 +355,7 @@ class FirebaseDataManager {
                         albumReviewID: review.albumReviewID
                     )
                     
-                    FirebaseUserData().logActivity(activity: activity) { error in
+                    FirebaseUserDataManager().logActivity(activity: activity) { error in
                         if let error = error {
                             completion(error)
                             return

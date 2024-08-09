@@ -168,7 +168,7 @@ struct PostReviewModal: View {
             return
         }
         
-        FirebaseUserData().fetchUserReview(currentUserID: userID, albumID: album.firebaseKey) { fetchedUserReview, error in
+        FirebaseUserDataManager().fetchUserReview(currentUserID: userID, albumID: album.firebaseKey) { fetchedUserReview, error in
             if let error = error {
                 print("Failed to fetch user review: \(error.localizedDescription)")
             } else if let fetchedUserReview = fetchedUserReview {
@@ -249,13 +249,13 @@ struct PostReviewModal: View {
         }
         
         // fetch the activity ID
-        FirebaseUserData().checkActivityExists(userID: userID, albumReviewID: review.albumReviewID) { activityID in
+        FirebaseUserDataManager().checkActivityExists(userID: userID, albumReviewID: review.albumReviewID) { activityID in
             // post the album review
             FirebaseDataManager().postAlbumReview(albumID: album.firebaseKey, review: review, ratingSumIncrement: ratingSumIncrement, activityID: activityID) { error in
                 if let error = error {
                     print("Error posting review: \(error.localizedDescription)")
                 } else {
-                    FirebaseUserData().removeFromListenList(currentUserID: userID, albumID: album.firebaseKey)
+                    FirebaseUserDataManager().removeFromListenList(currentUserID: userID, albumID: album.firebaseKey)
                     alertMessage = "Saved review!"
                     showAlert = true
                     self.showModal = false
@@ -276,7 +276,7 @@ struct PostReviewModal: View {
     }
     
     private func checkForListenList() {
-        FirebaseUserData().isInListenList(uid: session.currentUserID ?? "", albumID: album.firebaseKey) { inListenList in
+        FirebaseUserDataManager().isInListenList(uid: session.currentUserID ?? "", albumID: album.firebaseKey) { inListenList in
             if inListenList {
                 self.listenList = true
             } else {
@@ -287,9 +287,9 @@ struct PostReviewModal: View {
     
     private func evaluateListenList() {
         if self.listenList {
-            FirebaseUserData().addToListenList(currentUserID: session.currentUserID ?? "", albumID: album.firebaseKey)
+            FirebaseUserDataManager().addToListenList(currentUserID: session.currentUserID ?? "", albumID: album.firebaseKey)
         } else {
-            FirebaseUserData().removeFromListenList(currentUserID: session.currentUserID ?? "", albumID: album.firebaseKey)
+            FirebaseUserDataManager().removeFromListenList(currentUserID: session.currentUserID ?? "", albumID: album.firebaseKey)
         }
     }
     

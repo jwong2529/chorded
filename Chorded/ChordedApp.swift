@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseCore
+import FirebaseAuth
 import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -25,8 +26,6 @@ struct ChordedApp: App {
     
     var body: some Scene {
         WindowGroup {
-//            ViewHomePage()
-//            BottomTabView()
             ContentView().environmentObject(session)
         }
     }
@@ -37,13 +36,36 @@ struct ContentView: View {
     
     var body: some View {
         Group {
-            if session.isLoggedIn {
-                BottomTabView()
+            if session.isCheckingLogin {
+                // Show the launch screen or splash screen while checking
+                SplashScreenView()
             } else {
-                NavigationView {
-                    ViewLogInPage()
+                if session.isLoggedIn {
+                    BottomTabView()
+                } else {
+                    NavigationView {
+                        ViewLogInPage()
+                    }
                 }
             }
         }
+    }
+}
+
+struct SplashScreenView: View {
+    var body: some View {
+        VStack {
+            Spacer()
+            
+            ProgressView() // Loading spinner
+                .scaleEffect(1.5) // Adjust the size of the spinner
+                .progressViewStyle(CircularProgressViewStyle())
+                .padding(.bottom, 20) // Adjust the spacing if needed
+            
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.blue.opacity(0.2))
+        .edgesIgnoringSafeArea(.all)
     }
 }

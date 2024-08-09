@@ -14,6 +14,8 @@ struct ViewActivitiesPage: View {
     @State private var userConnections: [String] = []
     @EnvironmentObject var session: SessionStore
     
+    @State private var isLoading = true
+    
 //    init() {
 //        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
 //    }
@@ -23,24 +25,30 @@ struct ViewActivitiesPage: View {
             ZStack {
                 AppBackground()
                 ScrollView {
-                    VStack {
-                        if activities.isEmpty {
-                            Text("No recent activity")
-                                .foregroundColor(.gray)
-                        } else {
-                            ForEach(activities, id: \.activityID) { activity in
-                                if activity.activityType == .albumReview {
-                                    AlbumReviewActivityView(activity: activity)
-                                } else {
-                                    ListenListFavoritesActivityView(activity: activity)
+                    if !isLoading {
+                        VStack {
+                            if activities.isEmpty {
+                                Text("No recent activity")
+                                    .foregroundColor(.gray)
+                            } else {
+                                ForEach(activities, id: \.activityID) { activity in
+                                    if activity.activityType == .albumReview {
+                                        AlbumReviewActivityView(activity: activity)
+                                    } else {
+                                        ListenListFavoritesActivityView(activity: activity)
+                                    }
+                                    Divider().overlay(Color.white)
                                 }
-                                Divider().overlay(Color.white)
                             }
+                            Spacer()
                         }
-                        Spacer()
+                        .padding()
+                        .background(Color.clear)
+                    } else {
+                        ProgressView("Loading...")
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .padding()
                     }
-                    .padding()
-                    .background(Color.clear)
                 }
             }
             .navigationBarTitle("Activities", displayMode: .inline)
@@ -60,7 +68,7 @@ struct ViewActivitiesPage: View {
         }
 
         // Fetch the following list
-        FirebaseUserData().fetchFollowing(uid: userID) { followingList in
+        FirebaseUserDataManager().fetchFollowing(uid: userID) { followingList in
             // Include the current user's ID in the list
             var userList = followingList
             userList.append(userID)
@@ -73,7 +81,7 @@ struct ViewActivitiesPage: View {
 
             for user in userList {
                 dispatchGroup.enter()
-                FirebaseUserData().fetchUserActivities(userID: user) { fetchedUserActivities, error in
+                FirebaseUserDataManager().fetchUserActivities(userID: user) { fetchedUserActivities, error in
                     if let error = error {
                         print("Failed to fetch activities for user \(user): \(error.localizedDescription)")
                     } else if let fetchedUserActivities = fetchedUserActivities {
@@ -101,6 +109,7 @@ struct ViewActivitiesPage: View {
                 }
                 // Assign the sorted activities to self.activities
                 self.activities = allActivities
+                self.isLoading = false
             }
         }
     }
@@ -219,7 +228,7 @@ struct AlbumReviewActivityView: View {
     }
     
     private func fetchUser(userID: String) {
-        FirebaseUserData().fetchUserData(uid: userID) { fetchedUser, error in
+        FirebaseUserDataManager().fetchUserData(uid: userID) { fetchedUser, error in
             if let error = error {
                 print("Failed to fetch user data: \(error.localizedDescription)")
             } else if let fetchedUser = fetchedUser {
@@ -316,7 +325,7 @@ struct ListenListFavoritesActivityView: View {
     }
     
     private func fetchUser(userID: String) {
-        FirebaseUserData().fetchUserData(uid: userID) { fetchedUser, error in
+        FirebaseUserDataManager().fetchUserData(uid: userID) { fetchedUser, error in
             if let error = error {
                 print("Failed to fetch user data: \(error.localizedDescription)")
             } else if let fetchedUser = fetchedUser {

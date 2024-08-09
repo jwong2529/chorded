@@ -8,8 +8,6 @@
 import Foundation
 import SwiftUI
 
-
-
 struct ViewSignUpPage: View {
     
     @EnvironmentObject var session: SessionStore
@@ -37,10 +35,10 @@ struct ViewSignUpPage: View {
             AppBackground()
             ScrollView {
                 VStack {
-                    Image("vinyl")
+                    Image("IconWithoutBackground")
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(minWidth: 300, minHeight: 400, alignment: .top)
+                        .aspectRatio(contentMode: .fill)
+                        .frame(maxWidth: 300, maxHeight: 300, alignment: .top)
                     
                     Text("Sign Up")
                         .font(.largeTitle)

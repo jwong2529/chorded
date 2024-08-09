@@ -56,13 +56,13 @@ struct ViewFollowingFollowersListPage: View {
     
     private func fetchUsers() {
         if listType == "Following" {
-            FirebaseUserData().fetchFollowing(uid: userID) { followingList in
+            FirebaseUserDataManager().fetchFollowing(uid: userID) { followingList in
                 var followingListUsers: [User] = []
                 let fetchGroup = DispatchGroup()
                 
                 for followingListID in followingList {
                     fetchGroup.enter()
-                    FirebaseUserData().fetchUserData(uid: followingListID) { user, error in
+                    FirebaseUserDataManager().fetchUserData(uid: followingListID) { user, error in
                         if let error = error {
                             print("Failed to fetch user \(followingListID): \(error.localizedDescription)")
                         } else if let user = user {
@@ -76,13 +76,13 @@ struct ViewFollowingFollowersListPage: View {
                 }
             }
         } else if listType == "Followers" {
-            FirebaseUserData().fetchFollowers(uid: userID) { followersList in
+            FirebaseUserDataManager().fetchFollowers(uid: userID) { followersList in
                 var followersListUsers: [User] = []
                 let fetchGroup = DispatchGroup()
                 
                 for followersListID in followersList {
                     fetchGroup.enter()
-                    FirebaseUserData().fetchUserData(uid: followersListID) { user, error in
+                    FirebaseUserDataManager().fetchUserData(uid: followersListID) { user, error in
                         if let error = error {
                             print("Failed to fetch user \(followersListID): \(error.localizedDescription)")
                         } else if let user = user {

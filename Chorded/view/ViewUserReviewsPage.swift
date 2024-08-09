@@ -44,7 +44,7 @@ struct ViewUserReviewsPage: View {
     }
     
     private func fetchUserReviews() {
-        FirebaseUserData().fetchUserReviews(uid: user.userID) { albumReviews, error in
+        FirebaseUserDataManager().fetchUserReviews(uid: user.userID) { albumReviews, error in
             if let error = error {
                 print("Failed to fetch user reviews: \(error.localizedDescription)")
             } else if let albumReviews = albumReviews {

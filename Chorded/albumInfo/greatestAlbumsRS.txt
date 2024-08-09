@@ -1,5 +1,5 @@
 albumTitle	artistName
-Ready To Die	Notorious B.I.G.albumTitle	artistName
+Ready To Die	Notorious B.I.G.
 What's Going On	Marvin Gaye
 Pet Sounds	The Beach Boys
 Blue	Joni Mitchell
@@ -21,7 +21,6 @@ Highway 61 Revisited	Bob Dylan
 To Pimp A Butterfly	Kendrick Lamar
 Kid A	Radiohead
 Born To Run	Bruce Springsteen
-Ready To Die	Notorious B.I.G.
 The Velvet Underground & Nico	The Velvet Underground; Nico
 Sgt. Pepper's Lonely Hearts Club Band	The Beatles
 Tapestry	Carole King

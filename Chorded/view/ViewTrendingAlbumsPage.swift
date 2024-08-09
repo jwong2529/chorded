@@ -10,20 +10,21 @@ import SwiftUI
 
 struct ViewTrendingAlbumsPage: View {
     
-    @State private var trendingAlbums = [Album]()
+    let trendingAlbumKeys: [String]
+//    @State private var trendingAlbums = [Album]()
 
-    init(trendingAlbums: [Album]) {
-//        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        self._trendingAlbums = State(initialValue: trendingAlbums)
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
-    }
+//    init(trendingAlbums: [Album]) {
+////        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+//        self._trendingAlbums = State(initialValue: trendingAlbums)
+//        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
+//    }
     
     var body: some View {
         NavigationStack {
             ZStack {
                 AppBackground()
                 
-                AlbumGrid(albums: trendingAlbums, albumCount: self.trendingAlbums.count)
+                AlbumGrid(albumKeys: trendingAlbumKeys, albumCount: self.trendingAlbumKeys.count)
                     .padding(.vertical)
             }
             .navigationTitle("Trending Albums")

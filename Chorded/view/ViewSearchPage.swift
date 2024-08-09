@@ -43,6 +43,9 @@ struct ViewSearchPage: View {
                 .onChange(of: searchText) { newValue in
                     performSearch(with: newValue)
                 }
+                .onChange(of: selectedTab) { newValue in
+                    performSearch(with: searchText)
+                }
             }
             .navigationBarTitle("Search", displayMode: .inline)
         }

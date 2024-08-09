@@ -39,7 +39,7 @@ struct ViewUserListenListPage: View {
     }
     
     private func fetchUserListenList() {
-        FirebaseUserData().fetchUserListenList(uid: userID) { userListenList in
+        FirebaseUserDataManager().fetchUserListenList(uid: userID) { userListenList in
             self.userListenList = userListenList
         }
     }

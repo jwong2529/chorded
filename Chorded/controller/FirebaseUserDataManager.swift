@@ -2,7 +2,7 @@ import Foundation
 import FirebaseDatabase
 import FirebaseStorage
 
-class FirebaseUserData {
+class FirebaseUserDataManager {
     private let databaseRef: DatabaseReference
     
     init() {
@@ -80,11 +80,11 @@ class FirebaseUserData {
         var followersList: [String] = []
         
         fetchFollowing(uid: uid) { fetchedFollowing in
-            followingList = fetchedFollowing
+            followingList = fetchedFollowing.sorted()
             
             // Fetch followers only after fetching following is done
             self.fetchFollowers(uid: uid) { fetchedFollowers in
-                followersList = fetchedFollowers
+                followersList = fetchedFollowers.sorted()
                 
                 // Call completion with both lists
                 completion(followingList, followersList)

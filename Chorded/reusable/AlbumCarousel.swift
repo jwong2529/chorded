@@ -10,7 +10,8 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct AlbumCarousel: View {
-    let albums: [Album]
+    let albumKeys: [String]
+    @State private var albums: [Album] = []
     let albumCount: Int
     
     var body: some View {
@@ -34,9 +35,39 @@ struct AlbumCarousel: View {
             }
             .padding(.horizontal, 20)
         }
+        .onAppear {
+            fetchAlbums(albumKeys: albumKeys)
+        }
+    }
+    
+    private func fetchAlbums(albumKeys: [String]) {
+        let dispatchGroup = DispatchGroup()
+        var albums = [Album]()
+        var fetchErrors = [Error]()
+        
+        for key in albumKeys {
+            dispatchGroup.enter()
+            FirebaseDataManager().fetchAlbum(firebaseKey: key) { album, error in
+                if let album = album {
+                    albums.append(album)
+                }
+                if let error = error {
+                    fetchErrors.append(error)
+                }
+                dispatchGroup.leave()
+            }
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            if fetchErrors.isEmpty {
+                self.albums = albums
+            } else {
+                print("Errors fetching albums: \(fetchErrors)")
+            }
+        }
     }
 }
 
-#Preview {
-    ViewHomePage()
-}
+//#Preview {
+//    ViewHomePage()
+//}

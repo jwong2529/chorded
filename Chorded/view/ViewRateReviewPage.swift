@@ -113,7 +113,7 @@ struct ViewRateReviewPage: View {
     }
     
     private func fetchUser(userID: String) {
-        FirebaseUserData().fetchUserData(uid: userID) { fetchedUser, error in
+        FirebaseUserDataManager().fetchUserData(uid: userID) { fetchedUser, error in
             if let error = error {
                 print("Failed to fetch user: \(error.localizedDescription)")
             } else if let fetchedUser = fetchedUser {

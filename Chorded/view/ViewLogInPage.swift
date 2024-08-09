@@ -34,10 +34,10 @@ struct ViewLogInPage: View {
         ZStack {
             AppBackground()
             VStack {
-                Image("vinyl")
+                Image("IconWithoutBackground")
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(minWidth: 300, minHeight: 400, alignment: .top)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(maxWidth: 300, maxHeight: 300, alignment: .top)
                 
                 Text("Log In")
                     .font(.largeTitle)

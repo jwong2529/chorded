@@ -33,6 +33,8 @@ struct ViewProfilePage: View {
     @State private var showLogoutAlert = false
     @State private var navigateToEditProfile = false
     
+    @State private var isLoading = true
+    
 //    init() {
 //        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
 //    }
@@ -42,91 +44,98 @@ struct ViewProfilePage: View {
             ZStack {
                 AppBackground()
                 
-                ScrollView {                        
-                    VStack {
-                        HStack {
-                            Spacer()
-                            if let url = URL(string: user.userProfilePictureURL) {
-                                WebImage(url: url)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .shadow(color: .blue, radius: 5)
-                                    .frame(width: 120, height: 120)
-                                    .clipShape(Circle())
-                            } else {
-                                PlaceholderUserImage(width: 120, height: 120)
-                                    .shadow(color: .blue, radius: 5)
-                            }
-                            Spacer()
-                        }
-                        
-                        if !isCurrentUser {
-                            Button(action: {
-                                if isFollowing {
-                                    FirebaseUserData().unfollowUser(currentUserID: session.currentUserID ?? "", unfollowedUserID: userID)
-                                } else {
-                                    FirebaseUserData().followUser(currentUserID: session.currentUserID ?? "", followedUserID: userID)
-                                }
-                                isFollowing.toggle()
-                            }) {
-                                Text(isFollowing ? "Unfollow": "Follow")
-                                    .padding(.vertical, 5)
-                                    .padding(.horizontal, 20)
-                                    .background(isFollowing ? Color.blue.opacity(0.3) : Color.blue)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(8)
-                            }
-                            .padding(5)
-                        }
-                        VStack(alignment: .leading, spacing: 5) {
-                            
-                            if !user.userBio.isEmpty {
-                                HStack {
-                                    Spacer()
-                                    Text(user.userBio)
-                                        .font(.body)
-                                        .foregroundColor(.gray)
-                                        .multilineTextAlignment(.center)
-                                    Spacer()
-
-                                }
-                            }
-                            
+                ScrollView {
+                    if !isLoading {
+                        VStack {
                             HStack {
                                 Spacer()
-                                ProfilePageQuickInfo(user: user, followingCount: followingCount, followersCount: followersCount, reviewsCount: reviewsCount)
+                                if let url = URL(string: user.userProfilePictureURL) {
+                                    WebImage(url: url)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .shadow(color: .blue, radius: 5)
+                                        .frame(width: 120, height: 120)
+                                        .clipShape(Circle())
+                                } else {
+                                    PlaceholderUserImage(width: 120, height: 120)
+                                        .shadow(color: .blue, radius: 5)
+                                }
                                 Spacer()
                             }
                             
-                            Spacer()
-                            
-                            if !favoriteAlbums.isEmpty {
-                                Divider().overlay(Color.white)
-
-                                ProfilePageFavoritesView(favoriteAlbums: favoriteAlbums)
-                                    .padding(.bottom, 5)
+                            if !isCurrentUser {
+                                Button(action: {
+                                    if isFollowing {
+                                        FirebaseUserDataManager().unfollowUser(currentUserID: session.currentUserID ?? "", unfollowedUserID: userID)
+                                    } else {
+                                        FirebaseUserDataManager().followUser(currentUserID: session.currentUserID ?? "", followedUserID: userID)
+                                    }
+                                    isFollowing.toggle()
+                                }) {
+                                    Text(isFollowing ? "Unfollow": "Follow")
+                                        .padding(.vertical, 5)
+                                        .padding(.horizontal, 20)
+                                        .background(isFollowing ? Color.blue.opacity(0.3) : Color.blue)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(8)
+                                }
+                                .padding(5)
                             }
-                            
-                            if !recentActivities.isEmpty {
-                                Divider().overlay(Color.white)
-
-                                ProfilePageRecentActivityView(user: user, activities: recentActivities)
+                            VStack(alignment: .leading, spacing: 5) {
                                 
-                                Divider().overlay(Color.white)
-                                    .padding(.bottom, 20)
+                                if !user.userBio.isEmpty {
+                                    HStack {
+                                        Spacer()
+                                        Text(user.userBio)
+                                            .font(.body)
+                                            .foregroundColor(.gray)
+                                            .multilineTextAlignment(.center)
+                                        Spacer()
+
+                                    }
+                                }
+                                
+                                HStack {
+                                    Spacer()
+                                    ProfilePageQuickInfo(user: user, followingCount: followingCount, followersCount: followersCount, reviewsCount: reviewsCount)
+                                    Spacer()
+                                }
+                                
+                                Spacer()
+                                
+                                if !favoriteAlbums.isEmpty {
+                                    Divider().overlay(Color.white)
+
+                                    ProfilePageFavoritesView(favoriteAlbums: favoriteAlbums)
+                                        .padding(.bottom, 5)
+                                }
+                                
+                                if !recentActivities.isEmpty {
+                                    Divider().overlay(Color.white)
+
+                                    ProfilePageRecentActivityView(user: user, activities: recentActivities)
+                                    
+                                    Divider().overlay(Color.white)
+                                        .padding(.bottom, 20)
+                                }
+                                
+                                ProfilePageInfoLists(user: user, allAlbumsCount: "\(allAlbumReviewsCount)", allReviewsCount: "\(reviewsCount)", listenListCount: "\(listenListCount)")
+                                
                             }
                             
-                            ProfilePageInfoLists(user: user, allAlbumsCount: "\(allAlbumReviewsCount)", allReviewsCount: "\(reviewsCount)", listenListCount: "\(listenListCount)")
+                            NavigationLink(destination: ViewSettingsPage(user: user), isActive: $navigateToEditProfile) {
+                                EmptyView()
+                            }
                             
+                            Spacer()
                         }
-                        
-                        NavigationLink(destination: ViewSettingsPage(user: user), isActive: $navigateToEditProfile) {
-                            EmptyView()
-                        }
-                        
-                        Spacer()
+                        .padding()
+                    } else {
+                        ProgressView("Loading...")
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .padding()
                     }
-                    .padding()
+                    
                 }
             }
             .navigationBarItems(trailing: isCurrentUser ? Button(action: {
@@ -156,7 +165,7 @@ struct ViewProfilePage: View {
         
         let uidToFetch = isCurrentUser ? currentUserID : userID
         
-        FirebaseUserData().fetchUserData(uid: uidToFetch) { fetchedUser, error in
+        FirebaseUserDataManager().fetchUserData(uid: uidToFetch) { fetchedUser, error in
             if let error = error {
                 print("Failed to  fetch user data: \(error.localizedDescription)")
             } else if let fetchedUser = fetchedUser {
@@ -169,6 +178,7 @@ struct ViewProfilePage: View {
                 if !isCurrentUser {
                     checkIfFollowing(currentUserID: currentUserID, otherUserID: userID)
                 }
+                self.isLoading = false
             }
         }
     }
@@ -236,7 +246,7 @@ struct ViewProfilePage: View {
         // calculate the date for ten weeks ago
         let tenWeeksAgo = Calendar.current.date(byAdding: .weekOfYear, value: -10, to: Date())
         
-        FirebaseUserData().fetchUserActivities(userID: uid) { fetchedUserActivities, error in
+        FirebaseUserDataManager().fetchUserActivities(userID: uid) { fetchedUserActivities, error in
             if let error = error {
                 print("Failed to fetch activities for current user: \(error.localizedDescription)")
             } else if let fetchedUserActivities = fetchedUserActivities {
@@ -256,7 +266,7 @@ struct ViewProfilePage: View {
 
     
     private func checkIfFollowing(currentUserID: String, otherUserID: String) {
-        FirebaseUserData().checkIfFollowing(currentUserID: currentUserID, otherUserID: otherUserID) { isFollowing in
+        FirebaseUserDataManager().checkIfFollowing(currentUserID: currentUserID, otherUserID: otherUserID) { isFollowing in
             self.isFollowing = isFollowing
         }
     }
@@ -335,7 +345,7 @@ struct ProfilePageRecentActivityView: View {
             
             Divider().overlay(Color.gray)
 
-            NavigationLink(destination: ViewUserMoreActivityPage(user: user, activities: activities)) {
+            NavigationLink(destination: ViewUserMoreActivityPage(user: user)) {
                 HStack {
                     Text("More activity")
                         .font(.subheadline)
@@ -396,7 +406,7 @@ struct ProfilePageRecentActivityAlbumReviewView: View {
     }
     
     private func fetchUser(userID: String) {
-        FirebaseUserData().fetchUserData(uid: userID) { fetchedUser, error in
+        FirebaseUserDataManager().fetchUserData(uid: userID) { fetchedUser, error in
             if let error = error {
                 print("Failed to fetch user data: \(error.localizedDescription)")
             } else if let fetchedUser = fetchedUser {

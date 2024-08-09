@@ -257,7 +257,7 @@ struct ViewSettingsPage: View {
             print("No changes to the profile image.")
         }
         
-        FirebaseUserData().updateUserData(userID: user.userID, newUsername: newUsername, newNormalizedUsername: newNormalizedUsername, newBio: newBio, newAlbumFavorites: newAlbumFavorites) { result in
+        FirebaseUserDataManager().updateUserData(userID: user.userID, newUsername: newUsername, newNormalizedUsername: newNormalizedUsername, newBio: newBio, newAlbumFavorites: newAlbumFavorites) { result in
             switch result {
             case .success():
                 print("User data updated successfully.")

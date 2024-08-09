@@ -48,7 +48,7 @@ class ProfilePageInfoRetrieval {
     }
     
     func fetchAlbumReviewsWithTextCount(userID: String, completion: @escaping (Int, Int, Error?) -> Void) {
-        FirebaseUserData().fetchUserReviews(uid: userID) { userReviews, error in
+        FirebaseUserDataManager().fetchUserReviews(uid: userID) { userReviews, error in
             if let error = error {
                 completion(0, 0, error)
                 return
